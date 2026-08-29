@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS280A Project 0 — Becoming Friends with Your Camera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f4efe3;
+    --bg-panel: #ffffff;
+    --line: #d8cfb8;
+    --line-soft: #e4dcc8;
+    --text: #23291f;
+    --text-dim: #5c6152;
+    --text-faint: #928a6e;
+    --accent: #cc5324;
+    --teal: #2f7d6c;
+    --max: 880px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+  a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(47,125,108,0.35); }
+  a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  header.top{
+    padding: 20px 0 0;
+  }
+  .back-link{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+
+  .hero{
+    padding: 50px 0 40px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.1;
+  }
+  .due{
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .intro{
+    margin-top: 18px;
+    max-width: 640px;
+    color: var(--text-dim);
+    font-size: 15.5px;
+  }
+
+  section{
+    padding: 54px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  section:last-of-type{ border-bottom: none; }
+
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom: 10px; }
+  .section-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+  h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+  }
+  .section-desc{
+    color: var(--text-dim);
+    font-size: 14.5px;
+    max-width: 620px;
+    margin-bottom: 28px;
+  }
+
+  /* image placeholders — swap the <img> src, or delete the placeholder box */
+  .img-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 640px){ .img-row{ grid-template-columns: 1fr; } }
+
+  figure{ margin: 0; }
+  .img-box{
+    aspect-ratio: 4 / 5;
+    background: var(--bg-panel);
+    border: 1.5px dashed var(--line);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .img-box img{
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .img-box .placeholder-text{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+    padding: 0 16px;
+  }
+  figcaption{
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
+  .writeup{
+    margin-top: 24px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .writeup h3{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .writeup p{ color: var(--text); font-size: 14.5px; }
+  .writeup .edit-hint{ color: var(--text-faint); font-style: italic; }
+
+  /* dolly zoom single wide box */
+  .wide-box{
+    aspect-ratio: 16 / 9;
+    max-width: 520px;
+  }
+
+  footer{
+    padding: 44px 0 60px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="back-link"><a href="../">&larr; Yu-Ching Lai</a></div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:1px solid var(--line-soft);">
+    <div class="eyebrow">CS280A — Intro to Computer Vision &amp; Computational Photography</div>
+    <h1>Project #0: Becoming Friends with Your Camera</h1>
+    <div class="due">Due: Tuesday, September 1st, 2026 · 11:59PM</div>
+    <p class="intro">
+      <!-- 這段可以換成你自己的一句話開場，例如你對這次作業的想法 -->
+      Exploring the relationship between perspective, focal length, and the center of
+      projection — through selfies, architecture, and a dolly zoom.
+    </p>
+  </section>
+
+  <section id="part1">
+    <div class="section-head"><span class="section-num">01</span><h2>Selfie: The Wrong Way vs. The Right Way</h2></div>
+    <p class="section-desc">
+      One photo taken close-up (distorted), one taken from farther back and zoomed in
+      to match the same framing.
+    </p>
+
+    <div class="img-row">
+      <figure>
+        <div class="img-box">
+          <!-- 換成: <img src="media/selfie-close.jpg" alt="Close-up selfie"> -->
+          <span class="placeholder-text">放 media/selfie-close.jpg<br>近距離自拍</span>
+        </div>
+        <figcaption>Close-up (distorted)</figcaption>
+      </figure>
+      <figure>
+        <div class="img-box">
+          <!-- 換成: <img src="media/selfie-far.jpg" alt="Zoomed-in selfie from a distance"> -->
+          <span class="placeholder-text">放 media/selfie-far.jpg<br>遠距離＋變焦</span>
+        </div>
+        <figcaption>Stepped back + zoomed in</figcaption>
+      </figure>
+    </div>
+
+    <div class="writeup">
+      <h3>Why does this happen?</h3>
+      <p class="edit-hint">在這裡寫你的解釋，取代這句話。</p>
+    </div>
+  </section>
+
+  <section id="part2">
+    <div class="section-head"><span class="section-num">02</span><h2>Architectural Perspective Compression</h2></div>
+    <p class="section-desc">
+      One photo zoomed in from far away, one taken close without zoom — framed so the
+      building appears the same size in both.
+    </p>
+
+    <div class="img-row">
+      <figure>
+        <div class="img-box">
+          <!-- 換成: <img src="media/building-far-zoom.jpg" alt="Building photographed from far away with zoom"> -->
+          <span class="placeholder-text">放 media/building-far-zoom.jpg<br>遠距離＋變焦</span>
+        </div>
+        <figcaption>Far away + zoomed in (compressed)</figcaption>
+      </figure>
+      <figure>
+        <div class="img-box">
+          <!-- 換成: <img src="media/building-close-nozoom.jpg" alt="Building photographed up close without zoom"> -->
+          <span class="placeholder-text">放 media/building-close-nozoom.jpg<br>近距離、無變焦</span>
+        </div>
+        <figcaption>Close up, no zoom</figcaption>
+      </figure>
+    </div>
+
+    <div class="writeup">
+      <h3>Why does this happen?</h3>
+      <p class="edit-hint">在這裡寫你的解釋，取代這句話。</p>
+    </div>
+  </section>
+
+  <section id="part3">
+    <div class="section-head"><span class="section-num">03</span><h2>The Dolly Zoom</h2></div>
+    <p class="section-desc">
+      Moving the camera back while zooming in, so the subject stays the same size but
+      the background perspective shifts — combined into an animated GIF.
+    </p>
+
+    <figure>
+      <div class="img-box wide-box">
+        <!-- 換成: <img src="media/dolly-zoom.gif" alt="Dolly zoom animated GIF"> -->
+        <span class="placeholder-text">放 media/dolly-zoom.gif<br>4–8 張照片合成的動態GIF</span>
+      </div>
+      <figcaption>Dolly zoom sequence</figcaption>
+    </figure>
+
+    <div class="writeup">
+      <h3>Setting &amp; process notes</h3>
+      <p class="edit-hint">在這裡寫你選了什麼場景、拍了幾張、怎麼合成GIF的，取代這句話。</p>
+    </div>
+  </section>
+
+  <footer>
+    Yu-Ching Lai · CS280A, Fall 2026
+  </footer>
+
+</div>
+
+</body>
+</html>
