@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yu-Ching Lai — Geomatics &amp; Systems Engineering</title>
+<meta name="description" content="Yu-Ching Lai — Geomatics and Systems Engineering. Remote sensing, GIS, mobility modeling, and geospatial data science.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f4efe3;
+    --bg-panel: #ffffff;
+    --line: #d8cfb8;
+    --line-soft: #e4dcc8;
+    --text: #23291f;
+    --text-dim: #5c6152;
+    --text-faint: #928a6e;
+    --accent: #cc5324;
+    --accent-dim: #a8481f;
+    --teal: #2f7d6c;
+    --max: 880px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(47,125,108,0.06), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 20%, rgba(204,83,36,0.05), transparent 55%);
+  }
+
+  /* ---------- Contour line signature background ---------- */
+  .contours{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .contours svg{ width:100%; height:100%; }
+  .contours path{
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(95,179,163,0.35); transition: border-color .2s, color .2s; }
+  a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- Header / coordinate strip ---------- */
+  header.top{
+    padding: 22px 0 0;
+  }
+  .coord-strip{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    display:flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow .disc{
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid var(--teal);
+    position: relative;
+    flex: none;
+  }
+  .eyebrow .disc::after{
+    content:"";
+    position:absolute; inset: 3px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+  h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 7vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+  }
+  h1 span{ color: var(--accent); }
+  .tagline{
+    margin-top: 22px;
+    max-width: 620px;
+    font-size: 18px;
+    color: var(--text-dim);
+  }
+  .hero-links{
+    margin-top: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+  }
+  .hero-links a{ border-bottom-style: dashed; }
+
+  /* ---------- Sections ---------- */
+  section{
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  section:last-of-type{ border-bottom: none; }
+
+  .section-head{
+    display:flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 34px;
+  }
+  .section-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+  h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  p.lead{ color: var(--text-dim); max-width: 640px; }
+
+  /* ---------- Timeline (education / experience) ---------- */
+  .entry{
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 34px;
+  }
+  .entry:last-child{ margin-bottom: 0; }
+  .entry::before{
+    content:"";
+    position: absolute;
+    left: 0; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    background: var(--bg);
+  }
+  .entry::after{
+    content:"";
+    position: absolute;
+    left: 5px; top: 20px; bottom: -34px;
+    width: 1px;
+    background: var(--line);
+  }
+  .entry:last-child::after{ display:none; }
+
+  .entry-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+  .entry-title{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .entry-org{ color: var(--text-dim); font-size: 14.5px; margin-top: 2px; }
+  .entry-date{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+  .entry ul{
+    margin-top: 10px;
+    padding-left: 18px;
+    color: var(--text-dim);
+    font-size: 14.5px;
+  }
+  .entry li{ margin-bottom: 6px; }
+  .entry li::marker{ color: var(--teal); }
+
+  .courses{
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-faint);
+    line-height: 1.7;
+  }
+
+  /* ---------- Projects grid ---------- */
+  .projects{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 640px){ .projects{ grid-template-columns: 1fr; } }
+
+  .card{
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 22px;
+    display:flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(35,41,31,0.06);
+  }
+  .card-date{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--teal);
+    letter-spacing: 0.03em;
+  }
+  .card h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16.5px;
+    font-weight: 600;
+    margin: 8px 0 10px;
+    line-height: 1.3;
+  }
+  .card p{ color: var(--text-dim); font-size: 14px; }
+
+  /* ---------- Skills ---------- */
+  .skills-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 640px){ .skills-grid{ grid-template-columns: 1fr; } }
+  .skill-group h4{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .chip-row{ display:flex; flex-wrap: wrap; gap: 7px; }
+  .chip{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px 9px;
+  }
+
+  /* ---------- Footer / contact ---------- */
+  footer{
+    padding: 60px 0 50px;
+    text-align: center;
+  }
+  footer .disc-mark{
+    width: 34px; height: 34px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    position: relative;
+  }
+  footer .disc-mark::after{
+    content:"";
+    position:absolute; inset: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  footer h2{ font-size: 24px; }
+  footer p{ color: var(--text-dim); margin: 12px 0 22px; }
+  footer .contact-links{
+    display:flex; justify-content:center; gap: 22px; flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;
+  }
+  footer .fine{
+    margin-top: 40px;
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="contours" aria-hidden="true">
+  <svg viewBox="0 0 1000 1400" preserveAspectRatio="none">
+    <path d="M -50 120 C 150 80, 300 180, 500 110 C 700 40, 850 140, 1050 90" />
+    <path d="M -50 210 C 150 170, 320 260, 520 200 C 720 130, 860 230, 1050 180" />
+    <path d="M -50 300 C 180 260, 330 350, 540 290 C 740 220, 880 320, 1050 270" />
+    <path d="M -50 560 C 160 520, 300 610, 500 560 C 700 500, 840 600, 1050 550" />
+    <path d="M -50 650 C 170 610, 320 700, 520 650 C 720 590, 870 690, 1050 640" />
+    <path d="M -50 740 C 180 700, 330 790, 540 740 C 740 680, 880 780, 1050 730" />
+    <path d="M -50 1000 C 150 960, 300 1060, 500 1000 C 700 940, 850 1040, 1050 990" />
+    <path d="M -50 1090 C 150 1050, 320 1150, 520 1090 C 720 1020, 860 1120, 1050 1080" />
+    <path d="M -50 1260 C 180 1220, 330 1310, 540 1260 C 740 1190, 880 1290, 1050 1240" />
+  </svg>
+</div>
+
+<header class="top">
+  <div class="coord-strip">
+    <span>37.8715&deg; N, 122.2730&deg; W</span>
+    <span>BERKELEY, CA</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow"><span class="disc"></span>BENCHMARK — GEOMATICS &amp; SYSTEMS ENGINEERING</div>
+    <h1>Yu-Ching Lai<br><span>maps, senses, and models</span> the world.</h1>
+    <p class="tagline">
+      I trained as a geomatics engineer in Taiwan — surveying, remote sensing, point clouds —
+      and now I'm at UC Berkeley pushing that toward simulation and systems thinking. Lately
+      that's meant SAR imagery of fault lines, agent-based mobility models, and building tools
+      that make raw geospatial data legible to the people who need to act on it.
+    </p>
+    <div class="hero-links">
+      <a href="mailto:yuching_lai@berkeley.edu">yuching_lai@berkeley.edu</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head"><span class="section-num">01</span><h2>Education</h2></div>
+
+    <div class="entry">
+      <div class="entry-top">
+        <div>
+          <div class="entry-title">University of California, Berkeley</div>
+          <div class="entry-org">M.S. Systems Engineering — Civil &amp; Environmental Engineering</div>
+        </div>
+        <div class="entry-date">Aug 2025 – Dec 2026</div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-top">
+        <div>
+          <div class="entry-title">National Cheng Kung University (NCKU)</div>
+          <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
+        </div>
+        <div class="entry-date">Sep 2021 – Jun 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head"><span class="section-num">02</span><h2>Work Experience</h2></div>
+
+    <div class="entry">
+      <div class="entry-top">
+        <div>
+          <div class="entry-title">Graduate Researcher</div>
+          <div class="entry-org">Soga Research Group, UC Berkeley</div>
+        </div>
+        <div class="entry-date">Mar 2026 – present</div>
+      </div>
+      <p style="margin-top:10px; color:var(--text-dim); font-size:14.5px; max-width:560px;">
+        Reading fault displacement and landslide risk out of SAR imagery around Berkeley, and
+        building a 3D digital-twin terrain viewer in Unreal Engine so that geodetic data is
+        something people can walk through, not just plot.
+      </p>
+    </div>
+
+    <div class="entry">
+      <div class="entry-top">
+        <div>
+          <div class="entry-title">Project Assistant</div>
+          <div class="entry-org">Taiwan Integrated Disaster Prevention of Technology</div>
+        </div>
+        <div class="entry-date">May 2025 – Jun 2025</div>
+      </div>
+      <p style="margin-top:10px; color:var(--text-dim); font-size:14.5px; max-width:560px;">
+        Turned LiDAR and photogrammetric point clouds into usable GIS layers — digitizing
+        roadside signage in Trimble Business Center for city-development planning.
+      </p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head"><span class="section-num">03</span><h2>Projects</h2></div>
+    <p class="lead" style="margin-bottom: 28px;">A few things I've built, from disaster response to delivery logistics.</p>
+
+    <div class="projects">
+      <div class="card">
+        <div class="card-date">SEP – DEC 2025</div>
+        <h3>Simulating EV Charging in San Francisco</h3>
+        <p>An agent-based model of 1,000 EVs moving through the city, built to see where
+        charging infrastructure breaks down — and calibrated against real mobility traces,
+        not just theory.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-date">FEB 2024 – JAN 2025</div>
+        <h3>Faster Food Delivery Routing</h3>
+        <p>Tabu Search beat Genetic Algorithms here: ~36% shorter routes and ~30% faster
+        solve times on a 30-courier, 60-order problem, using real road-network distances.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-date">JUL – AUG 2024</div>
+        <h3>A WebGIS for Campus Safety</h3>
+        <p>Folded 2D/3D survey data — buildings, roads, vegetation, safety infrastructure —
+        into one interactive map for sustainability monitoring, after a full QA/QC pass on
+        every layer.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-date">SEP – DEC 2023</div>
+        <h3>Watching a Refugee Camp Grow</h3>
+        <p>Landsat and Sentinel-1 imagery of Kutupalong, Bangladesh, 2016–2019 — tracing how
+        forced migration reshaped the land itself: expansion, vegetation loss, seasonal
+        flooding.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head"><span class="section-num">04</span><h2>Skills</h2></div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="chip-row">
+          <span class="chip">English</span>
+          <span class="chip">Mandarin</span>
+          <span class="chip">Korean</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Programming</h4>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">C / C++</span>
+          <span class="chip">MATLAB</span>
+          <span class="chip">R</span>
+          <span class="chip">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Tools</h4>
+        <div class="chip-row">
+          <span class="chip">ArcGIS Pro</span>
+          <span class="chip">QGIS</span>
+          <span class="chip">Google Earth Engine</span>
+          <span class="chip">Agisoft Metashape</span>
+          <span class="chip">ENVI</span>
+          <span class="chip">Trimble Business Center</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="disc-mark"></div>
+    <h2>Let's talk mapping, sensing, or modeling.</h2>
+    <p>Open to research and industry roles in geospatial data science and systems engineering.</p>
+    <div class="contact-links">
+      <a href="mailto:yuching_lai@berkeley.edu">Email</a>
+      <a href="#" id="linkedin-link">LinkedIn</a>
+      <a href="#" id="github-link">GitHub</a>
+    </div>
+    <div class="fine">Berkeley, CA · Built and hosted with GitHub Pages</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
