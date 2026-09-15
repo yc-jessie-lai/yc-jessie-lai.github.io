@@ -709,6 +709,20 @@
   </footer>
 
 </div>
+<script>
+document.querySelectorAll('.compare-slider').forEach(function (slider) {
+  var range = slider.querySelector('.compare-range');
+  var after = slider.querySelector('.compare-after');
+  var handle = slider.querySelector('.compare-handle');
 
+  function update(val) {
+    after.style.clipPath = 'inset(0 ' + (100 - val) + '% 0 0)';
+    handle.style.left = val + '%';
+  }
+
+  range.addEventListener('input', function () { update(this.value); });
+  update(range.value);
+});
+</script>
 </body>
 </html>
