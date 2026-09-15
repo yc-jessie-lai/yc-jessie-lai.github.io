@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS180/280A Project 1 — Colorizing the Prokudin-Gorskii Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #e2ece7;
+    --bg-panel: #ffffff;
+    --line: #d8cfb8;
+    --line-soft: #e4dcc8;
+    --text: #23291f;
+    --text-dim: #5c6152;
+    --text-faint: #928a6e;
+    --accent: #cc5324;
+    --teal: #2f7d6c;
+    --max: 960px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+  }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+  a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(47,125,108,0.35); }
+  a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  header.top{ padding: 20px 0 0; }
+  .back-link{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding: 50px 0 40px; border-bottom: 1px solid var(--line-soft); }
+  .eyebrow{
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1{
+    font-weight: 700;
+    font-size: clamp(28px, 4.5vw, 42px);
+    line-height: 1.15;
+  }
+  .subtitle{
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+  .due{ margin-top: 14px; font-size: 13px; color: var(--accent); }
+  .intro{ margin-top: 18px; max-width: 680px; color: var(--text-dim); font-size: 15.5px; }
+
+  /* ---------- Sections ---------- */
+  section{ padding: 54px 0; border-bottom: 1px solid var(--line-soft); }
+  section:last-of-type{ border-bottom: none; }
+
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom: 10px; }
+  .section-num{
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+  h2{ font-size: 21px; font-weight: 600; }
+  h3{ font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .section-desc{ color: var(--text-dim); font-size: 14.5px; max-width: 660px; margin-bottom: 28px; }
+
+  /* ---------- Result cards (image + filename + displacement) ---------- */
+  .results-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 760px){ .results-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px){ .results-grid{ grid-template-columns: 1fr; } }
+
+  .result-card{ display:flex; flex-direction: column; }
+  .img-box{
+    aspect-ratio: 1 / 1;
+    background: var(--bg-panel);
+    border: 1.5px dashed var(--line);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .img-box img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-box .placeholder-text{
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+    padding: 0 14px;
+  }
+  .result-meta{
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .result-meta .fname{ color: var(--text); font-weight: 500; }
+  .result-meta .shift{ color: var(--text-faint); }
+
+  /* ---------- Before / after pair (for bells & whistles) ---------- */
+  .pair-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 640px){ .pair-row{ grid-template-columns: 1fr; } }
+  .pair-row .img-box{ aspect-ratio: 1 / 1; }
+  figcaption{ margin-top: 8px; font-size: 12px; color: var(--text-faint); text-align: center; }
+
+  /* ---------- Writeup / explanation box ---------- */
+  .writeup{
+    margin-top: 20px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .writeup h4{
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .writeup p{ color: var(--text); font-size: 14.5px; }
+  .writeup .edit-hint{ color: var(--text-faint); font-style: italic; }
+
+  /* ---------- Bells & Whistles subsection ---------- */
+  .bw-item{ margin-bottom: 46px; }
+  .bw-item:last-child{ margin-bottom: 0; }
+
+  footer{
+    padding: 44px 0 60px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="back-link"><a href="../../">&larr; Yu-Ching Lai</a></div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:1px solid var(--line-soft);">
+    <div class="eyebrow">CS180 / CS280A — Intro to Computer Vision &amp; Computational Photography</div>
+    <h1>Project 1: Images of the Russian Empire</h1>
+    <div class="subtitle">Colorizing the Prokudin-Gorskii photo collection</div>
+    <div class="due">Due: September 15th</div>
+    <p class="intro">
+      Reconstructing color photographs from Sergei Prokudin-Gorskii's early-1900s glass
+      plate negatives, by aligning the separate red, green, and blue exposures of each scene.
+    </p>
+  </section>
+
+  <section id="single-scale">
+    <div class="section-head"><span class="section-num">01</span><h2>Single-Scale Alignment</h2></div>
+    <p class="section-desc">Exhaustive search alignment on the small JPEG images.</p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="img-box">
+          <!-- 換成: <img src="results/cathedral.jpg" alt="Cathedral, aligned"> -->
+          <span class="placeholder-text">放 results/cathedral.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">cathedral.jpg</div>
+          <div class="shift">G: (2, 5) · R: (3, 12)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <!-- 換成: <img src="results/monastery.jpg" alt="Monastery, aligned"> -->
+          <span class="placeholder-text">放 results/monastery.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">monastery.jpg</div>
+          <div class="shift">G: (2, -3) · R: (2, 3)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <!-- 換成: <img src="results/tobolsk.jpg" alt="Tobolsk, aligned"> -->
+          <span class="placeholder-text">放 results/tobolsk.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">tobolsk.jpg</div>
+          <div class="shift">G: (3, 3) · R: (3, 6)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pyramid">
+    <div class="section-head"><span class="section-num">02</span><h2>Pyramid Alignment</h2></div>
+    <p class="section-desc">Coarse-to-fine alignment on all of the provided high-resolution glass plate scans.</p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/church.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">church.tif</div>
+          <div class="shift">G: (4, 25) · R: (-4, 58)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/emir.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">emir.tif</div>
+          <div class="shift">G: (24, 49) · R: (40, 107)</div>
+          <div class="shift" style="font-style: italic;">edge-based alignment</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/harvesters.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">harvesters.tif</div>
+          <div class="shift">G: (17, 60) · R: (13, 124)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/icon.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">icon.tif</div>
+          <div class="shift">G: (17, 41) · R: (23, 89)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/ilemselga.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">ilemselga.tif</div>
+          <div class="shift">G: (7, 40) · R: (11, 130)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/melons.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">melons.tif</div>
+          <div class="shift">G: (11, 82) · R: (13, 178)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/religous_painting.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">religous_painting.tif</div>
+          <div class="shift">G: (3, 28) · R: (7, 68)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/self_portrait.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">self_portrait.tif</div>
+          <div class="shift">G: (29, 79) · R: (37, 176)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/siren.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">siren.tif</div>
+          <div class="shift">G: (-6, 49) · R: (-25, 96)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/three_generations.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">three_generations.tif</div>
+          <div class="shift">G: (14, 53) · R: (11, 112)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/wharf.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">wharf.tif</div>
+          <div class="shift">G: (-7, 15) · R: (-16, 83)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="writeup">
+      <h4>Failure cases</h4>
+      <p>
+        emir.tif initially failed to align using raw-pixel NCC/L2. The scene's blue and
+        pink robes are very bright in some channels but dark in others, so the metric
+        latched onto a displacement where the brightness patterns happened to line up
+        by coincidence, rather than the true structural alignment — producing a heavily
+        ghosted result. It was fixed by scoring alignment on Sobel edge maps instead of
+        raw pixel values, along with a wider search window and refinement radius to give
+        the pyramid more room to correct a bad coarse-level guess. See the Better Features
+        write-up below for details.
+      </p>
+    </div>
+  </section>
+
+  <section id="own-examples">
+    <div class="section-head"><span class="section-num">03</span><h2>My Own Examples</h2></div>
+    <p class="section-desc">
+      3+ additional images from the
+      <a href="https://www.loc.gov/collections/prokudin-gorskii/" target="_blank">Prokudin-Gorskii collection</a>.
+    </p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/your-pick-1.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">your-pick-1</div>
+          <div class="shift">G: (dx, dy) · R: (dx, dy)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/your-pick-2.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">your-pick-2</div>
+          <div class="shift">G: (dx, dy) · R: (dx, dy)</div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="img-box">
+          <span class="placeholder-text">放 results/your-pick-3.jpg</span>
+        </div>
+        <div class="result-meta">
+          <div class="fname">your-pick-3</div>
+          <div class="shift">G: (dx, dy) · R: (dx, dy)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bells-whistles">
+    <div class="section-head"><span class="section-num">04</span><h2>Bells &amp; Whistles</h2></div>
+    <p class="section-desc">Required for CS280A. Each item below shows a before/after comparison and an explanation of the approach.</p>
+
+    <div class="bw-item">
+      <h3>Automatic Cropping</h3>
+      <div class="pair-row">
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 after 圖</span></div>
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+      <div class="writeup">
+        <h4>Approach</h4>
+        <p>
+          Rather than cropping a fixed percentage off every side, I scan inward from
+          each edge and measure the standard deviation of brightness across each row
+          and column. A genuine content row has real variation; a border row (black,
+          white, or a flat colored strip) is nearly uniform. I trim rows/columns until
+          I hit real content, capping how far in the scan is allowed to go so a
+          uniform area in the middle of a real photo (like a plain sky) never gets
+          eaten away.
+        </p>
+      </div>
+    </div>
+
+    <div class="bw-item">
+      <h3>Automatic Contrasting</h3>
+      <div class="pair-row">
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 after 圖</span></div>
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+      <div class="writeup">
+        <h4>Approach</h4>
+        <p>
+          For each channel, I rescale so the 1st percentile brightness maps to 0 and
+          the 99th percentile maps to 1, rather than using the literal min/max. Using
+          percentiles instead of true extremes makes the stretch robust to a handful
+          of stray dust specks or scratches on the glass plate, which would otherwise
+          compress the contrast of the rest of the image.
+        </p>
+      </div>
+    </div>
+
+    <div class="bw-item">
+      <h3>Automatic White Balance</h3>
+      <div class="pair-row">
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 after 圖</span></div>
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+      <div class="writeup">
+        <h4>Approach</h4>
+        <p>
+          I used the gray-world assumption: on average, a natural scene's colors
+          should balance out to neutral gray. I compute the mean brightness of each
+          of the R, G, B channels, then scale each channel so its mean matches the
+          overall gray-level mean. This cancels out a consistent color cast without
+          needing to identify a specific "white" object in the scene.
+        </p>
+      </div>
+    </div>
+
+    <div class="bw-item">
+      <h3>Better Color Mapping</h3>
+      <div class="pair-row">
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 after 圖</span></div>
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+      <div class="writeup">
+        <h4>Approach</h4>
+        <p>
+          Instead of assuming the B, G, R glass plate exposures already share the same
+          brightness distribution before stacking them into a color image, I used
+          histogram matching to remap the G and R channels' brightness distributions
+          to match B's. This corrects for the fact that Prokudin-Gorskii's red and
+          green filters didn't necessarily respond with the same overall tonal curve
+          as the blue filter — there's no reason the three plates should already agree
+          on brightness statistics. This isn't the only valid approach; I'd also be
+          curious to try searching over per-channel gain weights directly.
+        </p>
+      </div>
+    </div>
+
+    <div class="bw-item">
+      <h3>Better Features (Edge/Gradient-Based Alignment)</h3>
+      <div class="pair-row">
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <figcaption>Before (raw pixels)</figcaption>
+        </figure>
+        <figure>
+          <div class="img-box"><span class="placeholder-text">放 after 圖</span></div>
+          <figcaption>After (gradient-based)</figcaption>
+        </figure>
+      </div>
+      <div class="writeup">
+        <h4>Approach</h4>
+        <p>
+          For emir.tif, I replaced raw-pixel comparison with Sobel edge maps: I compute
+          the gradient magnitude of each channel first, then run NCC/L2 on those edge
+          maps instead of the original pixel values. Edge maps capture where the
+          outlines and boundaries of objects are, which is consistent across channels
+          even when their brightness patterns differ a lot — exactly emir.tif's
+          problem, where the same robe is bright in one channel and dark in another.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reflection">
+    <div class="section-head"><span class="section-num">05</span><h2>Reflection</h2></div>
+    <div class="writeup">
+      <p>
+        The core alignment algorithm — exhaustive search plus an image pyramid — worked
+        well on most of the collection right away, but emir.tif was a good reminder that
+        "align by pixel similarity" quietly assumes the channels agree on brightness,
+        which isn't always true. Debugging it took a few layers: first confirming the
+        displacement search was even finding a reasonable answer, then widening the
+        pyramid's refinement radius so a bad coarse-level guess could still be corrected,
+        and finally switching to edge-based scoring so brightness mismatches stopped
+        misleading the metric altogether. The Bells & Whistles ended up compounding
+        nicely — better color mapping and white balance made the final images look far
+        more like real photographs than the raw channel stack ever could, and automatic
+        cropping cleaned up the fringing at the edges where the three channels don't
+        perfectly overlap after alignment.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Yu-Ching Lai · CS180/280A, Fall 2026
+  </footer>
+
+</div>
+
+</body>
+</html>
