@@ -80,7 +80,7 @@
     border-radius: 3px;
     padding: 2px 7px;
   }
-  h2{ font-size: 21px; font-weight: 600; }
+  h2{ font-size: 21px; font-weight: 600; }  
   h3{ font-size: 16px; font-weight: 600; margin-bottom: 4px; }
   .section-desc{ color: var(--text-dim); font-size: 14.5px; max-width: 660px; margin-bottom: 28px; }
 
@@ -483,12 +483,15 @@
       <h3>Better Features (Edge/Gradient-Based Alignment)</h3>
       <div class="pair-row">
         <figure>
-          <img src="emir_failure.jpg" alt="emir_failed">
-          <div class="img-box"><span class="placeholder-text">放 before 圖</span></div>
+          <div class="img-box">
+            <img src="emir_failure.jpg" alt="Emir, before (raw-pixel alignment)">
+          </div>
           <figcaption>Before (raw pixels)</figcaption>
         </figure>
         <figure>
-          <img src="emir_colorized.jpg" alt="emir_success">
+          <div class="img-box">
+            <img src="emir_colorized.jpg" alt="Emir, after (edge-based alignment)">
+          </div>
           <figcaption>After (gradient-based)</figcaption>
         </figure>
       </div>
