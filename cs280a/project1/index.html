@@ -487,7 +487,7 @@
         emir.tif initially failed to align using raw-pixel NCC/L2. The scene's blue and
         pink robes are very bright in some channels but dark in others, so the metric
         latched onto a displacement where the brightness patterns happened to line up
-        by coincidence, rather than the true structural alignment — producing a heavily
+        by coincidence, rather than the true structural alignment, producing a heavily
         ghosted result. It was fixed by scoring alignment on Sobel edge maps instead of
         raw pixel values, along with a wider search window and refinement radius to give
         the pyramid more room to correct a bad coarse-level guess. See the Better Features
@@ -499,7 +499,7 @@
   <section id="own-examples">
     <div class="section-head"><span class="section-num">03</span><h2>My Own Examples</h2></div>
     <p class="section-desc">
-      3+ additional images from the
+      3 additional images from the
       <a href="https://www.loc.gov/collections/prokudin-gorskii/" target="_blank">Prokudin-Gorskii collection</a>.
     </p>
 
@@ -537,7 +537,7 @@
       <h4>Code logic</h4>
       <p>
         These three images ran through the exact same pipeline as the provided
-        collection — pyramid alignment with NCC scoring, no special-casing — to confirm
+        collection (pyramid alignment with NCC scoring, no special-casing) to confirm
         the algorithm generalizes beyond the given test set rather than being tuned to
         it. The displacement magnitudes here are in the same rough range as the
         provided high-resolution scans, which is a reasonable sanity check that the
@@ -567,16 +567,12 @@
       <div class="writeup">
         <h4>Approach</h4>
         <p>
-          Rather than cropping a fixed percentage off every side, I scan inward from
-          each edge and measure the standard deviation of brightness across each row
+          I scan inward from each edge and measure the standard deviation of brightness across each row
           and column. A genuine content row has real variation; a border row (black,
           white, or a flat colored strip) is nearly uniform. I trim rows/columns until
           I hit real content, capping how far in the scan is allowed to go so a
           uniform area in the middle of a real photo (like a plain sky) never gets
-          eaten away. This alone doesn't catch the wraparound strip left behind by
-          circular-shifting the channels during alignment, so I crop that separately
-          first, using the known displacement, before running this scan for any
-          remaining genuine scan border.
+          eaten away.
         </p>
       </div>
     </div>
@@ -597,7 +593,7 @@
         <h4>Approach</h4>
         <p>
           For each channel, I rescale so the 1st percentile brightness maps to 0 and
-          the 99th percentile maps to 1, rather than using the literal min/max. Using
+          the 99th percentile maps to 1. Using
           percentiles instead of true extremes makes the stretch robust to a handful
           of stray dust specks or scratches on the glass plate, which would otherwise
           compress the contrast of the rest of the image.
@@ -644,14 +640,8 @@
       <div class="writeup">
         <h4>Approach</h4>
         <p>
-          Instead of assuming the B, G, R glass plate exposures already share the same
-          brightness distribution before stacking them into a color image, I used
-          histogram matching to remap the G and R channels' brightness distributions
-          to match B's. This corrects for the fact that Prokudin-Gorskii's red and
-          green filters didn't necessarily respond with the same overall tonal curve
-          as the blue filter — there's no reason the three plates should already agree
-          on brightness statistics. This isn't the only valid approach; I'd also be
-          curious to try searching over per-channel gain weights directly.
+          I used histogram matching to remap the G and R channels' brightness distributions
+          to match B's.
         </p>
       </div>
     </div>
@@ -679,8 +669,7 @@
           the gradient magnitude of each channel first, then run NCC/L2 on those edge
           maps instead of the original pixel values. Edge maps capture where the
           outlines and boundaries of objects are, which is consistent across channels
-          even when their brightness patterns differ a lot — exactly emir.tif's
-          problem, where the same robe is bright in one channel and dark in another.
+          even when their brightness patterns differ a lot.
         </p>
       </div>
     </div>
@@ -936,36 +925,12 @@
       <p>
         "Before" is the plain aligned image straight out of the pyramid/single-scale
         pipeline, with no Bells & Whistles applied. "After" runs the same aligned
-        channels through all four post-processing steps in order — histogram-based
-        color mapping (applied before alignment, on the separate channels), then
-        white balance, contrast stretching, and finally cropping (applied after the
-        channels are stacked into one image). The slider itself is an
-        overflow-hidden container whose width is driven by the range input, with the
-        "after" image sized to the slider's full pixel width — so no image is ever
-        actually resized, only how much of it is revealed changes.
+        channels through all four post-processing steps in order — 
+        color mapping, then white balance, contrast stretching, and finally cropping.
       </p>
     </div>
   </section>
 
-  <section id="reflection">
-    <div class="section-head"><span class="section-num">06</span><h2>Reflection</h2></div>
-    <div class="writeup">
-      <p>
-        The core alignment algorithm — exhaustive search plus an image pyramid — worked
-        well on most of the collection right away, but emir.tif was a good reminder that
-        "align by pixel similarity" quietly assumes the channels agree on brightness,
-        which isn't always true. Debugging it took a few layers: first confirming the
-        displacement search was even finding a reasonable answer, then widening the
-        pyramid's refinement radius so a bad coarse-level guess could still be corrected,
-        and finally switching to edge-based scoring so brightness mismatches stopped
-        misleading the metric altogether. The Bells & Whistles ended up compounding
-        nicely — better color mapping and white balance made the final images look far
-        more like real photographs than the raw channel stack ever could, and automatic
-        cropping cleaned up the fringing at the edges where the three channels don't
-        perfectly overlap after alignment.
-      </p>
-    </div>
-  </section>
 
   <footer>
     Yu-Ching Lai · CS280A, Fall 2026
