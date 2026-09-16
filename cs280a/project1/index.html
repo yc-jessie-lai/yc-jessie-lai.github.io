@@ -350,7 +350,7 @@
         Each glass plate is split into three equal horizontal strips — B, G, R, top to
         bottom. To align G and R onto B, I exhaustively try every integer displacement
         (dx, dy) in a fixed window and score how well the shifted channel overlaps B
-        using Normalized Cross-Correlation (NCC): I mean-subtract both images, then
+        using NCC: I mean-subtract both images, then
         take the normalized dot product between them. The displacement with the
         highest NCC score is kept.
       </p>
@@ -359,21 +359,6 @@
     a = im1 - im1.mean()
     b = im2 - im2.mean()
     return np.sum(a * b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-8)</code></pre>
-      <div class="code-label">Exhaustive search over displacements</div>
-      <pre><code>def align_single_scale(img, ref, window=15, metric=ncc):
-    best_score = -np.inf
-    best_shift = (0, 0)
-    ref_c = crop_border(ref)  # exclude edges from scoring
-
-    for dx in range(-window, window + 1):
-        for dy in range(-window, window + 1):
-            shifted = np.roll(np.roll(img, dx, axis=1), dy, axis=0)
-            score = metric(crop_border(shifted), ref_c)
-            if score > best_score:
-                best_score = score
-                best_shift = (dx, dy)
-
-    return best_shift</code></pre>
     </div>
   </section>
 
@@ -487,8 +472,7 @@
     <div class="writeup">
       <h4>Code logic</h4>
       <p>
-        Exhaustive search alone is far too slow on the full-resolution .tif scans
-        (the true displacement can be over 100 pixels), so large images use a
+        Exhaustive search alone is far too slow on the full-resolution .tif scans, so large images use a
         coarse-to-fine image pyramid instead. The image is recursively downsampled by
         half until it's small enough for exhaustive search. Coming back up each level,
         the previous level's best displacement is doubled to match the new
