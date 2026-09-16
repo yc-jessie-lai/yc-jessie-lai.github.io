@@ -479,38 +479,6 @@
         resolution, then refined with a small local search rather than searched from
         scratch — this is what makes it fast even on huge images.
       </p>
-      <div class="code-label">Recursive coarse-to-fine alignment</div>
-      <pre><code>def align_pyramid(img, ref, window=15, metric=ncc, min_size=200, refine_radius=4):
-    h, w = img.shape[:2]
-
-    if max(h, w) <= min_size:
-        return align_single_scale(img, ref, window=window, metric=metric)
-
-    small_img = transform.rescale(img, 0.5, anti_aliasing=True)
-    small_ref = transform.rescale(ref, 0.5, anti_aliasing=True)
-    dx, dy = align_pyramid(small_img, small_ref, window=window,
-                            metric=metric, min_size=min_size,
-                            refine_radius=refine_radius)
-    dx, dy = dx * 2, dy * 2  # scale the estimate up to this resolution
-
-    # refine locally around the scaled-up estimate
-    best_score = -np.inf
-    best_shift = (dx, dy)
-    ref_c = crop_border(ref)
-    for ddx in range(-refine_radius, refine_radius + 1):
-        for ddy in range(-refine_radius, refine_radius + 1):
-            shifted = np.roll(np.roll(img, dx + ddx, axis=1), dy + ddy, axis=0)
-            score = metric(crop_border(shifted), ref_c)
-            if score > best_score:
-                best_score = score
-                best_shift = (dx + ddx, dy + ddy)
-
-    return best_shift</code></pre>
-      <p style="margin-top: 12px;">
-        For emir.tif specifically, this same function is called with <code>use_edges=True</code>,
-        a wider <code>window</code>, and a wider <code>refine_radius</code> — see the Failure
-        cases note below and the Better Features write-up further down for why.
-      </p>
     </div>
 
     <div class="writeup">
@@ -550,7 +518,7 @@
           <img src="gallery_2_colorized.jpg" alt="gallery_2, aligned">
         </div>
         <div class="result-meta">
-          <div class="fname">Lugano</div>
+          <div class="fname">Group_of_eleven_adults_and_children</div>
           <div class="shift">G: (31, 57) · R: (49, 130)</div>
         </div>
       </div>
@@ -559,7 +527,7 @@
           <img src="gallery_3_colorized.jpg" alt="gallery_3, aligned">
         </div>
         <div class="result-meta">
-          <div class="fname">Group_of_eleven_adults_and_children</div>
+          <div class="fname">Lugano</div>
           <div class="shift">G: (13, 37) · R: (38, 86)</div>
         </div>
       </div>
@@ -610,21 +578,6 @@
           first, using the known displacement, before running this scan for any
           remaining genuine scan border.
         </p>
-        <div class="code-label">Code</div>
-        <pre><code>def auto_crop_from_shifts(img, g_shift, r_shift, extra_margin=2):
-    """Crop away the border strip that becomes invalid after aligning
-    channels with a circular shift (np.roll wraps content from the far
-    edge around to fill the gap)."""
-    h, w = img.shape[:2]
-    dxs = [g_shift[0], r_shift[0]]
-    dys = [g_shift[1], r_shift[1]]
-
-    left = max(0, max(dxs)) + extra_margin
-    right = max(0, -min(dxs)) + extra_margin
-    top = max(0, max(dys)) + extra_margin
-    bottom = max(0, -min(dys)) + extra_margin
-
-    return img[top:h - bottom, left:w - right]</code></pre>
       </div>
     </div>
 
@@ -649,13 +602,6 @@
           of stray dust specks or scratches on the glass plate, which would otherwise
           compress the contrast of the rest of the image.
         </p>
-        <div class="code-label">Code</div>
-        <pre><code>def auto_contrast(img, low_pct=1, high_pct=99):
-    out = np.zeros_like(img)
-    for c in range(img.shape[2]):
-        lo, hi = np.percentile(img[:, :, c], [low_pct, high_pct])
-        out[:, :, c] = np.clip((img[:, :, c] - lo) / (hi - lo + 1e-8), 0, 1)
-    return out</code></pre>
       </div>
     </div>
 
@@ -680,12 +626,6 @@
           overall gray-level mean. This cancels out a consistent color cast without
           needing to identify a specific "white" object in the scene.
         </p>
-        <div class="code-label">Code</div>
-        <pre><code>def auto_white_balance(img):
-    means = img.reshape(-1, img.shape[2]).mean(axis=0)
-    gray_mean = means.mean()
-    gains = gray_mean / (means + 1e-8)
-    return np.clip(img * gains, 0, 1)</code></pre>
       </div>
     </div>
 
@@ -713,14 +653,6 @@
           on brightness statistics. This isn't the only valid approach; I'd also be
           curious to try searching over per-channel gain weights directly.
         </p>
-        <div class="code-label">Code</div>
-        <pre><code>def match_color_mapping(r, g, b):
-    """Match the R and G channel histograms to B's, instead of assuming
-    they already share the same brightness distribution."""
-    from skimage import exposure
-    g_matched = exposure.match_histograms(g, b)
-    r_matched = exposure.match_histograms(r, b)
-    return r_matched, g_matched, b</code></pre>
       </div>
     </div>
 
@@ -750,15 +682,6 @@
           even when their brightness patterns differ a lot — exactly emir.tif's
           problem, where the same robe is bright in one channel and dark in another.
         </p>
-        <div class="code-label">Code</div>
-        <pre><code>def sobel_edges(img):
-    dx = ndimage.sobel(img, axis=1)
-    dy = ndimage.sobel(img, axis=0)
-    return np.hypot(dx, dy)
-
-# used inside align_single_scale / align_pyramid:
-# if use_edges: score on sobel_edges(shifted) vs sobel_edges(ref)
-# instead of the raw pixel values</code></pre>
       </div>
     </div>
   </section>
@@ -774,8 +697,8 @@
           <div class="compare-after-wrap">
             <img src="cathedral_final.jpg" alt="Cathedral, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -788,8 +711,8 @@
           <div class="compare-after-wrap">
             <img src="church_final.jpg" alt="Church, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -802,8 +725,8 @@
           <div class="compare-after-wrap">
             <img src="emir_final.jpg" alt="Emir, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -816,8 +739,8 @@
           <div class="compare-after-wrap">
             <img src="harvesters_final.jpg" alt="Harvesters, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -830,8 +753,8 @@
           <div class="compare-after-wrap">
             <img src="icon_final.jpg" alt="Icon, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -844,8 +767,8 @@
           <div class="compare-after-wrap">
             <img src="ilemselga_final.jpg" alt="Ilemselga, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -858,8 +781,8 @@
           <div class="compare-after-wrap">
             <img src="melons_final.jpg" alt="Melons, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -872,8 +795,8 @@
           <div class="compare-after-wrap">
             <img src="monastery_final.jpg" alt="Monastery, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -886,8 +809,8 @@
           <div class="compare-after-wrap">
             <img src="religous_painting_final.jpg" alt="Religious painting, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -900,8 +823,8 @@
           <div class="compare-after-wrap">
             <img src="self_portrait_final.jpg" alt="Self portrait, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -914,8 +837,8 @@
           <div class="compare-after-wrap">
             <img src="siren_final.jpg" alt="Siren, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -928,8 +851,8 @@
           <div class="compare-after-wrap">
             <img src="three_generations_final.jpg" alt="Three generations, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -942,8 +865,8 @@
           <div class="compare-after-wrap">
             <img src="tobolsk_final.jpg" alt="Tobolsk, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
@@ -956,12 +879,54 @@
           <div class="compare-after-wrap">
             <img src="wharf_final.jpg" alt="Wharf, after">
           </div>
-          <span class="compare-tag left">Before</span>
-          <span class="compare-tag right">After</span>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
           <div class="compare-handle"></div>
           <input type="range" class="compare-range" min="0" max="100" value="50">
         </div>
         <div class="gallery-caption">wharf</div>
+      </div>
+
+      <div>
+        <div class="compare-slider">
+          <img class="compare-before" src="gallery_1_colorized.jpg" alt="gallery_1, before">
+          <div class="compare-after-wrap">
+            <img src="gallery_1_final.jpg" alt="gallery_1, after">
+          </div>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
+          <div class="compare-handle"></div>
+          <input type="range" class="compare-range" min="0" max="100" value="50">
+        </div>
+        <div class="gallery-caption">man_with_camel</div>
+      </div>
+
+      <div>
+        <div class="compare-slider">
+          <img class="compare-before" src="gallery_2_colorized.jpg" alt="gallery_2, before">
+          <div class="compare-after-wrap">
+            <img src="gallery_2_final.jpg" alt="gallery_2, after">
+          </div>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
+          <div class="compare-handle"></div>
+          <input type="range" class="compare-range" min="0" max="100" value="50">
+        </div>
+        <div class="gallery-caption">Group_of_eleven_adults_and_children</div>
+      </div>
+
+      <div>
+        <div class="compare-slider">
+          <img class="compare-before" src="gallery_3_colorized.jpg" alt="gallery_3, before">
+          <div class="compare-after-wrap">
+            <img src="gallery_3_final.jpg" alt="gallery_3, after">
+          </div>
+          <span class="compare-tag left">After</span>
+          <span class="compare-tag right">Before</span>
+          <div class="compare-handle"></div>
+          <input type="range" class="compare-range" min="0" max="100" value="50">
+        </div>
+        <div class="gallery-caption">Lugano</div>
       </div>
 
     </div>
