@@ -240,6 +240,7 @@
     <h1>Project 2: Fun with Filters and Frequencies</h1>
     <div class="due">September 29th, 2026</div>
     <p class="intro">
+      <!-- 換成你自己的開場白 -->
       Building intuition for 2D convolution and frequency-domain thinking — from
       finite-difference edge detection, through image sharpening and hybrid images,
       to multiresolution blending.
@@ -346,18 +347,15 @@
     <div class="section-head"><span class="section-num">1.3</span><h2>Derivative of Gaussian (DoG) Filter</h2></div>
     <p class="section-desc">Comparing two-step (blur, then finite-difference) versus a single combined DoG filter.</p>
 
-    <div class="pair-row">
-      <figure>
+    <div class="results-grid cols-4" style="margin-bottom: 20px;">
+      <div class="result-card">
         <div class="img-box"><img src="cam_blurred_edges.png" alt="Blurred, then edge detected"></div>
-        <figcaption>Blur → gradient magnitude → binarized</figcaption>
-      </figure>
-      <figure>
+        <div class="result-meta">Blur → gradient magnitude → binarized</div>
+      </div>
+      <div class="result-card">
         <div class="img-box"><img src="cam_dog_edges.png" alt="Single DoG convolution result"></div>
-        <figcaption>Single DoG convolution</figcaption>
-      </figure>
-    </div>
-
-    <div class="results-grid cols-2" style="margin-bottom: 20px;">
+        <div class="result-meta">Single DoG convolution</div>
+      </div>
       <div class="result-card">
         <div class="img-box"><img src="dog_x_kernel.png" alt="DoG x kernel"></div>
         <div class="result-meta">DoG<sub>x</sub> kernel</div>
@@ -438,23 +436,31 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     <div class="section-head"><span class="section-num">2.1</span><h2>Image "Sharpening"</h2></div>
     <p class="section-desc">Deriving and applying the unsharp mask filter on the Taj Mahal image and an image of your choice.</p>
 
-    <div class="pair-row cols-3">
-      <figure>
+    <div class="results-grid cols-4">
+      <div class="result-card">
+        <div class="img-box"><img src="taj_original_for_compare.png" alt="Taj Mahal, original"></div>
+        <div class="result-meta">Original</div>
+      </div>
+      <div class="result-card">
         <div class="img-box"><img src="taj_blurred.png" alt="Taj Mahal, blurred"></div>
-        <figcaption>Blurred</figcaption>
-      </figure>
-      <figure>
+        <div class="result-meta">Blurred</div>
+      </div>
+      <div class="result-card">
         <div class="img-box"><img src="taj_highfreq.png" alt="Taj Mahal, high frequencies"></div>
-        <figcaption>High frequencies</figcaption>
-      </figure>
-      <figure>
+        <div class="result-meta">High frequencies</div>
+      </div>
+      <div class="result-card">
         <div class="img-box"><img src="taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div>
-        <figcaption>Sharpened (α = 1.0)</figcaption>
-      </figure>
+        <div class="result-meta">Sharpened (α = 1.0)</div>
+      </div>
     </div>
 
     <p class="section-desc" style="margin-top: 6px;">Same pipeline on an image of my choice (Yosemite), with a couple of different sharpening amounts (α):</p>
-    <div class="results-grid cols-2">
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="img-box"><img src="yosemite_original.png" alt="Yosemite, original"></div>
+        <div class="result-meta">Original</div>
+      </div>
       <div class="result-card">
         <div class="img-box"><img src="yosemite_sharpened_a1.0.png" alt="Yosemite, alpha 1.0"></div>
         <div class="result-meta">α = 1.0</div>
@@ -580,15 +586,15 @@ def high_pass(img, sigma):
     <h3 style="margin: 30px 0 14px;">Two more hybrid images</h3>
     <div class="results-grid" style="margin-bottom: 14px;">
       <div class="result-card">
-        <div class="img-box"><img src="brother.jpeg" alt="Tiger, input"></div>
-        <div class="result-meta">Input A — My Brother</div>
+        <div class="img-box"><img src="brother.jpeg" alt="Brother, input"></div>
+        <div class="result-meta">Input A — My brother</div>
       </div>
       <div class="result-card">
         <div class="img-box"><img src="small_cat.png" alt="Cat, input"></div>
         <div class="result-meta">Input B — Cat</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="tiger_cat_hybrid.png" alt="Tiger and cat hybrid"></div>
+        <div class="img-box"><img src="brother_cat_hybrid.png" alt="Brother and cat hybrid"></div>
         <div class="result-meta">Hybrid #2</div>
       </div>
     </div>
