@@ -20,97 +20,30 @@
     --teal: #2f7d6c;
     --max: 960px;
   }
-
   *{ box-sizing: border-box; margin:0; padding:0; }
   html{ scroll-behavior: smooth; }
-
-  body{
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    line-height: 1.6;
-  }
-
+  body{ background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; line-height: 1.6; }
   .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 28px; }
-
   a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(47,125,108,0.35); }
   a:hover{ color: var(--accent); border-color: var(--accent); }
-
   header.top{ padding: 20px 0 0; }
-  .back-link{
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 28px;
-    font-size: 12.5px;
-    color: var(--text-faint);
-  }
-
-  /* ---------- Hero ---------- */
+  .back-link{ max-width: var(--max); margin: 0 auto; padding: 0 28px; font-size: 12.5px; color: var(--text-faint); }
   .hero{ padding: 50px 0 40px; border-bottom: 1px solid var(--line-soft); }
-  .eyebrow{
-    font-size: 13px;
-    color: var(--teal);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  h1{
-    font-weight: 700;
-    font-size: clamp(28px, 4.5vw, 42px);
-    line-height: 1.15;
-  }
-  .subtitle{
-    margin-top: 8px;
-    font-style: italic;
-    color: var(--text-dim);
-    font-size: 16px;
-  }
+  .eyebrow{ font-size: 13px; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+  h1{ font-weight: 700; font-size: clamp(28px, 4.5vw, 42px); line-height: 1.15; }
+  .subtitle{ margin-top: 8px; font-style: italic; color: var(--text-dim); font-size: 16px; }
   .due{ margin-top: 14px; font-size: 13px; color: var(--accent); }
   .intro{ margin-top: 18px; max-width: 680px; color: var(--text-dim); font-size: 15.5px; }
-
-  /* ---------- Sections ---------- */
   section{ padding: 54px 0; border-bottom: 1px solid var(--line-soft); }
   section:last-of-type{ border-bottom: none; }
-
-  .part-divider{
-    padding: 28px 0 0;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    font-weight: 600;
-  }
-
+  .part-divider{ padding: 28px 0 0; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; }
   .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom: 10px; }
-  .section-num{
-    font-size: 12px;
-    color: var(--text-faint);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 2px 7px;
-  }
+  .section-num{ font-size: 12px; color: var(--text-faint); border: 1px solid var(--line); border-radius: 3px; padding: 2px 7px; }
   h2{ font-size: 21px; font-weight: 600; }
   h3{ font-size: 16px; font-weight: 600; margin-bottom: 4px; }
   .section-desc{ color: var(--text-dim); font-size: 14.5px; max-width: 660px; margin-bottom: 28px; }
-  .mandatory-tag{
-    display: inline-block;
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--accent);
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin-left: 8px;
-    vertical-align: middle;
-  }
-
-  /* ---------- Result cards / grids ---------- */
-  .results-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
+  .mandatory-tag{ display: inline-block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 3px; margin-left: 8px; vertical-align: middle; }
+  .results-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .results-grid.cols-2{ grid-template-columns: repeat(2, 1fr); }
   .results-grid.cols-4{ grid-template-columns: repeat(4, 1fr); }
   .results-grid.cols-6{ grid-template-columns: repeat(6, 1fr); }
@@ -121,110 +54,32 @@
     .results-grid.cols-6{ grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 480px){ .results-grid{ grid-template-columns: 1fr; } }
-
   .result-card{ display:flex; flex-direction: column; }
-  .img-box{
-    aspect-ratio: 1 / 1;
-    background: var(--bg-panel);
-    border: 1.5px dashed var(--line);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+  .img-box{ aspect-ratio: 1 / 1; background: var(--bg-panel); border: 1.5px dashed var(--line); border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .img-box.wide{ aspect-ratio: 4 / 3; }
   .img-box img{ width: 100%; height: 100%; object-fit: cover; display: block; }
-  .img-box .placeholder-text{
-    font-size: 12px;
-    color: var(--text-faint);
-    text-align: center;
-    padding: 0 14px;
-  }
-  .result-meta{
-    margin-top: 8px;
-    font-size: 12.5px;
-    color: var(--text-dim);
-    text-align: center;
-  }
+  .img-box .placeholder-text{ font-size: 12px; color: var(--text-faint); text-align: center; padding: 0 14px; }
+  .result-meta{ margin-top: 8px; font-size: 12.5px; color: var(--text-dim); text-align: center; }
   figcaption{ margin-top: 8px; font-size: 12px; color: var(--text-faint); text-align: center; }
-
-  .pair-row{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 22px;
-  }
+  .pair-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
   .pair-row.cols-3{ grid-template-columns: 1fr 1fr 1fr; }
   @media (max-width: 640px){ .pair-row, .pair-row.cols-3{ grid-template-columns: 1fr; } }
-
-  /* ---------- Writeup / explanation box ---------- */
-  .writeup{
-    margin-top: 20px;
-    background: var(--bg-panel);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 18px 20px;
-  }
-  .writeup h4{
-    font-size: 11.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-faint);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
+  .writeup{ margin-top: 20px; background: var(--bg-panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; }
+  .writeup h4{ font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 8px; font-weight: 600; }
   .writeup p{ color: var(--text); font-size: 14.5px; }
   .writeup p + p{ margin-top: 10px; }
   .writeup .edit-hint{ color: var(--text-faint); font-style: italic; }
-  .writeup code{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    background: var(--bg);
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-  .writeup pre{
-    margin-top: 12px;
-    background: #1e2420;
-    border-radius: 6px;
-    padding: 14px 16px;
-    overflow-x: auto;
-  }
-  .writeup pre code{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: #d8e0da;
-    white-space: pre;
-    background: none;
-    padding: 0;
-  }
-  .writeup .code-label{
-    margin-top: 18px;
-    font-size: 11.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-faint);
-    font-weight: 600;
-  }
-
-  /* ---------- Bells & Whistles subsection ---------- */
-  .bw-box{
-    margin-top: 24px;
-    border: 1.5px solid var(--accent);
-    border-radius: 6px;
-    padding: 20px 22px;
-    background: rgba(204,83,36,0.04);
-  }
+  .writeup code{ font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: var(--bg); padding: 1px 5px; border-radius: 3px; }
+  .writeup pre{ margin-top: 12px; background: #1e2420; border-radius: 6px; padding: 14px 16px; overflow-x: auto; }
+  .writeup pre code{ font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.6; color: #d8e0da; white-space: pre; background: none; padding: 0; }
+  .writeup .code-label{ margin-top: 18px; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); font-weight: 600; }
+  .param-table{ margin-top: 14px; width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .param-table th, .param-table td{ border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+  .param-table th{ background: var(--bg); color: var(--text-dim); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .param-table td code{ font-size: 12.5px; }
+  .bw-box{ margin-top: 24px; border: 1.5px solid var(--accent); border-radius: 6px; padding: 20px 22px; background: rgba(204,83,36,0.04); }
   .bw-box h3{ display:flex; align-items:center; gap: 8px; }
-
-  footer{
-    padding: 44px 0 60px;
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-faint);
-  }
+  footer{ padding: 44px 0 60px; text-align: center; font-size: 12px; color: var(--text-faint); }
 </style>
 </head>
 <body>
@@ -240,8 +95,7 @@
     <h1>Project 2: Fun with Filters and Frequencies</h1>
     <div class="due">September 29th, 2026</div>
     <p class="intro">
-      <!-- 換成你自己的開場白 -->
-      Building intuition for 2D convolution and frequency-domain thinking — from
+      Building intuition for 2D convolution and frequency-domain thinking, from
       finite-difference edge detection, through image sharpening and hybrid images,
       to multiresolution blending.
     </p>
@@ -258,22 +112,10 @@
     </p>
 
     <div class="results-grid cols-4">
-      <div class="result-card">
-        <div class="img-box"><img src="selfie_gray.png" alt="Selfie, grayscale"></div>
-        <div class="result-meta">Original (grayscale)</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="selfie_box.png" alt="Selfie, 9x9 box filter"></div>
-        <div class="result-meta">9×9 box filter</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="selfie_dx.png" alt="Selfie, Dx"></div>
-        <div class="result-meta">D<sub>x</sub></div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="selfie_dy.png" alt="Selfie, Dy"></div>
-        <div class="result-meta">D<sub>y</sub></div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="selfie_gray.png" alt="Selfie, grayscale"></div><div class="result-meta">Original (grayscale)</div></div>
+      <div class="result-card"><div class="img-box"><img src="selfie_box.png" alt="Selfie, 9x9 box filter"></div><div class="result-meta">9×9 box filter</div></div>
+      <div class="result-card"><div class="img-box"><img src="selfie_dx.png" alt="Selfie, Dx"></div><div class="result-meta">D<sub>x</sub></div></div>
+      <div class="result-card"><div class="img-box"><img src="selfie_dy.png" alt="Selfie, Dy"></div><div class="result-meta">D<sub>y</sub></div></div>
     </div>
 
     <div class="writeup">
@@ -294,13 +136,14 @@
       <h4 style="margin-top:18px;">Runtime &amp; boundary handling</h4>
       <p>
         On a 300×400 grayscale image with a 9×9 box filter: the four-loop version
-        took 2.51s, while the vectorized two-loop version took 0.018s — almost
-        exactly matching <code>scipy.signal.convolve2d</code>'s 0.017s. That's roughly a
-        140× speedup just from replacing the innermost two loops with array
-        slicing and broadcasting. The max pixel-wise difference against scipy's
-        output was on the order of 10⁻¹⁵ (floating-point precision), confirming
-        the implementation is correct. Both my implementation and scipy handle
-        boundaries via zero-padding by default.
+        took <strong>3.153s</strong>, while the vectorized two-loop version took
+        <strong>0.0081s</strong> — actually a touch faster than
+        <code>scipy.signal.convolve2d</code>'s <strong>0.0208s</strong> here. That's
+        roughly a <strong>390×</strong> speedup just from replacing the innermost two
+        loops with array slicing and broadcasting. The max pixel-wise difference
+        against scipy's output was <strong>1.89×10⁻¹⁵</strong> (floating-point
+        precision) for both my implementations, confirming correctness. Both my
+        implementation and scipy handle boundaries via zero-padding by default.
       </p>
     </div>
   </section>
@@ -310,22 +153,10 @@
     <p class="section-desc">Partial derivatives, gradient magnitude, and a binarized edge image of the cameraman image.</p>
 
     <div class="results-grid cols-4">
-      <div class="result-card">
-        <div class="img-box"><img src="cam_gx.png" alt="Cameraman, x derivative"></div>
-        <div class="result-meta">∂/∂x</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="cam_gy.png" alt="Cameraman, y derivative"></div>
-        <div class="result-meta">∂/∂y</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="cam_magnitude.png" alt="Cameraman, gradient magnitude"></div>
-        <div class="result-meta">Gradient magnitude</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="cam_edges.png" alt="Cameraman, binarized edges"></div>
-        <div class="result-meta">Binarized edges</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="cam_gx.png" alt="Cameraman, x derivative"></div><div class="result-meta">∂/∂x</div></div>
+      <div class="result-card"><div class="img-box"><img src="cam_gy.png" alt="Cameraman, y derivative"></div><div class="result-meta">∂/∂y</div></div>
+      <div class="result-card"><div class="img-box"><img src="cam_magnitude.png" alt="Cameraman, gradient magnitude"></div><div class="result-meta">Gradient magnitude</div></div>
+      <div class="result-card"><div class="img-box"><img src="cam_edges.png" alt="Cameraman, binarized edges"></div><div class="result-meta">Binarized edges</div></div>
     </div>
 
     <div class="writeup">
@@ -336,9 +167,10 @@
         speckled noise. At 0.15, the silhouette was clean but the grass still
         showed noticeable noise. At 0.3, the result was very clean but started
         losing real detail, like parts of the distant city skyline breaking up.
-        I settled on <strong>threshold = 0.2</strong> as the best balance — the
-        person, camera, and tripod outlines stay intact while background noise
-        is substantially suppressed.
+        I settled on <strong>threshold = 0.2</strong> as the best balance, at which
+        exactly <strong>8.0%</strong> of pixels are classified as edges — the person,
+        camera, and tripod outlines stay intact while background noise is
+        substantially suppressed.
       </p>
     </div>
   </section>
@@ -348,22 +180,10 @@
     <p class="section-desc">Comparing two-step (blur, then finite-difference) versus a single combined DoG filter.</p>
 
     <div class="results-grid cols-4" style="margin-bottom: 20px;">
-      <div class="result-card">
-        <div class="img-box"><img src="cam_blurred_edges.png" alt="Blurred, then edge detected"></div>
-        <div class="result-meta">Blur → gradient magnitude → binarized</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="cam_dog_edges.png" alt="Single DoG convolution result"></div>
-        <div class="result-meta">Single DoG convolution</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="dog_x_kernel.png" alt="DoG x kernel"></div>
-        <div class="result-meta">DoG<sub>x</sub> kernel</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="dog_y_kernel.png" alt="DoG y kernel"></div>
-        <div class="result-meta">DoG<sub>y</sub> kernel</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="cam_blurred_edges.png" alt="Blurred, then edge detected"></div><div class="result-meta">Blur → gradient magnitude → binarized</div></div>
+      <div class="result-card"><div class="img-box"><img src="cam_dog_edges.png" alt="Single DoG convolution result"></div><div class="result-meta">Single DoG convolution</div></div>
+      <div class="result-card"><div class="img-box"><img src="dog_x_kernel.png" alt="DoG x kernel"></div><div class="result-meta">DoG<sub>x</sub> kernel</div></div>
+      <div class="result-card"><div class="img-box"><img src="dog_y_kernel.png" alt="DoG y kernel"></div><div class="result-meta">DoG<sub>y</sub> kernel</div></div>
     </div>
 
     <div class="writeup">
@@ -379,10 +199,11 @@
       <p>
         The two methods agree almost exactly: comparing the interior of the image
         (cropping out a 10-pixel border), the max difference between the blur-then-
-        differentiate approach and the single combined DoG kernel was on the order
-        of 10⁻¹⁶ — floating-point precision. All the (larger) discrepancy is confined
-        to a handful of border pixels, the expected result of zero-padding being
-        applied twice (once per convolution) versus once for the combined kernel.
+        differentiate approach and the single combined DoG kernel was
+        <strong>6.89×10⁻¹⁶</strong> — floating-point precision. All the (larger)
+        discrepancy is confined to a handful of border pixels, the expected result
+        of zero-padding being applied twice (once per convolution) versus once for
+        the combined kernel.
       </p>
       <div class="code-label">Building the combined kernel — key detail</div>
       <pre><code># dog_x/dog_y must be built with mode="full", NOT "same" — Dx/Dy extend
@@ -396,7 +217,7 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     </div>
 
     <div class="bw-box">
-      <h3>Gradient Orientation Visualization <span class="mandatory-tag"></span></h3>
+      <h3>Gradient Orientation Visualization </h3>
       <p class="section-desc" style="margin-top:8px; margin-bottom:16px;">
         Gradient orientation computed without built-in angle functions, visualized with hue in HSV color space.
       </p>
@@ -437,38 +258,17 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     <p class="section-desc">Deriving and applying the unsharp mask filter on the Taj Mahal image and an image of your choice.</p>
 
     <div class="results-grid cols-4">
-      <div class="result-card">
-        <div class="img-box"><img src="taj_original_for_compare.png" alt="Taj Mahal, original"></div>
-        <div class="result-meta">Original</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="taj_blurred.png" alt="Taj Mahal, blurred"></div>
-        <div class="result-meta">Blurred</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="taj_highfreq.png" alt="Taj Mahal, high frequencies"></div>
-        <div class="result-meta">High frequencies</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div>
-        <div class="result-meta">Sharpened (α = 1.0)</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="taj_original_for_compare.png" alt="Taj Mahal, original"></div><div class="result-meta">Original</div></div>
+      <div class="result-card"><div class="img-box"><img src="taj_blurred.png" alt="Taj Mahal, blurred"></div><div class="result-meta">Blurred</div></div>
+      <div class="result-card"><div class="img-box"><img src="taj_highfreq.png" alt="Taj Mahal, high frequencies"></div><div class="result-meta">High frequencies</div></div>
+      <div class="result-card"><div class="img-box"><img src="taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div><div class="result-meta">Sharpened (α = 1.0)</div></div>
     </div>
 
     <p class="section-desc" style="margin-top: 6px;">Same pipeline on an image of my choice (Yosemite), with a couple of different sharpening amounts (α):</p>
     <div class="results-grid">
-      <div class="result-card">
-        <div class="img-box"><img src="yosemite_original.png" alt="Yosemite, original"></div>
-        <div class="result-meta">Original</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="yosemite_sharpened_a1.0.png" alt="Yosemite, alpha 1.0"></div>
-        <div class="result-meta">α = 1.0</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="yosemite_sharpened_a2.0.png" alt="Yosemite, alpha 2.0"></div>
-        <div class="result-meta">α = 2.0</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="yosemite_original.png" alt="Yosemite, original"></div><div class="result-meta">Original</div></div>
+      <div class="result-card"><div class="img-box"><img src="yosemite_sharpened_a1.0.png" alt="Yosemite, alpha 1.0"></div><div class="result-meta">α = 1.0</div></div>
+      <div class="result-card"><div class="img-box"><img src="yosemite_sharpened_a2.0.png" alt="Yosemite, alpha 2.0"></div><div class="result-meta">α = 2.0</div></div>
     </div>
 
     <div class="writeup">
@@ -480,6 +280,11 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     high_freq = channel - blurred
     sharpened = channel + alpha * high_freq
     return np.clip(sharpened, 0, 1), blurred, high_freq</code></pre>
+      <p style="margin-top:10px; color:var(--text-faint); font-size:13px;">
+        Parameters used: <code>size=15</code>, <code>sigma=3</code> (the Gaussian
+        blur kernel), applied with <code>α = 0.5, 1.0, 1.5, 2.5</code> on Taj Mahal
+        and <code>α = 1.0, 2.0</code> on Yosemite.
+      </p>
       <h4 style="margin-top:18px;">Effect of α</h4>
       <p>
         At α = 1.0 the Taj Mahal looks crisper without obvious artifacts. Pushing α up
@@ -491,20 +296,15 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
         I deliberately blurred the sharp Taj Mahal image, then tried to resharpen it
         with the same unsharp mask filter (α = 1.5). The resharpened version is
         somewhat closer to the original than the blurred version is — mean absolute
-        pixel difference dropped from 0.047 (blurred vs. original) to 0.040 (resharpened
-        vs. original) — but nowhere near fully recovered. This makes sense: unsharp
-        masking can only amplify whatever faint high-frequency signal survives the
-        blur; it can't reconstruct detail that blurring has already destroyed.
+        pixel difference dropped from <strong>0.04702</strong> (blurred vs. original)
+        to <strong>0.03956</strong> (resharpened vs. original) — but nowhere near fully
+        recovered. This makes sense: unsharp masking can only amplify whatever faint
+        high-frequency signal survives the blur; it can't reconstruct detail that
+        blurring has already destroyed.
       </p>
       <div class="pair-row" style="margin-top:16px;">
-        <figure>
-          <div class="img-box"><img src="taj_deliberately_blurred.png" alt="Taj Mahal, deliberately blurred"></div>
-          <figcaption>Deliberately blurred</figcaption>
-        </figure>
-        <figure>
-          <div class="img-box"><img src="taj_resharpened.png" alt="Taj Mahal, resharpened"></div>
-          <figcaption>Resharpened (still softer than original)</figcaption>
-        </figure>
+        <figure><div class="img-box"><img src="taj_deliberately_blurred.png" alt="Taj Mahal, deliberately blurred"></div><figcaption>Deliberately blurred</figcaption></figure>
+        <figure><div class="img-box"><img src="taj_resharpened.png" alt="Taj Mahal, resharpened"></div><figcaption>Resharpened (still softer than original)</figcaption></figure>
       </div>
     </div>
   </section>
@@ -518,40 +318,16 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
 
     <h3 style="margin-bottom:14px;">Full process — favorite result (Derek + Nutmeg)</h3>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_input_low_aligned.png" alt="Nutmeg, aligned"></div>
-        <div class="result-meta">Input A — Nutmeg (aligned, low source)</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_input_high_aligned.png" alt="Derek, aligned"></div>
-        <div class="result-meta">Input B — Derek (aligned, high source)</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_fft_input_low.png" alt="FFT of Nutmeg"></div>
-        <div class="result-meta">FFT of A</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_fft_input_high.png" alt="FFT of Derek"></div>
-        <div class="result-meta">FFT of B</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_input_low_aligned.png" alt="Nutmeg, aligned"></div><div class="result-meta">Input A — Nutmeg (aligned, low source)</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_input_high_aligned.png" alt="Derek, aligned"></div><div class="result-meta">Input B — Derek (aligned, high source)</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_fft_input_low.png" alt="FFT of Nutmeg"></div><div class="result-meta">FFT of A</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_fft_input_high.png" alt="FFT of Derek"></div><div class="result-meta">FFT of B</div></div>
     </div>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_low_filtered.png" alt="Nutmeg, low-pass filtered"></div>
-        <div class="result-meta">A, low-pass filtered</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_high_filtered.png" alt="Derek, high-pass filtered"></div>
-        <div class="result-meta">B, high-pass filtered</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_hybrid.png" alt="Derek and Nutmeg hybrid"></div>
-        <div class="result-meta">Hybrid result</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="derek_nutmeg_fft_hybrid.png" alt="FFT of hybrid"></div>
-        <div class="result-meta">FFT of hybrid</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_low_filtered.png" alt="Nutmeg, low-pass filtered"></div><div class="result-meta">A, low-pass filtered</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_high_filtered.png" alt="Derek, high-pass filtered"></div><div class="result-meta">B, high-pass filtered</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_hybrid.png" alt="Derek and Nutmeg hybrid"></div><div class="result-meta">Hybrid result</div></div>
+      <div class="result-card"><div class="img-box"><img src="derek_nutmeg_fft_hybrid.png" alt="FFT of hybrid"></div><div class="result-meta">FFT of hybrid</div></div>
     </div>
 
     <div class="writeup">
@@ -574,47 +350,38 @@ def high_pass(img, sigma):
         different resolutions — I learned this the hard way when my first attempt (same
         sigma values for all three pairs) left two of the three pairs completely
         dominated by their high-frequency source, because the aligned image
-        resolutions differed by up to 7× between pairs. A useful starting heuristic:
-        <code>sigma_low ≈ aligned_width / 25</code>, <code>sigma_high ≈ aligned_width / 100</code>,
-        then adjust from there by checking the low-pass and high-pass images
-        individually — the low-pass result should still look like a soft, recognizable
-        shape (not a flat color blob), and the high-pass result should be mostly flat
-        gray with only genuine edges standing out (not full facial shading).
+        resolutions differed by up to <strong>7×</strong> between pairs.
       </p>
+      <p style="margin-top:10px;">
+        Starting heuristic: <code>sigma_low ≈ aligned_width / 25</code>,
+        <code>sigma_high ≈ aligned_width / 100</code>, then adjusted from there by
+        checking the low-pass and high-pass images individually — the low-pass result
+        should still look like a soft, recognizable shape (not a flat color blob), and
+        the high-pass result should be mostly flat gray with only genuine edges
+        standing out (not full facial shading). Actual values used:
+      </p>
+      <table class="param-table">
+        <tr><th>Pair</th><th>Aligned size (H×W)</th><th>sigma_low</th><th>sigma_high</th></tr>
+        <tr><td>Derek + Nutmeg</td><td><code>1202 × 741</code></td><td><code>12</code></td><td><code>5</code></td></tr>
+        <tr><td>Brother + Cat</td><td><code>2359 × 1646</code></td><td><code>35</code></td><td><code>12</code></td></tr>
+        <tr><td>Mona Lisa + Mr. Bean</td><td><code>322 × 262</code></td><td><code>8</code></td><td><code>2</code></td></tr>
+      </table>
     </div>
 
     <h3 style="margin: 30px 0 14px;">Two more hybrid images</h3>
     <div class="results-grid" style="margin-bottom: 14px;">
-      <div class="result-card">
-        <div class="img-box"><img src="brother.JPG" alt="Brother, input"></div>
-        <div class="result-meta">Input A — My brother</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="small_cat.jpg" alt="Cat, input"></div>
-        <div class="result-meta">Input B — Cat</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="brother_cat_hybrid.png" alt="Brother and cat hybrid"></div>
-        <div class="result-meta">Hybrid #2</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="brother.JPG" alt="Brother, input"></div><div class="result-meta">Input A — My brother</div></div>
+      <div class="result-card"><div class="img-box"><img src="small_cat.jpg" alt="Cat, input"></div><div class="result-meta">Input B — Cat</div></div>
+      <div class="result-card"><div class="img-box"><img src="brother_cat_hybrid.png" alt="Brother and cat hybrid"></div><div class="result-meta">Hybrid #2</div></div>
     </div>
     <div class="results-grid">
-      <div class="result-card">
-        <div class="img-box"><img src="monalisa.jpg" alt="Mona Lisa, input"></div>
-        <div class="result-meta">Input A — Mona Lisa</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="mrbean.jpeg" alt="Mr Bean, input"></div>
-        <div class="result-meta">Input B — Mr. Bean</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="monalisa_mrbean_hybrid.png" alt="Mona Lisa and Mr Bean hybrid"></div>
-        <div class="result-meta">Hybrid #3</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="monalisa.jpg" alt="Mona Lisa, input"></div><div class="result-meta">Input A — Mona Lisa</div></div>
+      <div class="result-card"><div class="img-box"><img src="mrbean.jpeg" alt="Mr Bean, input"></div><div class="result-meta">Input B — Mr. Bean</div></div>
+      <div class="result-card"><div class="img-box"><img src="monalisa_mrbean_hybrid.png" alt="Mona Lisa and Mr Bean hybrid"></div><div class="result-meta">Hybrid #3</div></div>
     </div>
 
     <div class="bw-box">
-      <h3>Color in Hybrid Images <span class="mandatory-tag"></span></h3>
+      <h3>Color in Hybrid Images </h3>
       <div class="writeup" style="margin-top:16px;">
         <h4>Which works better?</h4>
         <p>
@@ -689,15 +456,20 @@ def laplacian_stack(g_stack):
     l_stack = [g_stack[i] - g_stack[i+1] for i in range(len(g_stack)-1)]
     l_stack.append(g_stack[-1])  # final residual
     return l_stack</code></pre>
+      <p style="margin-top:10px; color:var(--text-faint); font-size:13px;">
+        Parameters used: <code>levels=6</code>, <code>sigma=2</code> (per-level blur
+        multiplier, so level <em>i</em> is blurred with σ = 2×<em>i</em>).
+      </p>
       <p style="margin-top:12px;">
         A stack differs from a pyramid in that nothing is ever downsampled — every
         level stays the same resolution as the original, just progressively more
         blurred. Summing every level of the Laplacian stack reconstructs the original
-        image exactly (I verified this: max pixel difference of 1.1×10⁻¹⁶, floating-point
-        precision). I used <code>scipy.ndimage.gaussian_filter</code> rather than a
-        direct 2D convolution — it exploits the Gaussian kernel being separable,
-        which matters a lot here since building 6 levels means blurring with
-        increasingly large kernels.
+        image exactly (I verified this: max pixel difference of
+        <strong>1.11×10⁻¹⁶</strong>, floating-point precision). I used
+        <code>scipy.ndimage.gaussian_filter</code> rather than a direct 2D
+        convolution — it exploits the Gaussian kernel being separable, which matters
+        a lot here since building 6 levels means blurring with increasingly large
+        kernels.
       </p>
     </div>
 
@@ -725,56 +497,23 @@ def laplacian_stack(g_stack):
 
     <h3 style="margin-bottom:14px;">Oraple — straight seam</h3>
     <div class="pair-row cols-3" style="margin-bottom: 30px;">
-      <figure>
-        <div class="img-box"><img src="apple.jpeg" alt="Apple"></div>
-        <figcaption>Apple</figcaption>
-      </figure>
-      <figure>
-        <div class="img-box"><img src="orange.jpeg" alt="Orange"></div>
-        <figcaption>Orange</figcaption>
-      </figure>
-      <figure>
-        <div class="img-box"><img src="fig342_l.png" alt="Oraple, blended"></div>
-        <figcaption>Blended (oraple)</figcaption>
-      </figure>
+      <figure><div class="img-box"><img src="apple.jpeg" alt="Apple"></div><figcaption>Apple</figcaption></figure>
+      <figure><div class="img-box"><img src="orange.jpeg" alt="Orange"></div><figcaption>Orange</figcaption></figure>
+      <figure><div class="img-box"><img src="fig342_l.png" alt="Oraple, blended"></div><figcaption>Blended (oraple)</figcaption></figure>
     </div>
 
     <h3 style="margin-bottom:14px;">Two custom blends</h3>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
-      <div class="result-card">
-        <div class="img-box"><img src="winter_resized.png" alt="Winter, input"></div>
-        <div class="result-meta">A — Winter</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="karina_resized.png" alt="Karina, input"></div>
-        <div class="result-meta">B — Karina</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="winter_karina_mask.png" alt="Straight seam mask"></div>
-        <div class="result-meta">Mask (straight seam)</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="winter_karina_blend.png" alt="Winter and Karina, blended"></div>
-        <div class="result-meta">Blend #1</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="winter_resized.png" alt="Winter, input"></div><div class="result-meta">A — Winter</div></div>
+      <div class="result-card"><div class="img-box"><img src="karina_resized.png" alt="Karina, input"></div><div class="result-meta">B — Karina</div></div>
+      <div class="result-card"><div class="img-box"><img src="winter_karina_mask.png" alt="Straight seam mask"></div><div class="result-meta">Mask (straight seam)</div></div>
+      <div class="result-card"><div class="img-box"><img src="winter_karina_blend.png" alt="Winter and Karina, blended"></div><div class="result-meta">Blend #1</div></div>
     </div>
     <div class="results-grid cols-4">
-      <div class="result-card">
-        <div class="img-box"><img src="campanile_resized.png" alt="Campanile, input"></div>
-        <div class="result-meta">A — Campanile</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="stars.jpg" alt="Stars, input"></div>
-        <div class="result-meta">B — Stars</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="campanile_sky_mask.png" alt="Detected sky mask"></div>
-        <div class="result-meta">Mask (irregular, sky-detected)</div>
-      </div>
-      <div class="result-card">
-        <div class="img-box"><img src="campanile_stars_blend.png" alt="Campanile with starry sky"></div>
-        <div class="result-meta">Blend #2</div>
-      </div>
+      <div class="result-card"><div class="img-box"><img src="campanile_resized.png" alt="Campanile, input"></div><div class="result-meta">A — Campanile</div></div>
+      <div class="result-card"><div class="img-box"><img src="stars.jpg" alt="Stars, input"></div><div class="result-meta">B — Stars</div></div>
+      <div class="result-card"><div class="img-box"><img src="campanile_sky_mask.png" alt="Detected sky mask"></div><div class="result-meta">Mask (irregular, sky-detected)</div></div>
+      <div class="result-card"><div class="img-box"><img src="campanile_stars_blend.png" alt="Campanile with starry sky"></div><div class="result-meta">Blend #2</div></div>
     </div>
 
     <div class="writeup">
@@ -791,12 +530,21 @@ lower_blue = np.array([95, 90, 140])
 upper_blue = np.array([140, 255, 255])
 sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
       <p>
-        My first attempt used much looser thresholds and mistakenly classified the
-        tower's shadowed (backlit) side as sky — it reflects ambient blue skylight, so
-        its <em>hue</em> is nearly identical to real sky. Sampling both regions directly
-        showed the real distinguishing factor: the shadow's saturation and value
-        (~43, ~103) are far lower than clear sky's (~135, ~183). Raising the
-        saturation/value lower bounds fixed the mask completely.
+        My first attempt used much looser thresholds (<code>[90,40,80]</code> to
+        <code>[140,255,255]</code>) and mistakenly classified the tower's shadowed
+        (backlit) side as sky — it reflects ambient blue skylight, so its <em>hue</em>
+        is nearly identical to real sky. Sampling both regions directly showed the
+        real distinguishing factor:
+      </p>
+      <table class="param-table">
+        <tr><th>Region</th><th>Hue</th><th>Saturation</th><th>Value</th></tr>
+        <tr><td>Tower shadow (misclassified)</td><td><code>~106</code></td><td><code>~43</code></td><td><code>~103</code></td></tr>
+        <tr><td>Clear sky</td><td><code>~110</code></td><td><code>~135</code></td><td><code>~183</code></td></tr>
+      </table>
+      <p style="margin-top:10px;">
+        Hue is nearly identical between the two, but saturation and value differ
+        sharply — so raising the lower bounds to <code>S ≥ 90, V ≥ 140</code> fixed
+        the mask completely, without touching the hue range.
       </p>
     </div>
 
@@ -820,10 +568,13 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
         proportional to that band's own blur radius, producing a smooth transition at
         every scale simultaneously, which is what makes the seam disappear.
       </p>
+      <p style="margin-top:10px; color:var(--text-faint); font-size:13px;">
+        Parameters used for both custom blends: <code>levels=6</code>, <code>sigma=4</code>.
+      </p>
     </div>
 
     <div class="bw-box">
-      <h3>Color in Blending <span class="mandatory-tag"></span></h3>
+      <h3>Color in Blending </h3>
       <div class="writeup" style="margin-top:16px;">
         <h4>Approach</h4>
         <p>
@@ -837,22 +588,20 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
           First tested on winter+karina, but their skin tones are already similar, so
           the difference was nearly invisible either way — not a useful test case.
           Switched to campanile+stars, whose day/night palettes differ dramatically.
-          My first attempt used a chrominance blur sigma of 50 — wider than the
-          baseline's cumulative blur (sigma × levels = 24) — which backfired: it let
-          star-blue bleed <em>further</em> into the tower than the baseline did, the
-          opposite of the intended effect. Narrowing the chrominance sigma to 12 (below
-          the baseline's 24) fixed this, giving a smoother color transition without the
-          extra bleed.
+          My first attempt used a chrominance blur <code>sigma=50</code> — wider than
+          the baseline's cumulative blur (<code>sigma × levels = 4 × 6 = 24</code>) —
+          which backfired: it let star-blue bleed <em>further</em> into the tower than
+          the baseline did, the opposite of the intended effect. Narrowing the
+          chrominance sigma to <strong>12</strong> (below the baseline's 24) fixed
+          this, giving a smoother color transition without the extra bleed. Comparing
+          the final baseline vs. split-treatment images: mean absolute difference
+          <strong>0.578</strong> (0–255 scale), max difference <strong>99</strong> —
+          a real, reproducible effect (consistent across repeated runs), concentrated
+          at the tower/sky boundary rather than spread evenly across the image.
         </p>
         <div class="pair-row" style="margin-top:16px;">
-          <figure>
-            <div class="img-box"><img src="bw_color_baseline.png" alt="Baseline RGB blend"></div>
-            <figcaption>Baseline — RGB channels blended independently</figcaption>
-          </figure>
-          <figure>
-            <div class="img-box"><img src="bw_color_ycc.png" alt="YCrCb split blend"></div>
-            <figcaption>Y/CrCb split (chroma sigma = 12)</figcaption>
-          </figure>
+          <figure><div class="img-box"><img src="bw_color_baseline.png" alt="Baseline RGB blend"></div><figcaption>Baseline — RGB channels blended independently</figcaption></figure>
+          <figure><div class="img-box"><img src="bw_color_ycc.png" alt="YCrCb split blend"></div><figcaption>Y/CrCb split (chroma sigma = 12)</figcaption></figure>
         </div>
         <div class="code-label">Code</div>
         <pre><code>y_blend = blend_with_mask(star_Y, camp_Y, mask, levels=6, sigma=4)
