@@ -258,19 +258,19 @@
 
     <div class="results-grid cols-4">
       <div class="result-card">
-        <div class="img-box"><img src="results/selfie_gray.png" alt="Selfie, grayscale"></div>
+        <div class="img-box"><img src="selfie_gray.png" alt="Selfie, grayscale"></div>
         <div class="result-meta">Original (grayscale)</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/selfie_box.png" alt="Selfie, 9x9 box filter"></div>
+        <div class="img-box"><img src="selfie_box.png" alt="Selfie, 9x9 box filter"></div>
         <div class="result-meta">9×9 box filter</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/selfie_dx.png" alt="Selfie, Dx"></div>
+        <div class="img-box"><img src="selfie_dx.png" alt="Selfie, Dx"></div>
         <div class="result-meta">D<sub>x</sub></div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/selfie_dy.png" alt="Selfie, Dy"></div>
+        <div class="img-box"><img src="selfie_dy.png" alt="Selfie, Dy"></div>
         <div class="result-meta">D<sub>y</sub></div>
       </div>
     </div>
@@ -310,19 +310,19 @@
 
     <div class="results-grid cols-4">
       <div class="result-card">
-        <div class="img-box"><img src="results/cam_gx.png" alt="Cameraman, x derivative"></div>
+        <div class="img-box"><img src="cam_gx.png" alt="Cameraman, x derivative"></div>
         <div class="result-meta">∂/∂x</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/cam_gy.png" alt="Cameraman, y derivative"></div>
+        <div class="img-box"><img src="cam_gy.png" alt="Cameraman, y derivative"></div>
         <div class="result-meta">∂/∂y</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/cam_magnitude.png" alt="Cameraman, gradient magnitude"></div>
+        <div class="img-box"><img src="cam_magnitude.png" alt="Cameraman, gradient magnitude"></div>
         <div class="result-meta">Gradient magnitude</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/cam_edges.png" alt="Cameraman, binarized edges"></div>
+        <div class="img-box"><img src="cam_edges.png" alt="Cameraman, binarized edges"></div>
         <div class="result-meta">Binarized edges</div>
       </div>
     </div>
@@ -348,22 +348,22 @@
 
     <div class="pair-row">
       <figure>
-        <div class="img-box"><img src="results/cam_blurred_edges.png" alt="Blurred, then edge detected"></div>
+        <div class="img-box"><img src="cam_blurred_edges.png" alt="Blurred, then edge detected"></div>
         <figcaption>Blur → gradient magnitude → binarized</figcaption>
       </figure>
       <figure>
-        <div class="img-box"><img src="results/cam_dog_edges.png" alt="Single DoG convolution result"></div>
+        <div class="img-box"><img src="cam_dog_edges.png" alt="Single DoG convolution result"></div>
         <figcaption>Single DoG convolution</figcaption>
       </figure>
     </div>
 
     <div class="results-grid cols-2" style="margin-bottom: 20px;">
       <div class="result-card">
-        <div class="img-box"><img src="results/dog_x_kernel.png" alt="DoG x kernel"></div>
+        <div class="img-box"><img src="dog_x_kernel.png" alt="DoG x kernel"></div>
         <div class="result-meta">DoG<sub>x</sub> kernel</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/dog_y_kernel.png" alt="DoG y kernel"></div>
+        <div class="img-box"><img src="dog_y_kernel.png" alt="DoG y kernel"></div>
         <div class="result-meta">DoG<sub>y</sub> kernel</div>
       </div>
     </div>
@@ -402,7 +402,7 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
       <p class="section-desc" style="margin-top:8px; margin-bottom:16px;">
         Gradient orientation computed without built-in angle functions, visualized with hue in HSV color space.
       </p>
-      <div class="img-box wide"><img src="results/cam_orientation_hsv.png" alt="Gradient orientation, HSV visualization"></div>
+      <div class="img-box wide"><img src="cam_orientation_hsv.png" alt="Gradient orientation, HSV visualization"></div>
       <div class="writeup">
         <h4>Approach</h4>
         <p>
@@ -440,15 +440,15 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
 
     <div class="pair-row cols-3">
       <figure>
-        <div class="img-box"><img src="results/taj_blurred.png" alt="Taj Mahal, blurred"></div>
+        <div class="img-box"><img src="taj_blurred.png" alt="Taj Mahal, blurred"></div>
         <figcaption>Blurred</figcaption>
       </figure>
       <figure>
-        <div class="img-box"><img src="results/taj_highfreq.png" alt="Taj Mahal, high frequencies"></div>
+        <div class="img-box"><img src="taj_highfreq.png" alt="Taj Mahal, high frequencies"></div>
         <figcaption>High frequencies</figcaption>
       </figure>
       <figure>
-        <div class="img-box"><img src="results/taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div>
+        <div class="img-box"><img src="taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div>
         <figcaption>Sharpened (α = 1.0)</figcaption>
       </figure>
     </div>
@@ -456,11 +456,11 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     <p class="section-desc" style="margin-top: 6px;">Same pipeline on an image of my choice (Yosemite), with a couple of different sharpening amounts (α):</p>
     <div class="results-grid cols-2">
       <div class="result-card">
-        <div class="img-box"><img src="results/yosemite_sharpened_a1.0.png" alt="Yosemite, alpha 1.0"></div>
+        <div class="img-box"><img src="yosemite_sharpened_a1.0.png" alt="Yosemite, alpha 1.0"></div>
         <div class="result-meta">α = 1.0</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/yosemite_sharpened_a2.0.png" alt="Yosemite, alpha 2.0"></div>
+        <div class="img-box"><img src="yosemite_sharpened_a2.0.png" alt="Yosemite, alpha 2.0"></div>
         <div class="result-meta">α = 2.0</div>
       </div>
     </div>
@@ -492,11 +492,11 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
       </p>
       <div class="pair-row" style="margin-top:16px;">
         <figure>
-          <div class="img-box"><img src="results/taj_deliberately_blurred.png" alt="Taj Mahal, deliberately blurred"></div>
+          <div class="img-box"><img src="taj_deliberately_blurred.png" alt="Taj Mahal, deliberately blurred"></div>
           <figcaption>Deliberately blurred</figcaption>
         </figure>
         <figure>
-          <div class="img-box"><img src="results/taj_resharpened.png" alt="Taj Mahal, resharpened"></div>
+          <div class="img-box"><img src="taj_resharpened.png" alt="Taj Mahal, resharpened"></div>
           <figcaption>Resharpened (still softer than original)</figcaption>
         </figure>
       </div>
@@ -513,37 +513,37 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     <h3 style="margin-bottom:14px;">Full process — favorite result (Derek + Nutmeg)</h3>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_input_low_aligned.png" alt="Nutmeg, aligned"></div>
+        <div class="img-box"><img src="derek_nutmeg_input_low_aligned.png" alt="Nutmeg, aligned"></div>
         <div class="result-meta">Input A — Nutmeg (aligned, low source)</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_input_high_aligned.png" alt="Derek, aligned"></div>
+        <div class="img-box"><img src="derek_nutmeg_input_high_aligned.png" alt="Derek, aligned"></div>
         <div class="result-meta">Input B — Derek (aligned, high source)</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_fft_input_low.png" alt="FFT of Nutmeg"></div>
+        <div class="img-box"><img src="derek_nutmeg_fft_input_low.png" alt="FFT of Nutmeg"></div>
         <div class="result-meta">FFT of A</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_fft_input_high.png" alt="FFT of Derek"></div>
+        <div class="img-box"><img src="derek_nutmeg_fft_input_high.png" alt="FFT of Derek"></div>
         <div class="result-meta">FFT of B</div>
       </div>
     </div>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_low_filtered.png" alt="Nutmeg, low-pass filtered"></div>
+        <div class="img-box"><img src="derek_nutmeg_low_filtered.png" alt="Nutmeg, low-pass filtered"></div>
         <div class="result-meta">A, low-pass filtered</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_high_filtered.png" alt="Derek, high-pass filtered"></div>
+        <div class="img-box"><img src="derek_nutmeg_high_filtered.png" alt="Derek, high-pass filtered"></div>
         <div class="result-meta">B, high-pass filtered</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_hybrid.png" alt="Derek and Nutmeg hybrid"></div>
+        <div class="img-box"><img src="derek_nutmeg_hybrid.png" alt="Derek and Nutmeg hybrid"></div>
         <div class="result-meta">Hybrid result</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/derek_nutmeg_fft_hybrid.png" alt="FFT of hybrid"></div>
+        <div class="img-box"><img src="derek_nutmeg_fft_hybrid.png" alt="FFT of hybrid"></div>
         <div class="result-meta">FFT of hybrid</div>
       </div>
     </div>
@@ -580,29 +580,29 @@ def high_pass(img, sigma):
     <h3 style="margin: 30px 0 14px;">Two more hybrid images</h3>
     <div class="results-grid" style="margin-bottom: 14px;">
       <div class="result-card">
-        <div class="img-box"><img src="results/big_tiger.jpeg" alt="Tiger, input"></div>
-        <div class="result-meta">Input A — Tiger</div>
+        <div class="img-box"><img src="brother.jpeg" alt="Tiger, input"></div>
+        <div class="result-meta">Input A — My Brother</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/small_cat.png" alt="Cat, input"></div>
+        <div class="img-box"><img src="small_cat.png" alt="Cat, input"></div>
         <div class="result-meta">Input B — Cat</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/tiger_cat_hybrid.png" alt="Tiger and cat hybrid"></div>
+        <div class="img-box"><img src="tiger_cat_hybrid.png" alt="Tiger and cat hybrid"></div>
         <div class="result-meta">Hybrid #2</div>
       </div>
     </div>
     <div class="results-grid">
       <div class="result-card">
-        <div class="img-box"><img src="results/monalisa.jpg" alt="Mona Lisa, input"></div>
+        <div class="img-box"><img src="monalisa.jpg" alt="Mona Lisa, input"></div>
         <div class="result-meta">Input A — Mona Lisa</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/mrbean.jpeg" alt="Mr Bean, input"></div>
+        <div class="img-box"><img src="mrbean.jpeg" alt="Mr Bean, input"></div>
         <div class="result-meta">Input B — Mr. Bean</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/monalisa_mrbean_hybrid.png" alt="Mona Lisa and Mr Bean hybrid"></div>
+        <div class="img-box"><img src="monalisa_mrbean_hybrid.png" alt="Mona Lisa and Mr Bean hybrid"></div>
         <div class="result-meta">Hybrid #3</div>
       </div>
     </div>
@@ -631,42 +631,42 @@ def high_pass(img, sigma):
 
     <h3 style="margin-bottom:14px;">The stacks themselves — apple (Gaussian)</h3>
     <div class="results-grid cols-6" style="margin-bottom: 14px;">
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level0.png" alt="Apple Gaussian level 0"></div><div class="result-meta">Level 0</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level1.png" alt="Apple Gaussian level 1"></div><div class="result-meta">Level 1</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level2.png" alt="Apple Gaussian level 2"></div><div class="result-meta">Level 2</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level3.png" alt="Apple Gaussian level 3"></div><div class="result-meta">Level 3</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level4.png" alt="Apple Gaussian level 4"></div><div class="result-meta">Level 4</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_gaussian_level5.png" alt="Apple Gaussian level 5"></div><div class="result-meta">Level 5</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level0.png" alt="Apple Gaussian level 0"></div><div class="result-meta">Level 0</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level1.png" alt="Apple Gaussian level 1"></div><div class="result-meta">Level 1</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level2.png" alt="Apple Gaussian level 2"></div><div class="result-meta">Level 2</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level3.png" alt="Apple Gaussian level 3"></div><div class="result-meta">Level 3</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level4.png" alt="Apple Gaussian level 4"></div><div class="result-meta">Level 4</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_gaussian_level5.png" alt="Apple Gaussian level 5"></div><div class="result-meta">Level 5</div></div>
     </div>
 
     <h3 style="margin-bottom:14px;">apple (Laplacian)</h3>
     <div class="results-grid cols-6" style="margin-bottom: 14px;">
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level0.png" alt="Apple Laplacian level 0"></div><div class="result-meta">Level 0</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level1.png" alt="Apple Laplacian level 1"></div><div class="result-meta">Level 1</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level2.png" alt="Apple Laplacian level 2"></div><div class="result-meta">Level 2</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level3.png" alt="Apple Laplacian level 3"></div><div class="result-meta">Level 3</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level4.png" alt="Apple Laplacian level 4"></div><div class="result-meta">Level 4</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/apple_laplacian_level5.png" alt="Apple Laplacian level 5 (residual)"></div><div class="result-meta">Level 5 (residual)</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level0.png" alt="Apple Laplacian level 0"></div><div class="result-meta">Level 0</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level1.png" alt="Apple Laplacian level 1"></div><div class="result-meta">Level 1</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level2.png" alt="Apple Laplacian level 2"></div><div class="result-meta">Level 2</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level3.png" alt="Apple Laplacian level 3"></div><div class="result-meta">Level 3</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level4.png" alt="Apple Laplacian level 4"></div><div class="result-meta">Level 4</div></div>
+      <div class="result-card"><div class="img-box"><img src="apple_laplacian_level5.png" alt="Apple Laplacian level 5 (residual)"></div><div class="result-meta">Level 5 (residual)</div></div>
     </div>
 
     <h3 style="margin-bottom:14px;">orange (Gaussian)</h3>
     <div class="results-grid cols-6" style="margin-bottom: 14px;">
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level0.png" alt="Orange Gaussian level 0"></div><div class="result-meta">Level 0</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level1.png" alt="Orange Gaussian level 1"></div><div class="result-meta">Level 1</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level2.png" alt="Orange Gaussian level 2"></div><div class="result-meta">Level 2</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level3.png" alt="Orange Gaussian level 3"></div><div class="result-meta">Level 3</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level4.png" alt="Orange Gaussian level 4"></div><div class="result-meta">Level 4</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_gaussian_level5.png" alt="Orange Gaussian level 5"></div><div class="result-meta">Level 5</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level0.png" alt="Orange Gaussian level 0"></div><div class="result-meta">Level 0</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level1.png" alt="Orange Gaussian level 1"></div><div class="result-meta">Level 1</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level2.png" alt="Orange Gaussian level 2"></div><div class="result-meta">Level 2</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level3.png" alt="Orange Gaussian level 3"></div><div class="result-meta">Level 3</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level4.png" alt="Orange Gaussian level 4"></div><div class="result-meta">Level 4</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_gaussian_level5.png" alt="Orange Gaussian level 5"></div><div class="result-meta">Level 5</div></div>
     </div>
 
     <h3 style="margin-bottom:14px;">orange (Laplacian)</h3>
     <div class="results-grid cols-6" style="margin-bottom: 14px;">
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level0.png" alt="Orange Laplacian level 0"></div><div class="result-meta">Level 0</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level1.png" alt="Orange Laplacian level 1"></div><div class="result-meta">Level 1</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level2.png" alt="Orange Laplacian level 2"></div><div class="result-meta">Level 2</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level3.png" alt="Orange Laplacian level 3"></div><div class="result-meta">Level 3</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level4.png" alt="Orange Laplacian level 4"></div><div class="result-meta">Level 4</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/orange_laplacian_level5.png" alt="Orange Laplacian level 5 (residual)"></div><div class="result-meta">Level 5 (residual)</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level0.png" alt="Orange Laplacian level 0"></div><div class="result-meta">Level 0</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level1.png" alt="Orange Laplacian level 1"></div><div class="result-meta">Level 1</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level2.png" alt="Orange Laplacian level 2"></div><div class="result-meta">Level 2</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level3.png" alt="Orange Laplacian level 3"></div><div class="result-meta">Level 3</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level4.png" alt="Orange Laplacian level 4"></div><div class="result-meta">Level 4</div></div>
+      <div class="result-card"><div class="img-box"><img src="orange_laplacian_level5.png" alt="Orange Laplacian level 5 (residual)"></div><div class="result-meta">Level 5 (residual)</div></div>
     </div>
 
     <div class="writeup">
@@ -698,18 +698,18 @@ def laplacian_stack(g_stack):
     <h3 style="margin: 30px 0 14px;">Recreating Figure 3.42</h3>
     <p class="section-desc">Rows 1–3: High/Medium/Low frequency bands (Laplacian levels 0, 2, 4), each showing [apple × mask], [orange × (1−mask)], and their sum. Row 4: full reconstructions.</p>
     <div class="results-grid cols-4">
-      <div class="result-card"><div class="img-box"><img src="results/fig342_a.png" alt="Figure 3.42 (a)"></div><div class="result-meta">(a)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_b.png" alt="Figure 3.42 (b)"></div><div class="result-meta">(b)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_c.png" alt="Figure 3.42 (c)"></div><div class="result-meta">(c)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_d.png" alt="Figure 3.42 (d)"></div><div class="result-meta">(d)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_e.png" alt="Figure 3.42 (e)"></div><div class="result-meta">(e)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_f.png" alt="Figure 3.42 (f)"></div><div class="result-meta">(f)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_g.png" alt="Figure 3.42 (g)"></div><div class="result-meta">(g)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_h.png" alt="Figure 3.42 (h)"></div><div class="result-meta">(h)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_i.png" alt="Figure 3.42 (i)"></div><div class="result-meta">(i)</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_j.png" alt="Figure 3.42 (j)"></div><div class="result-meta">(j) — apple, reconstructed</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_k.png" alt="Figure 3.42 (k)"></div><div class="result-meta">(k) — orange, reconstructed</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_l.png" alt="Figure 3.42 (l)"></div><div class="result-meta">(l) — final oraple</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_a.png" alt="Figure 3.42 (a)"></div><div class="result-meta">(a)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_b.png" alt="Figure 3.42 (b)"></div><div class="result-meta">(b)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_c.png" alt="Figure 3.42 (c)"></div><div class="result-meta">(c)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_d.png" alt="Figure 3.42 (d)"></div><div class="result-meta">(d)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_e.png" alt="Figure 3.42 (e)"></div><div class="result-meta">(e)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_f.png" alt="Figure 3.42 (f)"></div><div class="result-meta">(f)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_g.png" alt="Figure 3.42 (g)"></div><div class="result-meta">(g)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_h.png" alt="Figure 3.42 (h)"></div><div class="result-meta">(h)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_i.png" alt="Figure 3.42 (i)"></div><div class="result-meta">(i)</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_j.png" alt="Figure 3.42 (j)"></div><div class="result-meta">(j) — apple, reconstructed</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_k.png" alt="Figure 3.42 (k)"></div><div class="result-meta">(k) — orange, reconstructed</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_l.png" alt="Figure 3.42 (l)"></div><div class="result-meta">(l) — final oraple</div></div>
     </div>
   </section>
 
@@ -720,15 +720,15 @@ def laplacian_stack(g_stack):
     <h3 style="margin-bottom:14px;">Oraple — straight seam</h3>
     <div class="pair-row cols-3" style="margin-bottom: 30px;">
       <figure>
-        <div class="img-box"><img src="results/apple.jpg" alt="Apple"></div>
+        <div class="img-box"><img src="apple.jpg" alt="Apple"></div>
         <figcaption>Apple</figcaption>
       </figure>
       <figure>
-        <div class="img-box"><img src="results/orange.jpg" alt="Orange"></div>
+        <div class="img-box"><img src="orange.jpg" alt="Orange"></div>
         <figcaption>Orange</figcaption>
       </figure>
       <figure>
-        <div class="img-box"><img src="results/fig342_l.png" alt="Oraple, blended"></div>
+        <div class="img-box"><img src="fig342_l.png" alt="Oraple, blended"></div>
         <figcaption>Blended (oraple)</figcaption>
       </figure>
     </div>
@@ -736,37 +736,37 @@ def laplacian_stack(g_stack):
     <h3 style="margin-bottom:14px;">Two custom blends</h3>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
       <div class="result-card">
-        <div class="img-box"><img src="results/winter_resized.png" alt="Winter, input"></div>
+        <div class="img-box"><img src="winter_resized.png" alt="Winter, input"></div>
         <div class="result-meta">A — Winter</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/karina_resized.png" alt="Karina, input"></div>
+        <div class="img-box"><img src="karina_resized.png" alt="Karina, input"></div>
         <div class="result-meta">B — Karina</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/winter_karina_mask.png" alt="Straight seam mask"></div>
+        <div class="img-box"><img src="winter_karina_mask.png" alt="Straight seam mask"></div>
         <div class="result-meta">Mask (straight seam)</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/winter_karina_blend.png" alt="Winter and Karina, blended"></div>
+        <div class="img-box"><img src="winter_karina_blend.png" alt="Winter and Karina, blended"></div>
         <div class="result-meta">Blend #1</div>
       </div>
     </div>
     <div class="results-grid cols-4">
       <div class="result-card">
-        <div class="img-box"><img src="results/campanile_resized.png" alt="Campanile, input"></div>
+        <div class="img-box"><img src="campanile_resized.png" alt="Campanile, input"></div>
         <div class="result-meta">A — Campanile</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/stars.jpg" alt="Stars, input"></div>
+        <div class="img-box"><img src="stars.jpg" alt="Stars, input"></div>
         <div class="result-meta">B — Stars</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/campanile_sky_mask.png" alt="Detected sky mask"></div>
+        <div class="img-box"><img src="campanile_sky_mask.png" alt="Detected sky mask"></div>
         <div class="result-meta">Mask (irregular, sky-detected)</div>
       </div>
       <div class="result-card">
-        <div class="img-box"><img src="results/campanile_stars_blend.png" alt="Campanile with starry sky"></div>
+        <div class="img-box"><img src="campanile_stars_blend.png" alt="Campanile with starry sky"></div>
         <div class="result-meta">Blend #2</div>
       </div>
     </div>
@@ -797,10 +797,10 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
     <h3 style="margin: 30px 0 14px;">Process visualization — favorite result (campanile + stars)</h3>
     <p class="section-desc">Laplacian stack levels of the masked input images (similar to Figure 10 in the paper).</p>
     <div class="results-grid cols-4">
-      <div class="result-card"><div class="img-box"><img src="results/fig342_a.png" alt="Laplacian level, high freq"></div><div class="result-meta">High freq. band</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_d.png" alt="Laplacian level, mid freq"></div><div class="result-meta">Medium freq. band</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_g.png" alt="Laplacian level, low freq"></div><div class="result-meta">Low freq. band</div></div>
-      <div class="result-card"><div class="img-box"><img src="results/fig342_l.png" alt="Final blended result"></div><div class="result-meta">Final blend</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_a.png" alt="Laplacian level, high freq"></div><div class="result-meta">High freq. band</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_d.png" alt="Laplacian level, mid freq"></div><div class="result-meta">Medium freq. band</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_g.png" alt="Laplacian level, low freq"></div><div class="result-meta">Low freq. band</div></div>
+      <div class="result-card"><div class="img-box"><img src="fig342_l.png" alt="Final blended result"></div><div class="result-meta">Final blend</div></div>
     </div>
 
     <div class="writeup">
@@ -840,11 +840,11 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
         </p>
         <div class="pair-row" style="margin-top:16px;">
           <figure>
-            <div class="img-box"><img src="results/bw_color_baseline.png" alt="Baseline RGB blend"></div>
+            <div class="img-box"><img src="bw_color_baseline.png" alt="Baseline RGB blend"></div>
             <figcaption>Baseline — RGB channels blended independently</figcaption>
           </figure>
           <figure>
-            <div class="img-box"><img src="results/bw_color_ycc.png" alt="YCrCb split blend"></div>
+            <div class="img-box"><img src="bw_color_ycc.png" alt="YCrCb split blend"></div>
             <figcaption>Y/CrCb split (chroma sigma = 12)</figcaption>
           </figure>
         </div>
