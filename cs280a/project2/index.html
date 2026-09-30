@@ -420,25 +420,15 @@ def high_pass(img, sigma):
       <div class="writeup">
         <h4>Which works better?</h4>
         <p>
-          I actually generated all three variants rather than just reasoning about it.
-          <strong>Color in low-freq only</strong> and <strong>color in both</strong> turned
-          out nearly indistinguishable, forcing the high-frequency source to grayscale
-          before extracting its high-pass barely changed the result at all.
-          <strong>Color in high-freq only</strong> (low source forced to grayscale), by
-          contrast, came out almost entirely desaturated.
-        </p>
-        <p style="margin-top:10px;">
-          This makes sense once you think about where color actually lives in a natural
-          photo: color tends to vary slowly across a face or background,
-          it's inherently a <em>low-frequency</em> signal. Fine detail, edges, texture,
-          is mostly a matter of local brightness changing, not local color changing. So
-          there's very little chrominance information in the high-frequency band to begin
-          with; converting it to grayscale before extracting high frequencies throws away
-          almost nothing. Removing color from the low-frequency band, on the other hand,
-          removes most of the color information in the whole image. The practical
-          takeaway is the same as the common intuition, keep color in the low-frequency
-          source, but the reason isn't that high-frequency color looks "noisy"; it's that
-          there's barely any color there to add in the first place.
+          Turns out "color in low only" and "color in both" look basically the same,
+          "Color in high only" was the surprising one: it came out almost completely black and white.
+          Once I thought about it more, it made sense though. 
+          Color in a real photo doesn't change that fast, skin is skin-colored over a big area, the background is one color over a big area. 
+          That's a low-frequency thing. The high-frequency stuff (edges, little details) is really just brightness changing, not color changing. 
+          So there was barely any color in the high-frequency layer to lose in the first place, converting it to grayscale basically changed nothing. 
+          But doing the same thing to the low-frequency layer wiped out almost all the color in the whole image, since that's where it was actually living. 
+          So color goes in the low-frequency source, but not because putting it in the high-frequency one looks "noisy" like I originally assumed. 
+          It's more that there's just nothing there to put.
         </p>
       </div>
     </div>
