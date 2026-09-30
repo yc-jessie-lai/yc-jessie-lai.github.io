@@ -172,23 +172,27 @@
       </div>
       <div class="result-card">
         <div class="img-box"><img src="cam_edges_t0.2.png" alt="Edges, threshold 0.2"></div>
-        <div class="result-meta">threshold = 0.2 (chosen)</div>
+        <div class="result-meta">threshold = 0.2</div>
       </div>
       <div class="result-card">
         <div class="img-box"><img src="cam_edges_t0.3.png" alt="Edges, threshold 0.3"></div>
-        <div class="result-meta">threshold = 0.3</div>
+        <div class="result-meta">threshold = 0.3 (chosen)</div>
+      </div>
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.4.png" alt="Edges, threshold 0.4"></div>
+        <div class="result-meta">threshold = 0.4</div>
       </div>
     </div>
     <div class="writeup">
       <h4>Threshold justification</h4>
       <p>
-        I tested thresholds of 0.05, 0.1, 0.15, 0.2, and 0.3 against the gradient
+        I tested thresholds of 0.05, 0.1, 0.15, 0.2, 0.3, and 0.4 against the gradient
         magnitude image. At 0.05, flat regions like the sky and grass were full of
         speckled noise. At 0.15, the silhouette was clean but the grass still
-        showed noticeable noise. At 0.3, the result was very clean but started
+        showed noticeable noise. At 0.4, the result was very clean but started
         losing real detail, like parts of the distant city skyline breaking up.
-        I settled on <strong>threshold = 0.2</strong> as the best balance, at which
-        exactly <strong>8.0%</strong> of pixels are classified as edges — the person,
+        I settled on <strong>threshold = 0.3</strong> as the best balance, at which
+        exactly <strong>5.3%</strong> of pixels are classified as edges, the person,
         camera, and tripod outlines stay intact while background noise is
         substantially suppressed.
       </p>
@@ -209,7 +213,7 @@
     <div class="writeup">
       <h4>What differences do you see?</h4>
       <p>
-        After Gaussian blurring, the edge map is noticeably cleaner — background
+        After Gaussian blurring, the edge map is noticeably cleaner, background
         texture in the grass and sky that showed up as speckled noise in the
         unblurred version (Part 1.2) is largely suppressed. The trade-off is that
         some fine detail is lost too, like small buttons and dials on the camera
@@ -226,9 +230,7 @@
         the combined kernel.
       </p>
       <div class="code-label">Building the combined kernel — key detail</div>
-      <pre><code># dog_x/dog_y must be built with mode="full", NOT "same" — Dx/Dy extend
-# beyond the gaussian's own window, and "same" would truncate that
-# extra support, making this disagree with the two-step version.
+      <pre><code>
 dog_x = convolve2d(gaussian, Dx, mode="full")
 dog_y = convolve2d(gaussian, Dy, mode="full")
 
@@ -245,17 +247,16 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
       <div class="writeup">
         <h4>Approach</h4>
         <p>
-          Since <code>np.arctan2</code> isn't allowed, I computed the angle with
+          I computed the angle with
           plain <code>np.arctan(gy/gx)</code> — which only covers a 180° range —
           and manually added the quadrant corrections that <code>arctan2</code>
           normally handles internally (adding/subtracting π depending on the
           signs of gx and gy, plus special-casing gx == 0). For the HSV mapping:
           Hue encodes direction (angle remapped from [-π, π] to [0, 1]),
-          Saturation is fixed at 1, and Value is the normalized gradient magnitude
-          — so flat, edge-free regions fade to black regardless of what direction
+          Saturation is fixed at 1, and Value is the normalized gradient magnitude, so flat, edge-free regions fade to black regardless of what direction
           they'd nominally point in.
         </p>
-        <div class="code-label">Manual quadrant-aware angle (no arctan2)</div>
+        <div class="code-label">Manual quadrant-aware angle</div>
         <pre><code>def gradient_orientation(gx, gy):
     with np.errstate(divide="ignore", invalid="ignore"):
         base = np.arctan(np.where(gx != 0, gy / gx, 0))
@@ -277,11 +278,17 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
     <div class="section-head"><span class="section-num">2.1</span><h2>Image "Sharpening"</h2></div>
     <p class="section-desc">Deriving and applying the unsharp mask filter on the Taj Mahal image and an image of your choice.</p>
 
-    <div class="results-grid cols-4">
+    <div class="results-grid">
       <div class="result-card"><div class="img-box"><img src="taj_original_for_compare.png" alt="Taj Mahal, original"></div><div class="result-meta">Original</div></div>
       <div class="result-card"><div class="img-box"><img src="taj_blurred.png" alt="Taj Mahal, blurred"></div><div class="result-meta">Blurred</div></div>
       <div class="result-card"><div class="img-box"><img src="taj_highfreq.png" alt="Taj Mahal, high frequencies"></div><div class="result-meta">High frequencies</div></div>
+    </div>
+
+    <div class="results-grid cols-4">
+      <div class="result-card"><div class="img-box"><img src="taj_sharpened_a0.5.png" alt="Taj Mahal, sharpened"></div><div class="result-meta">Sharpened (α = 0.5)</div></div>
       <div class="result-card"><div class="img-box"><img src="taj_sharpened_a1.0.png" alt="Taj Mahal, sharpened"></div><div class="result-meta">Sharpened (α = 1.0)</div></div>
+      <div class="result-card"><div class="img-box"><img src="taj_sharpened_a1.5.png" alt="Taj Mahal, sharpened"></div><div class="result-meta">Sharpened (α = 1.5)</div></div>
+      <div class="result-card"><div class="img-box"><img src="taj_sharpened_a2.5.png" alt="Taj Mahal, sharpened"></div><div class="result-meta">Sharpened (α = 2.5)</div></div>
     </div>
 
     <p class="section-desc" style="margin-top: 6px;">Same pipeline on an image of my choice (Yosemite), with a couple of different sharpening amounts (α):</p>
