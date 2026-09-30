@@ -95,9 +95,7 @@
     <h1>Project 2: Fun with Filters and Frequencies</h1>
     <div class="due">September 29th, 2026</div>
     <p class="intro">
-      Building intuition for 2D convolution and frequency-domain thinking, from
-      finite-difference edge detection, through image sharpening and hybrid images,
-      to multiresolution blending.
+      2D Convolution and Frequency-Domain Processing: Edge Detection to Multiresolution Blending
     </p>
   </section>
 
@@ -137,7 +135,7 @@
       <p>
         On a 300×400 grayscale image with a 9×9 box filter: the four-loop version
         took <strong>3.153s</strong>, while the vectorized two-loop version took
-        <strong>0.0081s</strong> — actually a touch faster than
+        <strong>0.0081s</strong>, actually a touch faster than
         <code>scipy.signal.convolve2d</code>'s <strong>0.0208s</strong> here. That's
         roughly a <strong>390×</strong> speedup just from replacing the innermost two
         loops with array slicing and broadcasting. The max pixel-wise difference
@@ -158,7 +156,29 @@
       <div class="result-card"><div class="img-box"><img src="cam_magnitude.png" alt="Cameraman, gradient magnitude"></div><div class="result-meta">Gradient magnitude</div></div>
       <div class="result-card"><div class="img-box"><img src="cam_edges.png" alt="Cameraman, binarized edges"></div><div class="result-meta">Binarized edges</div></div>
     </div>
-
+    <h3 style="margin: 30px 0 14px;">Threshold comparison</h3>
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.05.png" alt="Edges, threshold 0.05"></div>
+        <div class="result-meta">threshold = 0.05</div>
+      </div>
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.1.png" alt="Edges, threshold 0.1"></div>
+        <div class="result-meta">threshold = 0.1</div>
+      </div>
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.15.png" alt="Edges, threshold 0.15"></div>
+        <div class="result-meta">threshold = 0.15</div>
+      </div>
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.2.png" alt="Edges, threshold 0.2"></div>
+        <div class="result-meta">threshold = 0.2 (chosen)</div>
+      </div>
+      <div class="result-card">
+        <div class="img-box"><img src="cam_edges_t0.3.png" alt="Edges, threshold 0.3"></div>
+        <div class="result-meta">threshold = 0.3</div>
+      </div>
+    </div>
     <div class="writeup">
       <h4>Threshold justification</h4>
       <p>
