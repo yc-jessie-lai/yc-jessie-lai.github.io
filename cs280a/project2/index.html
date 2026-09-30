@@ -312,12 +312,6 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
         blur kernel), applied with <code>α = 0.5, 1.0, 1.5, 2.5</code> on Taj Mahal
         and <code>α = 1.0, 2.0</code> on Yosemite.
       </p>
-      <h4 style="margin-top:18px;">Effect of α</h4>
-      <p>
-        At α = 1.0 the Taj Mahal looks crisper without obvious artifacts. Pushing α up
-        to 2.5 starts introducing visible halos — bright rims around the dome's edge
-        against the sky, the classic over-sharpening artifact.
-      </p>
       <h4 style="margin-top:18px;">Blur-then-resharpen evaluation</h4>
       <p>
         I deliberately blurred the sharp Taj Mahal image, then tried to resharpen it
@@ -343,7 +337,7 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
       following Oliva, Torralba, and Schyns (SIGGRAPH 2006).
     </p>
 
-    <h3 style="margin-bottom:14px;">Full process — favorite result (Derek + Nutmeg)</h3>
+    <h3 style="margin-bottom:14px;">Full process — Derek + Nutmeg</h3>
     <div class="results-grid cols-4" style="margin-bottom: 14px;">
       <div class="result-card"><div class="img-box"><img src="derek_nutmeg_input_low_aligned.png" alt="Nutmeg, aligned"></div><div class="result-meta">Input A — Nutmeg (aligned, low source)</div></div>
       <div class="result-card"><div class="img-box"><img src="derek_nutmeg_input_high_aligned.png" alt="Derek, aligned"></div><div class="result-meta">Input B — Derek (aligned, high source)</div></div>
@@ -374,7 +368,7 @@ def high_pass(img, sigma):
         each image, which <code>align_images()</code> uses to match center, scale, and
         rotation. The cutoff frequencies (<code>sigma_low</code>, <code>sigma_high</code>)
         are in pixel units, so the same numbers don't transfer between image pairs of
-        different resolutions — I learned this the hard way when my first attempt (same
+        different resolutions, I learned this the hard way when my first attempt (same
         sigma values for all three pairs) left two of the three pairs completely
         dominated by their high-frequency source, because the aligned image
         resolutions differed by up to <strong>7×</strong> between pairs.
@@ -382,7 +376,7 @@ def high_pass(img, sigma):
       <p style="margin-top:10px;">
         Starting heuristic: <code>sigma_low ≈ aligned_width / 25</code>,
         <code>sigma_high ≈ aligned_width / 100</code>, then adjusted from there by
-        checking the low-pass and high-pass images individually — the low-pass result
+        checking the low-pass and high-pass images individually, the low-pass result
         should still look like a soft, recognizable shape (not a flat color blob), and
         the high-pass result should be mostly flat gray with only genuine edges
         standing out (not full facial shading). Actual values used:
@@ -415,8 +409,7 @@ def high_pass(img, sigma):
           Color works best kept in the <strong>low-frequency</strong> source. Since the
           low-frequency component is what dominates perception from a distance, keeping
           its natural color makes the "far away" impression read as a normal photograph.
-          Adding color to the high-frequency component tends to look noisy up close —
-          fine edges don't carry much color information in real photos anyway, so
+          Adding color to the high-frequency component tends to look noisy up close, fine edges don't carry much color information in real photos anyway, so
           colorizing them mostly just adds chromatic speckle without helping the illusion.
           Color in both works reasonably but doesn't improve on low-only, since the
           high-frequency color contribution is essentially redundant.
@@ -472,7 +465,6 @@ def high_pass(img, sigma):
     <div class="writeup">
       <h4>Code</h4>
       <pre><code>def gaussian_stack(image, levels, sigma=2):
-    # No downsampling — each level is the same size, just more blurred
     stack = [image.astype(np.float64)]
     for i in range(1, levels):
         blurred = gaussian_filter(image, sigma=sigma * i)  # per-channel
@@ -520,7 +512,7 @@ def laplacian_stack(g_stack):
 
   <section id="part2-4">
     <div class="section-head"><span class="section-num">2.4</span><h2>Multiresolution Blending (the Oraple!)</h2></div>
-    <p class="section-desc">Blending with a mask-based Gaussian/Laplacian stack approach — a straight-seam oraple, plus two custom blends.</p>
+    <p class="section-desc">Blending with a mask-based Gaussian/Laplacian stack approach: a straight-seam oraple, plus two custom blends.</p>
 
     <h3 style="margin-bottom:14px;">Oraple — straight seam</h3>
     <div class="pair-row cols-3" style="margin-bottom: 30px;">
@@ -559,7 +551,7 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
       <p>
         My first attempt used much looser thresholds (<code>[90,40,80]</code> to
         <code>[140,255,255]</code>) and mistakenly classified the tower's shadowed
-        (backlit) side as sky — it reflects ambient blue skylight, so its <em>hue</em>
+        (backlit) side as sky. It reflects ambient blue skylight, so its <em>hue</em>
         is nearly identical to real sky. Sampling both regions directly showed the
         real distinguishing factor:
       </p>
@@ -570,13 +562,13 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
       </table>
       <p style="margin-top:10px;">
         Hue is nearly identical between the two, but saturation and value differ
-        sharply — so raising the lower bounds to <code>S ≥ 90, V ≥ 140</code> fixed
+        sharply, so raising the lower bounds to <code>S ≥ 90, V ≥ 140</code> fixed
         the mask completely, without touching the hue range.
       </p>
     </div>
 
     <h3 style="margin: 30px 0 14px;">Process visualization — favorite result (campanile + stars)</h3>
-    <p class="section-desc">Laplacian stack levels of the masked input images (similar to Figure 10 in the paper).</p>
+    <p class="section-desc">Laplacian stack levels of the masked input images.</p>
     <div class="results-grid cols-4">
       <div class="result-card"><div class="img-box"><img src="fig342_a.png" alt="Laplacian level, high freq"></div><div class="result-meta">High freq. band</div></div>
       <div class="result-card"><div class="img-box"><img src="fig342_d.png" alt="Laplacian level, mid freq"></div><div class="result-meta">Medium freq. band</div></div>
@@ -587,7 +579,7 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
     <div class="writeup">
       <h4>Why a mask, not the paper's page-226 approach</h4>
       <p>
-        Since we're using stacks (no downsampling), there's no downsample/blur/upsample
+        Since we're using stacks, there's no downsample/blur/upsample
         cycle to naturally soften a hard seam the way a pyramid does. Directly summing
         two Laplacian stacks split at a hard line would leave a razor-sharp
         discontinuity at every frequency band. Using a mask — itself blurred through
@@ -606,14 +598,14 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
         <h4>Approach</h4>
         <p>
           The idea: human vision is far more sensitive to luminance (structure) than to
-          chrominance (color), so I split the blend in YCrCb space — Y (luminance)
+          chrominance (color), so I split the blend in YCrCb space: Y (luminance)
           through the normal full multiresolution stack to keep structure sharp, Cr/Cb
           (color) through a single, separately-tuned Gaussian blur, since color doesn't
           need sharp detail, just a smooth transition.
         </p>
         <p style="margin-top:10px;">
           First tested on winter+karina, but their skin tones are already similar, so
-          the difference was nearly invisible either way — not a useful test case.
+          the difference was nearly invisible either way, not a useful test case.
           Switched to campanile+stars, whose day/night palettes differ dramatically.
           My first attempt used a chrominance blur <code>sigma=50</code> — wider than
           the baseline's cumulative blur (<code>sigma × levels = 4 × 6 = 24</code>) —
@@ -622,8 +614,7 @@ sky_mask = cv2.inRange(hsv, lower_blue, upper_blue)</code></pre>
           chrominance sigma to <strong>12</strong> (below the baseline's 24) fixed
           this, giving a smoother color transition without the extra bleed. Comparing
           the final baseline vs. split-treatment images: mean absolute difference
-          <strong>0.578</strong> (0–255 scale), max difference <strong>99</strong> —
-          a real, reproducible effect (consistent across repeated runs), concentrated
+          <strong>0.578</strong> (0–255 scale), max difference <strong>99</strong>. This is a real, reproducible effect (consistent across repeated runs), concentrated
           at the tower/sky boundary rather than spread evenly across the image.
         </p>
         <div class="pair-row" style="margin-top:16px;">
@@ -645,7 +636,7 @@ cb_blend = star_Cb*wide_mask + camp_Cb*(1-wide_mask)</code></pre>
     <div class="writeup">
       <h4>The most important thing I learned from this project</h4>
       <p>
-        Parameters like sigma and threshold are never universal — they're relative to
+        Parameters like sigma and threshold are never universal: they're relative to
         the actual pixel scale of the image they're applied to. I ran into this
         repeatedly: the same edge threshold that worked for cameraman didn't transfer
         to a blurred version of it; the same hybrid-image cutoff frequencies produced
