@@ -248,7 +248,7 @@ gy = convolve2d(image, dog_y, mode="same", boundary="fill")</code></pre>
         <h4>Approach</h4>
         <p>
           I computed the angle with
-          plain <code>np.arctan(gy/gx)</code> — which only covers a 180° range —
+          plain <code>np.arctan(gy/gx)</code> 
           and manually added the quadrant corrections that <code>arctan2</code>
           normally handles internally (adding/subtracting π depending on the
           signs of gx and gy, plus special-casing gx == 0). For the HSV mapping:
