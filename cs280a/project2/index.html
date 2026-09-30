@@ -403,16 +403,42 @@ def high_pass(img, sigma):
 
     <div class="bw-box">
       <h3>Color in Hybrid Images </h3>
-      <div class="writeup" style="margin-top:16px;">
+      <div class="results-grid" style="margin-top:16px; margin-bottom: 14px;">
+        <div class="result-card">
+          <div class="img-box"><img src="hybrid_color_low_only.png" alt="Color kept in low-frequency source only"></div>
+          <div class="result-meta">Color in low freq. only</div>
+        </div>
+        <div class="result-card">
+          <div class="img-box"><img src="hybrid_color_high_only.png" alt="Color kept in high-frequency source only"></div>
+          <div class="result-meta">Color in high freq. only</div>
+        </div>
+        <div class="result-card">
+          <div class="img-box"><img src="hybrid_color_both.png" alt="Color kept in both sources"></div>
+          <div class="result-meta">Color in both</div>
+        </div>
+      </div>
+      <div class="writeup">
         <h4>Which works better?</h4>
         <p>
-          Color works best kept in the <strong>low-frequency</strong> source. Since the
-          low-frequency component is what dominates perception from a distance, keeping
-          its natural color makes the "far away" impression read as a normal photograph.
-          Adding color to the high-frequency component tends to look noisy up close, fine edges don't carry much color information in real photos anyway, so
-          colorizing them mostly just adds chromatic speckle without helping the illusion.
-          Color in both works reasonably but doesn't improve on low-only, since the
-          high-frequency color contribution is essentially redundant.
+          I actually generated all three variants rather than just reasoning about it.
+          <strong>Color in low-freq only</strong> and <strong>color in both</strong> turned
+          out nearly indistinguishable, forcing the high-frequency source to grayscale
+          before extracting its high-pass barely changed the result at all.
+          <strong>Color in high-freq only</strong> (low source forced to grayscale), by
+          contrast, came out almost entirely desaturated.
+        </p>
+        <p style="margin-top:10px;">
+          This makes sense once you think about where color actually lives in a natural
+          photo: color tends to vary slowly across a face or background,
+          it's inherently a <em>low-frequency</em> signal. Fine detail, edges, texture,
+          is mostly a matter of local brightness changing, not local color changing. So
+          there's very little chrominance information in the high-frequency band to begin
+          with; converting it to grayscale before extracting high frequencies throws away
+          almost nothing. Removing color from the low-frequency band, on the other hand,
+          removes most of the color information in the whole image. The practical
+          takeaway is the same as the common intuition, keep color in the low-frequency
+          source, but the reason isn't that high-frequency color looks "noisy"; it's that
+          there's barely any color there to add in the first place.
         </p>
       </div>
     </div>
