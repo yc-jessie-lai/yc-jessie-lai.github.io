@@ -10,10 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#e4ece6; --panel:#fbf9f2; --panel2:#efece1; --ink:#1f2620; --dim:#4f5648; --faint:#857e64;
-  --line:#d3caaf; --line-soft:#ddd5bf; --accent:#cc5324; --teal:#2f7d6c; --blue:#3a6ea5;
+  --bg:#fbfbf8; --panel:#ffffff; --panel2:#f1f0ea; --ink:#1f2620; --dim:#4f5648; --faint:#857e64;
+  --line:#d3caaf; --line-soft:#e3ddcc; --accent:#cc5324; --teal:#2f7d6c; --blue:#3a6ea5;
   --green:#5f8f4a; --sand:#d2b47a; --water:#4f8fc0; --neutral:#f3efe4; --violet:#7a5fb0;
-  --contour:rgba(125,113,80,.36); --contour-major:rgba(204,83,36,.5);
+  --contour:rgba(125,113,80,.32); --contour-major:rgba(204,83,36,.45);
   --max:1100px;
   --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --display:'Space Grotesk','Inter',system-ui,sans-serif;
@@ -73,6 +73,12 @@ a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 .hero-inner a{pointer-events:auto}
 .kicker{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--teal);font-weight:500;margin-bottom:22px}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.6vw,54px);line-height:1.08;letter-spacing:-.02em}
+/* photo next to the name: put your picture at assets/photo.jpg (a square crop works best) */
+.hero-id{display:flex;align-items:center;gap:24px}
+.avatar{position:relative;flex:none;width:116px;height:116px;border-radius:50%;overflow:hidden;background:var(--panel2);
+  border:3px solid var(--panel);box-shadow:0 0 0 1.5px var(--accent),0 6px 18px -8px rgba(31,38,32,.35);display:grid;place-items:center}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.avatar span{font:600 28px var(--display);color:var(--faint);letter-spacing:.02em}
 .rot{display:inline-block;min-width:1ch;position:relative}
 .rot::after{content:"";display:inline-block;width:.07em;height:.82em;background:var(--accent);margin-left:.06em;vertical-align:-.06em;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -214,6 +220,9 @@ footer p{color:var(--dim)}
   .hero-inner{padding-top:120px}
   section{padding:64px 0}
   .entry{padding-left:26px}
+  .hero-id{gap:14px}
+  .avatar{width:80px;height:80px}
+  .avatar span{font-size:20px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -235,7 +244,7 @@ footer p{color:var(--dim)}
     </div>
     <div class="nav-right">
       <div class="nav-links">
-        <a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+        <a href="#education">Education</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
       </div>
       <button class="theme-btn" id="themeBtn" type="button">Night map</button>
     </div>
@@ -248,7 +257,13 @@ footer p{color:var(--dim)}
   <div class="bm-layer" id="bmLayer"></div>
   <div class="hero-inner">
     <div class="kicker"><span class="disc"></span>Geomatics &amp; Systems Engineering, UC Berkeley</div>
-    <h1>Yu-Ching Lai<br><span class="rot" id="rot">maps</span> the world.</h1>
+    <div class="hero-id">
+      <figure class="avatar">
+        <span aria-hidden="true">YL</span>
+        <img src="assets/photo.jpg" alt="Yu-Ching Lai" onerror="this.remove()">
+      </figure>
+      <h1>Yu-Ching Lai<br><span class="rot" id="rot">maps</span> the world.</h1>
+    </div>
     <p class="tagline">
       My background spans geospatial technology, sensing, and data-driven engineering, with a curiosity for exploring new technologies and solving real-world problems.
     </p>
@@ -261,6 +276,41 @@ footer p{color:var(--dim)}
 </header>
 
 <main>
+<!-- ================= EDUCATION ================= -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head"><h2>Education</h2></div>
+    <div class="tl">
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">University of California, Berkeley</div>
+            <div class="entry-org">M.S. Systems Engineering, Civil &amp; Environmental Engineering</div>
+          </div>
+          <div class="date">Aug 2025 – Dec 2026 (expected)</div>
+        </div>
+        <details>
+          <summary>Courses</summary>
+          <p>Computer Vision; Analysis and Design of Databases; Data Modeling, Statistics, and System Simulation; Data Science for Energy; Human Mobility and Network Science; Systems Analysis in Transportation; Infrastructure Sensing and Modeling; Civil Systems: Control and Management.</p>
+        </details>
+      </article>
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">National Cheng Kung University (NCKU)</div>
+            <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
+          </div>
+          <div class="date">Sep 2021 – Jun 2025</div>
+        </div>
+        <details>
+          <summary>Courses</summary>
+          <p>Remote Sensing; Applied GIS and Spatial Analysis; Photogrammetry; Satellite Positioning; Surveying; Cartography; Smart Cities; Data Structure; Machine Learning.</p>
+        </details>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ================= EXPERIENCE ================= -->
 <section id="experience">
   <div class="wrap">
@@ -584,41 +634,6 @@ footer p{color:var(--dim)}
         <div class="stats" id="rfStats"></div>
       </div>
     </article>
-  </div>
-</section>
-
-<!-- ================= EDUCATION ================= -->
-<section id="education">
-  <div class="wrap">
-    <div class="sec-head"><h2>Education</h2></div>
-    <div class="tl">
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">University of California, Berkeley</div>
-            <div class="entry-org">M.S. Systems Engineering, Civil &amp; Environmental Engineering · GPA 4.00/4.00</div>
-          </div>
-          <div class="date">Aug 2025 – Dec 2026 (expected)</div>
-        </div>
-        <details>
-          <summary>Courses</summary>
-          <p>Computer Vision; Analysis and Design of Databases; Data Modeling, Statistics, and System Simulation; Data Science for Energy; Human Mobility and Network Science; Systems Analysis in Transportation; Infrastructure Sensing and Modeling; Civil Systems: Control and Management.</p>
-        </details>
-      </article>
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">National Cheng Kung University (NCKU)</div>
-            <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
-          </div>
-          <div class="date">Sep 2021 – Jun 2025</div>
-        </div>
-        <details>
-          <summary>Courses</summary>
-          <p>Remote Sensing; Applied GIS and Spatial Analysis; Photogrammetry; Satellite Positioning; Surveying; Cartography; Smart Cities; Data Structure; Machine Learning.</p>
-        </details>
-      </article>
-    </div>
   </div>
 </section>
 
@@ -1113,6 +1128,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
 /* landslide video: play only while visible */
 (function(){const v=$('#slideVideo');if(!v)return;
   new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RM)v.play().catch(()=>{});else v.pause();}),{threshold:.35}).observe(v);})();
+
 
 /* ================= project filter ================= */
 (function(){const projs=$$('.proj'),note=$('#filterNote');
