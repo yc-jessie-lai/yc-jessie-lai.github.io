@@ -1,7 +1,0 @@
-<section class="block">
-  <h2>{{ page.video.title | default: "Recording" }}</h2>
-  <div class="video-frame">
-    <video data-autoplay src="{{ page.video.src | relative_url }}"{% if page.video.poster %} poster="{{ page.video.poster | relative_url }}"{% endif %} muted loop playsinline controls preload="metadata"></video>
-  </div>
-  {% if page.video.caption %}<p class="caption">{{ page.video.caption }}</p>{% endif %}
-</section>
