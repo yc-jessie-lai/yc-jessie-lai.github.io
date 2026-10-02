@@ -1055,7 +1055,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
       ctx.fillStyle=rgba(C.faint,.18);
       [[.08,.08,.14,.16],[.26,.1,.18,.24],[.62,.08,.3,.12],[.62,.24,.3,.12],[.26,.6,.12,.14],[.4,.6,.12,.14],[.08,.6,.14,.3],[.62,.62,.3,.12],[.62,.78,.3,.14],[.4,.78,.12,.14],[.26,.3,.12,.1],[.4,.3,.12,.1]]
         .forEach(([x,y,ww,hh])=>ctx.fillRect(x*w,y*h,ww*w,hh*h));
-      ctx.font=w<500?'9.5px "IBM Plex Mono",monospace':MONO;ctx.fillStyle=C.faint;ctx.textAlign='center';ctx.fillText('Surveying',.46*w,.37*h);ctx.fillText('Physics',.46*w,.68*h);
+      ctx.font=w<500?'9.5px "IBM Plex Mono",monospace':MONO;ctx.fillStyle=C.faint;ctx.textAlign='center';ctx.fillText('Geomatics',.46*w,.37*h);ctx.fillText('Physics',.46*w,.68*h);
       // roads
       ctx.lineCap='round';[R1,R2].forEach((R,k)=>{ctx.strokeStyle=C.line;ctx.lineWidth=k?18:13;ctx.beginPath();ctx.moveTo(...P(R[0]));ctx.lineTo(...P(R[1]));ctx.stroke();});
       ctx.strokeStyle=C.line;ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(.22*w,.05*h);ctx.lineTo(.22*w,.95*h);ctx.stroke();
