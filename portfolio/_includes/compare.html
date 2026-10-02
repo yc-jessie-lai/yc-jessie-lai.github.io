@@ -1,0 +1,19 @@
+{% assign cmp = page.compare %}
+{% assign d = cmp.default | default: 0 %}
+<section class="block cmp-block" data-compare>
+  <h2>{{ cmp.title | default: "Compare" }}</h2>
+  <p class="caption">Pick a date, then drag across the image to compare.</p>
+  <div class="seg" role="group" aria-label="Image set">
+    {% for s in cmp.sets %}<button type="button" aria-pressed="{% if forloop.index0 == d %}true{% else %}false{% endif %}" data-before="{{ s.before | relative_url }}" data-after="{{ s.after | relative_url }}" data-note="{{ s.note | escape }}">{{ s.label }}</button>{% endfor %}
+  </div>
+  {% assign s0 = cmp.sets[d] %}
+  <div class="cmp">
+    <img class="cmp-before" src="{{ s0.before | relative_url }}" alt="{{ cmp.before_label }}">
+    <img class="cmp-after" src="{{ s0.after | relative_url }}" alt="{{ cmp.after_label }}">
+    <span class="tag l">{{ cmp.before_label }}</span><span class="tag r">{{ cmp.after_label }}</span>
+    <div class="cmp-handle"></div>
+    <input type="range" min="0" max="100" value="50" aria-label="Comparison slider">
+  </div>
+  {% if cmp.legend %}<ul class="swatches">{% for l in cmp.legend %}<li><i style="background:{{ l.color }}"></i>{{ l.label }}</li>{% endfor %}</ul>{% endif %}
+  <p class="cmp-note mono">{{ s0.note }}</p>
+</section>

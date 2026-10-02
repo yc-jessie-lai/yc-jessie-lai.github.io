@@ -1,0 +1,8 @@
+- group: Programming
+  items: Python (OpenCV, NumPy, scikit-learn, TensorFlow, NetworkX, PuLP), C, C++, MATLAB, R, JavaScript (Three.js), SQL
+- group: GIS & remote sensing
+  items: ArcGIS Pro, ArcGIS Online, QGIS, Google Earth Engine, ENVI, SNAP, Agisoft Metashape, Trimble Business Center
+- group: Modeling & other
+  items: NetLogo, Unreal Engine, Docker
+- group: Languages
+  items: Mandarin (native), English (advanced), Korean (basic)

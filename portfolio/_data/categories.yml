@@ -1,0 +1,14 @@
+# Every project belongs to exactly ONE of these categories.
+# id is what you write in a project's "category:" field.
+- id: earth
+  name: Earth observation
+  color: "#2b6a99"
+- id: sensing
+  name: Sensing & 3D data
+  color: "#7b4fa0"
+- id: mobility
+  name: Mobility
+  color: "#c2562a"
+- id: infrastructure
+  name: Infrastructure systems
+  color: "#2f7d55"

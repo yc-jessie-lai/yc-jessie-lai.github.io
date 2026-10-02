@@ -1,0 +1,33 @@
+<div class="demo">
+  <div class="tabs" id="mgTabs" role="group" aria-label="View">
+    <button type="button" data-v="day" aria-pressed="true">A day on campus</button>
+    <button type="button" data-v="solar" aria-pressed="false">What if more solar?</button>
+    <button type="button" data-v="designs" aria-pressed="false">Four designs</button>
+  </div>
+  <p class="demo-cap" id="mgCap"></p>
+  <canvas id="mgCanvas" class="cv" style="height:260px" aria-label="Microgrid results"></canvas>
+  <div class="ctrl" id="mgCtrlDay">
+    <button class="btn" type="button" id="mgPlay">Play the day</button>
+    <label>Hour <input type="range" id="mgHour" min="0" max="23" step="1" value="20"></label>
+  </div>
+  <div class="ctrl" id="mgCtrlSolar" hidden>
+    <span>Solar capacity</span>
+    <div class="seg" id="mgMult" role="group" aria-label="Solar capacity multiplier">
+      <button type="button" data-v="0" aria-pressed="true">1×</button>
+      <button type="button" data-v="1" aria-pressed="false">2×</button>
+      <button type="button" data-v="2" aria-pressed="false">3×</button>
+      <button type="button" data-v="3" aria-pressed="false">5×</button>
+      <button type="button" data-v="4" aria-pressed="false">10×</button>
+    </div>
+  </div>
+  <div class="ctrl" id="mgCtrlDesigns" hidden>
+    <div class="seg" id="mgSeg" role="group" aria-label="Metric">
+      <button type="button" data-v="cost" aria-pressed="true">Weekly cost</button>
+      <button type="button" data-v="co2" aria-pressed="false">CO₂</button>
+      <button type="button" data-v="solar" aria-pressed="false">Solar share</button>
+    </div>
+  </div>
+  <div class="stats" id="mgStats"></div>
+  <p class="src" id="mgNote"></p>
+</div>
+<script src="{{ '/assets/js/demos/microgrid.js' | relative_url }}" defer></script>

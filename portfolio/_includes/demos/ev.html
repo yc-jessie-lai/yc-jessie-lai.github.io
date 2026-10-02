@@ -1,0 +1,10 @@
+<div class="demo">
+  <p class="demo-cap">More chargers, shorter queues. Drag the slider and watch the waiting cars (orange dots beside each charger) clear.</p>
+  <canvas id="evCanvas" class="cv" style="height:230px" aria-label="EV charging simulation"></canvas>
+  <div class="ctrl">
+    <label>Chargers <input type="range" id="evN" min="1" max="8" step="1" value="3"> <b id="evNLabel">3</b></label>
+  </div>
+  <div class="stats" id="evStats"></div>
+  <p class="src">Simplified grid city: 40 cars, 2 plugs per charger. Teal is driving, blue is charging, orange needs a charge.</p>
+</div>
+<script src="{{ '/assets/js/demos/ev.js' | relative_url }}" defer></script>

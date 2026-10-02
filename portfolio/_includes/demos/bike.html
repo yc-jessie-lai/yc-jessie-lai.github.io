@@ -1,0 +1,15 @@
+<div class="demo">
+  <p class="demo-cap">Pick a time of day. Riders move at the measured average speed and weave the way the turning angles showed; orange rings are the DBSCAN hotspots.</p>
+  <canvas id="bikeCanvas" class="cv" style="height:280px" aria-label="Schematic campus with two bike routes"></canvas>
+  <div class="ctrl">
+    <div class="seg" id="bikeSeg" role="group" aria-label="Time of day">
+      <button type="button" data-v="0930" aria-pressed="false">9:30</button>
+      <button type="button" data-v="1200" aria-pressed="true">12:00</button>
+      <button type="button" data-v="1430" aria-pressed="false">14:30</button>
+      <button type="button" data-v="1700" aria-pressed="false">17:00</button>
+    </div>
+  </div>
+  <div class="stats" id="bikeStats"></div>
+  <p class="src">Speeds, angles and hotspots from the project report, drawn on a schematic campus map. Runs about 12× real time.</p>
+</div>
+<script src="{{ '/assets/js/demos/bike.js' | relative_url }}" defer></script>
