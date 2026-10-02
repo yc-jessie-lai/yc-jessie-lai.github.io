@@ -2,499 +2,1128 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Yu-Ching Lai — Geomatics &amp; Systems Engineering</title>
-<meta name="description" content="Yu-Ching Lai — Geomatics and Systems Engineering. Remote sensing, GIS, mobility modeling, and geospatial data science.">
+<meta name="description" content="Yu-Ching Lai — Systems Engineering at UC Berkeley, Geomatics at NCKU. Remote sensing, GIS, fiber-optic sensing, mobility simulation and optimization.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #e2ece7;
-    --bg-panel: #ffffff;
-    --line: #d8cfb8;
-    --line-soft: #e4dcc8;
-    --text: #23291f;
-    --text-dim: #5c6152;
-    --text-faint: #928a6e;
-    --accent: #cc5324;
-    --accent-dim: #a8481f;
-    --teal: #2f7d6c;
-    --max: 880px;
+:root{
+  --bg:#e4ece6; --panel:#fbf9f2; --panel2:#efece1; --ink:#1f2620; --dim:#4f5648; --faint:#857e64;
+  --line:#d3caaf; --line-soft:#ddd5bf; --accent:#cc5324; --teal:#2f7d6c; --blue:#3a6ea5;
+  --green:#5f8f4a; --sand:#d2b47a; --water:#4f8fc0; --neutral:#f3efe4; --violet:#7a5fb0;
+  --contour:rgba(125,113,80,.36); --contour-major:rgba(204,83,36,.5);
+  --max:1100px;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Space Grotesk','Inter',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101814; --panel:#16201b; --panel2:#1c2822; --ink:#e3ebe5; --dim:#a9b4ab; --faint:#7b8573;
+    --line:#2e3d35; --line-soft:#24322b; --accent:#ff7a45; --teal:#5fc3ad; --blue:#6aa0d8;
+    --green:#5f9a4a; --sand:#b39660; --water:#3d7fb5; --neutral:#1f2b25; --violet:#a58ad8;
+    --contour:rgba(95,195,173,.2); --contour-major:rgba(255,122,69,.45); color-scheme:dark;
   }
+}
+:root[data-theme="dark"]{
+  --bg:#101814; --panel:#16201b; --panel2:#1c2822; --ink:#e3ebe5; --dim:#a9b4ab; --faint:#7b8573;
+  --line:#2e3d35; --line-soft:#24322b; --accent:#ff7a45; --teal:#5fc3ad; --blue:#6aa0d8;
+  --green:#5f9a4a; --sand:#b39660; --water:#3d7fb5; --neutral:#1f2b25; --violet:#a58ad8;
+  --contour:rgba(95,195,173,.2); --contour-major:rgba(255,122,69,.45); color-scheme:dark;
+}
 
-  *{ box-sizing: border-box; margin:0; padding:0; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px;transition:background .3s,color .3s}
+a{color:var(--teal);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--teal) 40%,transparent);text-underline-offset:3px}
+a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 
-  html{ scroll-behavior: smooth; }
+/* ---------- nav ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft)}
+.bar-in{max-width:var(--max);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:20px}
+.brand{white-space:nowrap;display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none;font-size:17px}
+.disc{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--accent);position:relative;flex:none}
+.disc::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
+.readout{font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;gap:12px;white-space:nowrap}
+.readout b{color:var(--ink);font-weight:500}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+.nav-links{display:flex;gap:16px;font-size:14px}
+.nav-links a{color:var(--dim);text-decoration:none}
+.nav-links a:hover{color:var(--accent)}
+.theme-btn{white-space:nowrap;font:500 13px var(--sans);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:20px;padding:4px 12px;cursor:pointer}
+.theme-btn:hover{border-color:var(--accent)}
+.scalebar{position:absolute;left:0;bottom:-1px;height:3px;width:0;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 40px,var(--panel) 40px 80px)}
+@media (max-width:860px){.nav-links{display:none}}
+@media (max-width:480px){.readout{display:none}}
+@media (max-width:520px){.readout .ro-lon{display:none}.bar-in{gap:12px}.brand{font-size:15px}}
 
-  body{
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    background-image:
-      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(47,125,108,0.06), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 20%, rgba(204,83,36,0.05), transparent 55%);
-  }
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:min(86vh,680px);overflow:hidden;border-bottom:1px solid var(--line-soft);cursor:crosshair;touch-action:pan-y}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bm-layer{position:absolute;inset:0;pointer-events:none}
+.hero-inner{position:relative;max-width:var(--max);margin:0 auto;padding:150px 28px 90px;pointer-events:none}
+.hero-inner a{pointer-events:auto}
+.kicker{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--teal);font-weight:500;margin-bottom:22px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.6vw,54px);line-height:1.08;letter-spacing:-.02em}
+.rot{display:inline-block;min-width:1ch;position:relative}
+.rot::after{content:"";display:inline-block;width:.07em;height:.82em;background:var(--accent);margin-left:.06em;vertical-align:-.06em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.tagline{margin-top:24px;max-width:54ch;font-size:19px;line-height:1.65;color:var(--dim);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);border-radius:6px}
+.hero-links{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 15px var(--sans);padding:10px 18px;border-radius:24px;border:1px solid var(--line);
+  background:var(--panel);color:var(--ink);text-decoration:none;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.hint{margin-top:40px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+.bm{position:absolute;transform:translate(-50%,-50%)}
+.bm-mark{display:block;width:18px;height:18px;border-radius:50%;border:2px solid var(--accent);background:color-mix(in srgb,var(--panel) 80%,transparent);position:relative;animation:drop .35s ease-out}
+.bm-mark::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--accent)}
+.bm-tag{position:absolute;left:16px;top:12px;white-space:nowrap;font-family:var(--mono);font-size:11px;line-height:1.45;color:var(--ink);
+  background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:4px 7px}
+.bm.flip .bm-tag{left:auto;right:16px}
+@keyframes drop{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}}
 
-  /* ---------- Contour line signature background ---------- */
-  .contours{
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.55;
-    pointer-events: none;
-  }
-  .contours svg{ width:100%; height:100%; }
-  .contours path{
-    fill: none;
-    stroke: var(--line);
-    stroke-width: 1;
-  }
+/* ---------- sections ---------- */
+section{padding:88px 0;border-bottom:1px solid var(--line-soft)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:40px}
+h2{font-family:var(--display);font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.sec-sub{color:var(--dim);max-width:52ch}
 
-  .wrap{
-    position: relative;
-    z-index: 1;
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 28px;
-  }
+/* timeline */
+.tl{position:relative}
+.entry{position:relative;padding-left:34px;padding-bottom:56px}
+.entry:last-child{padding-bottom:0}
+.entry::before{content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--accent);background:var(--bg)}
+.entry::after{content:"";position:absolute;left:6px;top:24px;bottom:4px;width:1px;background:var(--line)}
+.entry:last-child::after{display:none}
+.entry-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 16px}
+.entry-title{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.25}
+.entry-org{color:var(--dim);font-size:15px}
+.date{font-family:var(--mono);font-size:12.5px;color:var(--faint);white-space:nowrap}
+.entry ul,.proj ul{margin-top:10px;padding-left:18px;color:var(--dim);font-size:15px}
+.entry li,.proj li{margin-bottom:6px}
+li::marker{color:var(--teal)}
+.sub{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;margin-top:26px;align-items:start}
+.sub h3,.proj h3{font-family:var(--display);font-size:18px;font-weight:600;line-height:1.3}
+@media (max-width:820px){.sub{grid-template-columns:1fr}}
 
-  a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(95,179,163,0.35); transition: border-color .2s, color .2s; }
-  a:hover{ color: var(--accent); border-color: var(--accent); }
+/* projects */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip-btn{font:500 13.5px var(--sans);padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
+.chip-btn:hover{border-color:var(--teal);color:var(--ink)}
+.chip-btn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.filter-note{font-size:13.5px;color:var(--faint);margin-bottom:8px}
+.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:36px;padding:44px 0;border-top:1px solid var(--line-soft);
+  transition:opacity .35s,filter .35s}
+.proj.dim{opacity:.22;filter:grayscale(1)}
+.proj.solo{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.proj-meta{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin-bottom:8px}
+.tags{font-size:12.5px;color:var(--teal)}
+.kpis{display:flex;flex-wrap:wrap;gap:22px;margin-top:18px}
+.kpi b{display:block;font-family:var(--display);font-size:28px;font-weight:600;line-height:1.1;color:var(--ink)}
+.kpi span{font-size:13px;color:var(--faint)}
+@media (max-width:820px){.proj,.proj.solo{grid-template-columns:1fr;gap:20px}}
 
-  /* ---------- Header / coordinate strip ---------- */
-  header.top{
-    padding: 22px 0 0;
-  }
-  .coord-strip{
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 28px;
-    display:flex;
-    justify-content: space-between;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--text-faint);
-  }
+/* demo frame */
+.demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:0 10px 30px -18px rgba(31,38,32,.35)}
+.demo-cap{font-size:14px;color:var(--dim);margin:2px 4px 10px}
+.demo-cap strong{color:var(--ink);font-weight:600}
+.cv{display:block;width:100%;border-radius:7px;background:var(--panel2)}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:10px;font-size:13.5px;color:var(--dim)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.seg button{font:500 13px var(--sans);padding:5px 11px;border:0;background:transparent;color:var(--dim);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.mini{font:500 13px var(--sans);padding:5px 12px;border-radius:18px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);cursor:pointer}
+.mini:hover{border-color:var(--accent)}
+.ctrl label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+input[type=range]{accent-color:var(--accent);width:150px}
+input[type=checkbox]{accent-color:var(--teal)}
+.stats{white-space:pre-wrap;font-family:var(--mono);font-size:12px;color:var(--ink);margin:10px 4px 0;min-height:1.5em}
+.note{font-size:12px;color:var(--faint);margin:6px 4px 0}
+.legend-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#2c5f8a,var(--neutral),#c0472a);flex:1;min-width:120px}
+.mg-read{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:10px}
+.mg-read div{background:var(--panel2);border-radius:6px;padding:6px 9px}
+.mg-read b{display:block;font-family:var(--mono);font-weight:500;font-size:14px;color:var(--ink)}
+.mg-read span{font-size:11.5px;color:var(--faint)}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--faint);width:100%;margin-top:2px}
 
-  /* ---------- Hero ---------- */
-  .hero{
-    padding: 90px 0 70px;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .eyebrow{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-  .eyebrow .disc{
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    border: 1.5px solid var(--teal);
-    position: relative;
-    flex: none;
-  }
-  .eyebrow .disc::after{
-    content:"";
-    position:absolute; inset: 3px;
-    border-radius: 50%;
-    background: var(--teal);
-  }
-  h1{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(28px, 4.5vw, 44px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-  }
-  h1 span{ color: var(--accent); }
-  .tagline{
-    margin-top: 22px;
-    max-width: 620px;
-    font-size: 18px;
-    color: var(--text-dim);
-  }
-  .hero-links{
-    margin-top: 34px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 22px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13.5px;
-  }
-  .hero-links a{ border-bottom-style: dashed; }
+/* badges & text-only rows */
+.badge{display:inline-block;font:500 11.5px var(--sans);padding:1px 8px;border-radius:10px;margin-right:6px;vertical-align:1px;
+  background:var(--panel2);color:var(--faint);border:1px solid var(--line)}
+.badge.real{background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
+.proj.text-only{grid-template-columns:minmax(0,1fr)}
+.proj.text-only ul{max-width:72ch}
+.sub.one{grid-template-columns:minmax(0,1fr)}
+.sub.one ul{max-width:72ch}
+.result-note{margin-top:14px;font-size:14px;color:var(--dim);max-width:60ch}
+/* video, compare slider, tabs */
+.video-frame{position:relative;border-radius:8px;overflow:hidden;background:#0b1118}
+.video-frame video{display:block;width:100%;height:auto}
+.cmp{position:relative;width:100%;max-width:460px;aspect-ratio:1/1;margin:0 auto;border-radius:8px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--panel2)}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cmp .top{clip-path:inset(0 0 0 50%)}
+.cmp .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
+.cmp .handle::after{content:"";position:absolute;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.35);
+  background-image:linear-gradient(90deg,transparent 9px,#333 9px 10px,transparent 10px 19px,#333 19px 20px,transparent 20px)}
+.cmp .tag{position:absolute;top:8px;font:500 12px var(--sans);color:#fff;background:rgba(20,24,20,.62);padding:2px 8px;border-radius:10px;pointer-events:none}
+.cmp .tag.l{left:8px}.cmp .tag.r{right:8px}
+.cmp input[type=range]{position:absolute;inset:auto 0 0 0;width:100%;opacity:0;height:100%;margin:0;cursor:ew-resize}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--dim);margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.tabs{display:flex;gap:4px;margin:0 2px 10px;border-bottom:1px solid var(--line)}
+.tabs button{font:500 13.5px var(--sans);padding:6px 10px;border:0;background:transparent;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.ctrl[hidden]{display:none}
+/* education & skills */
+details{margin-top:10px;font-size:14.5px;color:var(--dim)}
+summary{cursor:pointer;color:var(--teal);font-weight:500;width:fit-content}
+details p{margin-top:8px;max-width:70ch}
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+@media (max-width:820px){.skills{grid-template-columns:1fr}}
+.skills h3{font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:14px}
+.lang{display:grid;grid-template-columns:90px auto 1fr;align-items:end;gap:12px;margin-bottom:12px;font-size:15px}
+.lang em{font-style:normal;font-size:13px;color:var(--faint)}
+.sig{display:inline-flex;align-items:flex-end;gap:3px;height:18px}
+.sig i{width:5px;background:var(--line);border-radius:1px}
+.sig i:nth-child(1){height:5px}.sig i:nth-child(2){height:8px}.sig i:nth-child(3){height:11px}.sig i:nth-child(4){height:14px}.sig i:nth-child(5){height:18px}
+.sig i.on{background:var(--teal)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:13.5px;padding:4px 10px;border:1px solid var(--line);border-radius:5px;color:var(--ink);background:var(--panel)}
+.chip small{color:var(--faint);font-size:12px}
 
-  /* ---------- Sections ---------- */
-  section{
-    padding: 64px 0;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  section:last-of-type{ border-bottom: none; }
+footer{padding:90px 0 70px;text-align:center}
+footer h2{margin-bottom:12px}
+footer p{color:var(--dim)}
+.contact{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:26px}
+.fine{margin-top:48px;font-size:12.5px;color:var(--faint)}
 
-  .section-head{
-    display:flex;
-    align-items: baseline;
-    gap: 14px;
-    margin-bottom: 34px;
-  }
-  .section-num{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--text-faint);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 2px 7px;
-  }
-  h2{
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  p.lead{ color: var(--text-dim); max-width: 640px; }
-
-  /* ---------- Timeline (education / experience) ---------- */
-  .entry{
-    position: relative;
-    padding-left: 30px;
-    margin-bottom: 34px;
-  }
-  .entry:last-child{ margin-bottom: 0; }
-  .entry::before{
-    content:"";
-    position: absolute;
-    left: 0; top: 6px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    border: 1.5px solid var(--accent);
-    background: var(--bg);
-  }
-  .entry::after{
-    content:"";
-    position: absolute;
-    left: 5px; top: 20px; bottom: -34px;
-    width: 1px;
-    background: var(--line);
-  }
-  .entry:last-child::after{ display:none; }
-
-  .entry-top{
-    display:flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 6px 16px;
-  }
-  .entry-title{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 17px;
-  }
-  .entry-org{ color: var(--text-dim); font-size: 14.5px; margin-top: 2px; }
-  .entry-date{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--text-faint);
-    white-space: nowrap;
-  }
-  .entry ul{
-    margin-top: 10px;
-    padding-left: 18px;
-    color: var(--text-dim);
-    font-size: 14.5px;
-  }
-  .entry li{ margin-bottom: 6px; }
-  .entry li::marker{ color: var(--teal); }
-
-  .courses{
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--text-faint);
-    line-height: 1.7;
-  }
-
-  /* ---------- Projects grid ---------- */
-  .projects{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  @media (max-width: 640px){ .projects{ grid-template-columns: 1fr; } }
-
-  .card{
-    background: var(--bg-panel);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 22px;
-    display:flex;
-    flex-direction: column;
-    box-shadow: 0 1px 3px rgba(35,41,31,0.06);
-  }
-  .card-date{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: var(--teal);
-    letter-spacing: 0.03em;
-  }
-  .card h3{
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16.5px;
-    font-weight: 600;
-    margin: 8px 0 10px;
-    line-height: 1.3;
-  }
-  .card p{ color: var(--text-dim); font-size: 14px; }
-
-  /* ---------- Skills ---------- */
-  .skills-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  @media (max-width: 640px){ .skills-grid{ grid-template-columns: 1fr; } }
-  .skill-group h4{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-faint);
-    margin-bottom: 10px;
-  }
-  .chip-row{ display:flex; flex-wrap: wrap; gap: 7px; }
-  .chip{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--text);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 4px 9px;
-  }
-
-  /* ---------- Footer / contact ---------- */
-  footer{
-    padding: 60px 0 50px;
-    text-align: center;
-  }
-  footer .disc-mark{
-    width: 34px; height: 34px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    border: 1.5px solid var(--accent);
-    position: relative;
-  }
-  footer .disc-mark::after{
-    content:"";
-    position:absolute; inset: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-  footer h2{ font-size: 24px; }
-  footer p{ color: var(--text-dim); margin: 12px 0 22px; }
-  footer .contact-links{
-    display:flex; justify-content:center; gap: 22px; flex-wrap: wrap;
-    font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;
-  }
-  footer .fine{
-    margin-top: 40px;
-    font-size: 11.5px;
-    color: var(--text-faint);
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior: auto; }
-  }
+@media (max-width:600px){
+  .wrap,.bar-in,.hero-inner{padding-left:20px;padding-right:20px}
+  .hero-inner{padding-top:120px}
+  section{padding:64px 0}
+  .entry{padding-left:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rot::after{animation:none}
+  .bm-mark{animation:none}
+  .campus,.proj,.lyr{transition:none}
+}
 </style>
 </head>
 <body>
 
-<div class="contours" aria-hidden="true">
-  <svg viewBox="0 0 1000 1400" preserveAspectRatio="none">
-    <path d="M -50 120 C 150 80, 300 180, 500 110 C 700 40, 850 140, 1050 90" />
-    <path d="M -50 210 C 150 170, 320 260, 520 200 C 720 130, 860 230, 1050 180" />
-    <path d="M -50 300 C 180 260, 330 350, 540 290 C 740 220, 880 320, 1050 270" />
-    <path d="M -50 560 C 160 520, 300 610, 500 560 C 700 500, 840 600, 1050 550" />
-    <path d="M -50 650 C 170 610, 320 700, 520 650 C 720 590, 870 690, 1050 640" />
-    <path d="M -50 740 C 180 700, 330 790, 540 740 C 740 680, 880 780, 1050 730" />
-    <path d="M -50 1000 C 150 960, 300 1060, 500 1000 C 700 940, 850 1040, 1050 990" />
-    <path d="M -50 1090 C 150 1050, 320 1150, 520 1090 C 720 1020, 860 1120, 1050 1080" />
-    <path d="M -50 1260 C 180 1220, 330 1310, 540 1260 C 740 1190, 880 1290, 1050 1240" />
-  </svg>
-</div>
+<nav class="bar" aria-label="Main">
+  <div class="bar-in">
+    <a class="brand" href="#top"><span class="disc"></span>Yu-Ching Lai</a>
+    <div class="readout" aria-hidden="true">
+      <span><b id="roLat">37.8715°N</b></span>
+      <span class="ro-lon"><b id="roLon">122.2730°W</b></span>
+      <span>elev <b id="roElev">—</b> m</span>
+    </div>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+      </div>
+      <button class="theme-btn" id="themeBtn" type="button">Night map</button>
+    </div>
+  </div>
+  <div class="scalebar" id="scalebar"></div>
+</nav>
 
-<header class="top">
-  <div class="coord-strip">
-    <span>37.8715&deg; N, 122.2730&deg; W</span>
-    <span>BERKELEY, CA</span>
+<header class="hero" id="top">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="bm-layer" id="bmLayer"></div>
+  <div class="hero-inner">
+    <div class="kicker"><span class="disc"></span>Geomatics &amp; Systems Engineering, UC Berkeley</div>
+    <h1>Yu-Ching Lai<br><span class="rot" id="rot">maps</span> the world.</h1>
+    <p class="tagline">
+      When I walk into a field I don’t know well, the learning curve doesn’t scare me.
+      I enjoy figuring out how things work, learning what I need, and applying it to a real problem.
+      Most of the problems below you can play with.
+    </p>
+    <div class="hero-links">
+      <a class="btn primary" href="#projects">Play with my projects</a>
+      <a class="btn" href="mailto:yuching_lai@berkeley.edu">yuching_lai@berkeley.edu</a>
+    </div>
+    <p class="hint" id="heroHint">Move your cursor to raise the terrain. Click to drop a survey benchmark.</p>
   </div>
 </header>
 
-<div class="wrap">
-
-  <section class="hero">
-    <div class="eyebrow"><span class="disc"></span>BENCHMARK — GEOMATICS &amp; SYSTEMS ENGINEERING</div>
-    <h1>Yu-Ching Lai<br><span>maps, senses, and models</span> the world.</h1>
-    <p class="tagline">
-      I am currently a Systems Engineering Master’s student in the Civil & Environmental Engineering Department at UC Berkeley. With a background in Geomatics, my experiences span GIS, remote sensing, and spatial data analytics, where I have applied geospatial modeling, network analysis, and system-level thinking to projects on smart cities and environmental sustainability. Always eager to learn, collaborate, and contribute to innovative geospatial and data-driven projects.
-    </p>
-    <div class="hero-links">
-      <a href="mailto:yuching_lai@berkeley.edu">yuching_lai@berkeley.edu</a>
-      <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
-    </div>
-  </section>
-
-  <section id="education">
-    <div class="section-head"><span class="section-num">01</span><h2>Education</h2></div>
-
-    <div class="entry">
-      <div class="entry-top">
-        <div>
-          <div class="entry-title">University of California, Berkeley</div>
-          <div class="entry-org">M.S. Systems Engineering — Civil &amp; Environmental Engineering</div>
-        </div>
-        <div class="entry-date">Aug 2025 – Dec 2026</div>
-      </div>
+<main>
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Work experience</h2>
+      <p class="sec-sub">Demos marked <span class="badge">Toy model</span> are small simulations of the idea. Charts marked <span class="badge real">Report data</span> use numbers straight from my project reports.</p>
     </div>
 
-    <div class="entry">
-      <div class="entry-top">
-        <div>
-          <div class="entry-title">National Cheng Kung University (NCKU)</div>
-          <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
+    <div class="tl">
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">Graduate Researcher</div>
+            <div class="entry-org">Soga Research Group, Center for Smart Infrastructure, UC Berkeley</div>
+          </div>
+          <div class="date">Mar 2026 – present</div>
         </div>
-        <div class="entry-date">Sep 2021 – Jun 2025</div>
+
+        <div class="sub">
+          <div>
+            <h3>Distributed Acoustic Sensing (DAS) for traffic monitoring</h3>
+            <ul>
+              <li>Compared time-series and spatial-series signal features (amplitude, peak count, frequency content, spatial extent) across vehicles, motorbikes, bicycles and pedestrians in DAS strain data, building a feature basis for road-user classification.</li>
+              <li>Built a Python signal-processing and visualization pipeline for low-SNR signals such as pedestrians, producing strain-vs-time and strain-vs-location profiles to check whether weak gait-frequency signals are detectable.</li>
+            </ul>
+          </div>
+          <div class="demo">
+            <p class="demo-cap"><span class="badge">Toy model</span><strong>Every road user leaves a different strain signature.</strong> Pick one. Pedestrians are the hard case: try zoom and the smoothing filter.</p>
+            <canvas id="dasCanvas" class="cv" style="height:180px" aria-label="Simulated DAS strain signal"></canvas>
+            <div class="ctrl">
+              <div class="seg" id="dasSeg" role="group" aria-label="Road user">
+                <button type="button" data-v="car" aria-pressed="true">Car</button>
+                <button type="button" data-v="moto" aria-pressed="false">Motorbike</button>
+                <button type="button" data-v="bike" aria-pressed="false">Bicycle</button>
+                <button type="button" data-v="ped" aria-pressed="false">Pedestrian</button>
+              </div>
+              <label><input type="checkbox" id="dasZoom"> Zoom</label>
+              <label><input type="checkbox" id="dasFilt"> Smoothing filter</label>
+            </div>
+            <div class="stats" id="dasStats"></div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <div>
+            <h3>3D visualization of landslides in the Berkeley area</h3>
+            <ul>
+              <li>Processed multi-temporal SAR imagery in Google Earth Engine and ArcGIS to compute fault displacement and surface velocity fields around Berkeley, identifying deformation zones and potential landslide risk.</li>
+              <li>Built an interactive 3D terrain viewer with Alpha Earth and DEM data, turning raw geodetic data into a walkable digital twin for hazard assessment.</li>
+            </ul>
+          </div>
+          <div class="demo">
+            <p class="demo-cap"><span class="badge real">Project recording</span><strong>The viewer stepping through year-to-year displacement.</strong> Left: vertical motion. Right: horizontal motion along the fault, where blue patches line up along the hills.</p>
+            <div class="video-frame">
+              <video id="slideVideo" src="assets/landslide-viewer.mp4" poster="assets/landslide-poster.jpg" muted loop playsinline controls preload="metadata"></video>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">Project Assistant</div>
+            <div class="entry-org">Taiwan Integrated Disaster Prevention of Technology, Tainan</div>
+          </div>
+          <div class="date">May 2025 – Jun 2025</div>
+        </div>
+        <div class="sub">
+          <div>
+            <ul>
+              <li>Worked with photogrammetric and LiDAR point clouds to support 3D modeling and city development.</li>
+              <li>Identified and digitized roadside signage from point clouds in Trimble Business Center, exporting shapefiles for GIS workflows.</li>
+            </ul>
+          </div>
+          <div class="demo">
+            <p class="demo-cap"><span class="badge">Toy model</span><strong>Drag to orbit a street scan,</strong> then pull the road signs out of it.</p>
+            <canvas id="pcCanvas" class="cv" style="height:220px;touch-action:pan-y;cursor:grab" aria-label="Toy street point cloud"></canvas>
+            <div class="ctrl"><button class="mini" type="button" id="pcBtn">Digitize signs</button></div>
+            <div class="stats" id="pcStats"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">Lab Assistant</div>
+            <div class="entry-org">Cyber-city Lab, NCKU, Tainan</div>
+          </div>
+          <div class="date">May 2024 – Jul 2024</div>
+        </div>
+        <ul>
+          <li>Annotated 100+ bridge inspection images, marking structural deterioration regions for a supervised deep-learning dataset.</li>
+          <li>Followed standardized labeling guidelines and cross-checked annotations for consistency.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Projects</h2>
+      <p class="sec-sub">From disaster response to delivery logistics. Filter by skill to see where I’ve used it.</p>
+    </div>
+
+    <div class="filters" id="filters" role="group" aria-label="Filter projects by skill">
+      <button class="chip-btn" type="button" data-v="all" aria-pressed="true">All</button>
+      <button class="chip-btn" type="button" data-v="Python" aria-pressed="false">Python</button>
+      <button class="chip-btn" type="button" data-v="Optimization" aria-pressed="false">Optimization</button>
+      <button class="chip-btn" type="button" data-v="Simulation" aria-pressed="false">Simulation</button>
+      <button class="chip-btn" type="button" data-v="Mobility" aria-pressed="false">Mobility</button>
+      <button class="chip-btn" type="button" data-v="Remote sensing" aria-pressed="false">Remote sensing</button>
+      <button class="chip-btn" type="button" data-v="GIS" aria-pressed="false">GIS</button>
+      <button class="chip-btn" type="button" data-v="Web" aria-pressed="false">Web</button>
+      <button class="chip-btn" type="button" data-v="Energy" aria-pressed="false">Energy</button>
+    </div>
+    <p class="filter-note" id="filterNote">Showing all 6 projects.</p>
+
+    <!-- Microgrid -->
+    <article class="proj" data-tags="Python,Optimization,Energy">
+      <div>
+        <div class="proj-meta"><span class="date">Jan 2026 – May 2026</span><span class="tags">Python · PuLP/CBC · Linear programming</span></div>
+        <h3>Optimal scheduling of renewable energy and storage in a UC Berkeley microgrid</h3>
+        <ul>
+          <li>Built a 24-hour linear program for 133 campus buildings from real hourly data on the UC Berkeley Energy Use Dashboard, estimating rooftop solar for 124 of them from the six buildings with metered PV.</li>
+          <li>Gave every building an auto-sized battery (about 88 MWh campus-wide) and let buildings within 300 m trade power.</li>
+          <li>Compared four designs, each adding one feature, to find out what actually creates the savings.</li>
+        </ul>
+        <div class="kpis">
+          <div class="kpi"><b>14.2%</b><span>lower weekly cost ($55,056)</span></div>
+          <div class="kpi"><b>13.8%</b><span>less CO₂ (117 t per week)</span></div>
+        </div>
+        <p class="result-note">Team project with Philippine Blijdenstein, Flora Chang and Xiaoyu Chen.</p>
+      </div>
+      <div class="demo">
+        <div class="tabs" id="mgTabs" role="group" aria-label="View">
+          <button type="button" data-v="day" aria-pressed="true">A day on campus</button>
+          <button type="button" data-v="solar" aria-pressed="false">What if more solar?</button>
+          <button type="button" data-v="designs" aria-pressed="false">Four designs</button>
+        </div>
+        <p class="demo-cap" id="mgCap"></p>
+        <canvas id="mgCanvas" class="cv" style="height:250px;cursor:pointer" aria-label="Microgrid results"></canvas>
+        <div class="ctrl" id="mgCtrlDay">
+          <button class="mini" type="button" id="mgPlay">Play the day</button>
+          <label>Hour <input type="range" id="mgHour" min="0" max="23" step="1" value="20"></label>
+        </div>
+        <div class="ctrl" id="mgCtrlSolar" hidden>
+          <span>Solar capacity</span>
+          <div class="seg" id="mgMult" role="group" aria-label="Solar capacity multiplier">
+            <button type="button" data-v="0" aria-pressed="true">1×</button>
+            <button type="button" data-v="1" aria-pressed="false">2×</button>
+            <button type="button" data-v="2" aria-pressed="false">3×</button>
+            <button type="button" data-v="3" aria-pressed="false">5×</button>
+            <button type="button" data-v="4" aria-pressed="false">10×</button>
+          </div>
+        </div>
+        <div class="ctrl" id="mgCtrlDesigns" hidden>
+          <div class="seg" id="mgSeg" role="group" aria-label="Metric">
+            <button type="button" data-v="cost" aria-pressed="true">Weekly cost</button>
+            <button type="button" data-v="co2" aria-pressed="false">CO₂</button>
+            <button type="button" data-v="solar" aria-pressed="false">Solar share</button>
+          </div>
+        </div>
+        <div class="stats" id="mgStats"></div>
+        <p class="note" id="mgNote"></p>
+      </div>
+    </article>
+
+    <!-- Evacuation -->
+    <article class="proj" data-tags="Simulation,Python,Web">
+      <div>
+        <div class="proj-meta"><span class="date">Sep 2025 – Dec 2025</span><span class="tags">Python · JavaScript · Three.js · Agent-based</span></div>
+        <h3>Emergency evacuation simulation under dynamic congestion</h3>
+        <ul>
+          <li>Surveyed floors 3–7 of Davis Hall on site (corridor widths, doors, stairwells) and turned them into a 3D network of 532 nodes and 1,166 edges. Also wrote an IFC parser that builds the network straight from BIM models.</li>
+          <li>Agents walk at different speeds and slow down in crowded corridors; corridor costs rise with live occupancy, so routes change as crowds form.</li>
+          <li>Compared Dijkstra and A* at two scales and visualized the run in 3D with Three.js.</li>
+        </ul>
+        <div class="kpis">
+          <div class="kpi"><b>36.5%</b><span>fewer node expansions with A*</span></div>
+          <div class="kpi"><b>3%</b><span>faster evacuation (166 s vs 171.1 s)</span></div>
+        </div>
+        <p class="result-note">Those gains appear at full scale (5 floors, 500 agents). In a small one-floor building the two algorithms were nearly identical: 245 vs 248 expansions. Team project with Flora Chang and Xiaoyu Chen.</p>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge">Toy model</span><strong>Click anywhere in the floor plan to place a person.</strong> Compare how much of the building each algorithm searches, then block the corridor with a crowd.</p>
+        <canvas id="evacCanvas" class="cv" style="height:210px;cursor:pointer" aria-label="Toy floor plan pathfinding"></canvas>
+        <div class="ctrl">
+          <div class="seg" id="evacSeg" role="group" aria-label="Algorithm">
+            <button type="button" data-v="dijkstra" aria-pressed="true">Dijkstra</button>
+            <button type="button" data-v="astar" aria-pressed="false">A*</button>
+          </div>
+          <button class="mini" type="button" id="evacCrowd">Add crowd</button>
+          <button class="mini" type="button" id="evacClear">Clear crowds</button>
+        </div>
+        <div class="stats" id="evacStats"></div>
+        <p class="note">Crowded cells cost more to cross, following the report’s weighting w = w₀(1 + 5ρ).</p>
+      </div>
+    </article>
+
+    <!-- EV -->
+    <article class="proj" data-tags="Simulation,Mobility">
+      <div>
+        <div class="proj-meta"><span class="date">Sep 2025 – Dec 2025</span><span class="tags">Event-driven simulation · Replica · OpenStreetMap · RL</span></div>
+        <h3>Modeling and optimizing EV charging behavior with mobility data and reinforcement learning</h3>
+        <ul>
+          <li>Built an event-driven EV charging simulation combining Replica mobility data, OpenStreetMap networks and charging infrastructure, with 1,000 EV agents moving through San Francisco.</li>
+          <li>Calibrated simulated trajectories against real Replica traces using jump length, radius of gyration and waiting time.</li>
+        </ul>
+        <div class="kpis"><div class="kpi"><b>1,000</b><span>EV agents in San Francisco</span></div></div>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge">Toy model</span><strong>More chargers, shorter queues.</strong> Drag the slider and watch the waiting cars (orange dots beside each charger) clear.</p>
+        <canvas id="evCanvas" class="cv" style="height:210px" aria-label="Toy EV charging simulation"></canvas>
+        <div class="ctrl">
+          <label>Chargers <input type="range" id="evN" min="1" max="8" step="1" value="3"> <b id="evNLabel">3</b></label>
+        </div>
+        <div class="stats" id="evStats"></div>
+        <p class="note">40 cars, 2 plugs per charger. Teal is driving, blue is charging, orange needs a charge.</p>
+      </div>
+    </article>
+
+    <!-- Bike GPS -->
+    <article class="proj" data-tags="Mobility,Simulation,GIS">
+      <div>
+        <div class="proj-meta"><span class="date">Feb 2024 – Jun 2024</span><span class="tags">ArcGIS Pro · R (moveHMM, DBSCAN) · NetLogo</span></div>
+        <h3>Campus peak and off-peak patterns from bicycle GPS trajectories at NCKU</h3>
+        <ul>
+          <li>Rode two main routes across NCKU’s Chengkung campus at 9:30, 12:00, 14:30 and 17:00, collecting 31 GPS tracks, then cleaned them in ArcGIS Pro.</li>
+          <li>Used moveHMM step lengths and turning angles to tell peak from off-peak riding, and DBSCAN to find where riders bunch up and slow down.</li>
+          <li>Built a NetLogo model of bikes and pedestrians, which showed conflicts concentrating near the corners of intersections.</li>
+          <li>Recommended proper bike parking near the busiest buildings and campus-wide traffic awareness.</li>
+        </ul>
+        <div class="kpis">
+          <div class="kpi"><b>12:00 &amp; 17:00</b><span>peak periods</span></div>
+          <div class="kpi"><b>4</b><span>conflict hotspots</span></div>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge real">Report data</span><strong>Pick a time of day.</strong> Riders move at the measured average speed, weave the way the turning angles showed, and orange rings mark the DBSCAN hotspots.</p>
+        <canvas id="bikeCanvas" class="cv" style="height:260px" aria-label="Schematic campus with two bike routes"></canvas>
+        <div class="ctrl">
+          <div class="seg" id="bikeSeg" role="group" aria-label="Time of day">
+            <button type="button" data-v="0930" aria-pressed="false">9:30</button>
+            <button type="button" data-v="1200" aria-pressed="true">12:00</button>
+            <button type="button" data-v="1430" aria-pressed="false">14:30</button>
+            <button type="button" data-v="1700" aria-pressed="false">17:00</button>
+          </div>
+        </div>
+        <div class="stats" id="bikeStats"></div>
+        <p class="note">Schematic map of the campus. Animation runs about 12× faster than real time.</p>
+      </div>
+    </article>
+
+    <!-- Food delivery -->
+    <article class="proj" data-tags="Python,Optimization,Mobility">
+      <div>
+        <div class="proj-meta"><span class="date">Feb 2024 – Jan 2025</span><span class="tags">Python · Tabu Search · Genetic algorithms</span></div>
+        <h3>Food delivery route optimization</h3>
+        <ul>
+          <li>Formulated on-demand delivery as a pickup-and-delivery problem with capacity and precedence constraints, using real coordinates of restaurants, customers and couriers.</li>
+          <li>Compared Tabu Search and genetic algorithms on road-network distances in a 30-courier, 60-order scenario.</li>
+        </ul>
+        <div class="kpis">
+          <div class="kpi"><b>~36%</b><span>shorter routes with Tabu Search</span></div>
+          <div class="kpi"><b>~30%</b><span>faster computation</span></div>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge">Toy model</span><strong>One courier, fourteen stops.</strong> Start from a random order, then let local search untangle the route one swap at a time.</p>
+        <canvas id="tspCanvas" class="cv" style="height:210px" aria-label="Toy route optimization"></canvas>
+        <div class="ctrl">
+          <button class="mini" type="button" id="tspNew">New orders</button>
+          <button class="mini" type="button" id="tspOpt">Optimize route</button>
+        </div>
+        <div class="stats" id="tspStats"></div>
+        <p class="note">The demo uses 2-opt swaps on a single route; the real project solved a constrained multi-courier problem.</p>
+      </div>
+    </article>
+
+    <!-- Refugee -->
+    <article class="proj" data-tags="Remote sensing,GIS">
+      <div>
+        <div class="proj-meta"><span class="date">Sep 2023 – Dec 2023</span><span class="tags">Landsat-8 · Sentinel-1 SAR · ENVI · ArcGIS · SNAP</span></div>
+        <h3>Rohingya refugee crisis: environmental change around Kutupalong</h3>
+        <ul>
+          <li>Classified three dry-season Landsat-8 images (2016–2018) in ENVI into settlement, bare land, water and vegetation, then measured each class in ArcGIS.</li>
+          <li>Processed three monsoon-season Sentinel-1 SAR images (2017–2019) in SNAP and digitized camp and flood extents.</li>
+          <li>After the August 2017 influx the camp grew roughly tenfold within a year, replacing vegetation with settlement and bare land, while monsoon floods reached into the camp every summer.</li>
+        </ul>
+        <div class="kpis">
+          <div class="kpi"><b>1.35 → 17.90 km²</b><span>camp area, Nov 2016 to Dec 2018</span></div>
+          <div class="kpi"><b>22.73 km²</b><span>flooded, July 2017</span></div>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge real">Report data</span><strong>Pick a date and drag the slider</strong> to compare the Landsat-8 image with my classification.</p>
+        <div class="ctrl" style="margin:0 0 10px">
+          <div class="seg" id="rfSeg" role="group" aria-label="Image date">
+            <button type="button" data-v="2016" aria-pressed="false">Nov 2016</button>
+            <button type="button" data-v="2017" aria-pressed="true">Nov 2017</button>
+            <button type="button" data-v="2018" aria-pressed="false">Dec 2018</button>
+          </div>
+        </div>
+        <div class="cmp" id="rfCmp">
+          <img id="rfBase" src="assets/kutupalong-2017-landsat.jpg" alt="Landsat-8 true color image of Kutupalong">
+          <img id="rfTop" class="top" src="assets/kutupalong-2017-roi.jpg" alt="Supervised classification of land cover">
+          <span class="tag l">Landsat-8</span><span class="tag r">Classified</span>
+          <div class="handle" id="rfHandle"></div>
+          <input type="range" id="rfRange" min="0" max="100" value="50" aria-label="Comparison slider">
+        </div>
+        <div class="legend">
+          <span><i style="background:#e8a33a"></i>Camp</span><span><i style="background:#d9c3a0"></i>Bare land</span>
+          <span><i style="background:#d6e6ef"></i>Water</span><span><i style="background:#c9e1b2"></i>Vegetation</span>
+          <span><i style="background:#7a1f3d;height:3px;vertical-align:3px"></i>Bangladesh–Myanmar border</span>
+        </div>
+        <div class="stats" id="rfStats"></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= EDUCATION ================= -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head"><h2>Education</h2></div>
+    <div class="tl">
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">University of California, Berkeley</div>
+            <div class="entry-org">M.S. Systems Engineering, Civil &amp; Environmental Engineering · GPA 4.00/4.00</div>
+          </div>
+          <div class="date">Aug 2025 – Dec 2026 (expected)</div>
+        </div>
+        <details>
+          <summary>Courses</summary>
+          <p>Computer Vision; Analysis and Design of Databases; Data Modeling, Statistics, and System Simulation; Data Science for Energy; Human Mobility and Network Science; Systems Analysis in Transportation; Infrastructure Sensing and Modeling; Civil Systems: Control and Management.</p>
+        </details>
+      </article>
+      <article class="entry">
+        <div class="entry-top">
+          <div>
+            <div class="entry-title">National Cheng Kung University (NCKU)</div>
+            <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
+          </div>
+          <div class="date">Sep 2021 – Jun 2025</div>
+        </div>
+        <details>
+          <summary>Courses</summary>
+          <p>Remote Sensing; Applied GIS and Spatial Analysis; Photogrammetry; Satellite Positioning; Surveying; Cartography; Smart Cities; Data Structure; Machine Learning.</p>
+        </details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><h2>Skills</h2></div>
+    <div class="skills">
+      <div>
+        <h3>Languages</h3>
+        <div class="lang"><span>Mandarin</span><span class="sig" data-v="5"><i></i><i></i><i></i><i></i><i></i></span><em>native</em></div>
+        <div class="lang"><span>English</span><span class="sig" data-v="4"><i></i><i></i><i></i><i></i><i></i></span><em>advanced</em></div>
+        <div class="lang"><span>Korean</span><span class="sig" data-v="1"><i></i><i></i><i></i><i></i><i></i></span><em>basic</em></div>
+      </div>
+      <div>
+        <h3>Programming</h3>
+        <div class="chips">
+          <span class="chip">Python <small>OpenCV, NumPy, scikit-learn, TensorFlow, NetworkX, PuLP</small></span>
+          <span class="chip">C</span><span class="chip">C++</span><span class="chip">MATLAB</span><span class="chip">R</span>
+          <span class="chip">JavaScript <small>Three.js</small></span><span class="chip">SQL</span>
+        </div>
+      </div>
+      <div>
+        <h3>Tools</h3>
+        <div class="chips">
+          <span class="chip">ArcGIS Pro</span><span class="chip">ArcGIS Online</span><span class="chip">QGIS</span>
+          <span class="chip">Google Earth Engine</span><span class="chip">ENVI</span><span class="chip">SNAP</span>
+          <span class="chip">Agisoft Metashape</span><span class="chip">Trimble Business Center</span>
+          <span class="chip">Unreal Engine</span><span class="chip">NetLogo</span><span class="chip">Docker</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+</main>
 
-  <section id="experience">
-    <div class="section-head"><span class="section-num">02</span><h2>Work Experience</h2></div>
-
-    <div class="entry">
-      <div class="entry-top">
-        <div>
-          <div class="entry-title">Graduate Researcher</div>
-          <div class="entry-org">Soga Research Group, UC Berkeley</div>
-        </div>
-        <div class="entry-date">Mar 2026 – present</div>
-      </div>
-      <p style="margin-top:10px; color:var(--text-dim); font-size:14.5px; max-width:560px;">
-        Reading fault displacement and landslide risk out of SAR imagery around Berkeley, and
-        building a 3D digital-twin terrain viewer in Unreal Engine so that geodetic data is
-        something people can walk through, not just plot.
-      </p>
-    </div>
-
-    <div class="entry">
-      <div class="entry-top">
-        <div>
-          <div class="entry-title">Project Assistant</div>
-          <div class="entry-org">Taiwan Integrated Disaster Prevention of Technology</div>
-        </div>
-        <div class="entry-date">May 2025 – Jun 2025</div>
-      </div>
-      <p style="margin-top:10px; color:var(--text-dim); font-size:14.5px; max-width:560px;">
-        Turned LiDAR and photogrammetric point clouds into usable GIS layers — digitizing
-        roadside signage in Trimble Business Center for city-development planning.
-      </p>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="section-head"><span class="section-num">03</span><h2>Projects</h2></div>
-    <p class="lead" style="margin-bottom: 28px;">A few things I've built, from disaster response to delivery logistics.</p>
-
-    <div class="projects">
-      <div class="card">
-        <div class="card-date">SEP – DEC 2025</div>
-        <h3>Simulating EV Charging in San Francisco</h3>
-        <p>An agent-based model of 1,000 EVs moving through the city, built to see where
-        charging infrastructure breaks down — and calibrated against real mobility traces,
-        not just theory.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-date">FEB 2024 – JAN 2025</div>
-        <h3>Faster Food Delivery Routing</h3>
-        <p>Tabu Search beat Genetic Algorithms here: ~36% shorter routes and ~30% faster
-        solve times on a 30-courier, 60-order problem, using real road-network distances.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-date">JUL – AUG 2024</div>
-        <h3>A WebGIS for Campus Safety</h3>
-        <p>Folded 2D/3D survey data — buildings, roads, vegetation, safety infrastructure —
-        into one interactive map for sustainability monitoring, after a full QA/QC pass on
-        every layer.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-date">SEP – DEC 2023</div>
-        <h3>Watching a Refugee Camp Grow</h3>
-        <p>Landsat and Sentinel-1 imagery of Kutupalong, Bangladesh, 2016–2019 — tracing how
-        forced migration reshaped the land itself: expansion, vegetation loss, seasonal
-        flooding.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="section-head"><span class="section-num">04</span><h2>Skills</h2></div>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <h4>Languages</h4>
-        <div class="chip-row">
-          <span class="chip">English</span>
-          <span class="chip">Mandarin</span>
-          <span class="chip">Korean</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h4>Programming</h4>
-        <div class="chip-row">
-          <span class="chip">Python</span>
-          <span class="chip">C / C++</span>
-          <span class="chip">MATLAB</span>
-          <span class="chip">R</span>
-          <span class="chip">JavaScript</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h4>Tools</h4>
-        <div class="chip-row">
-          <span class="chip">ArcGIS Pro</span>
-          <span class="chip">QGIS</span>
-          <span class="chip">Google Earth Engine</span>
-          <span class="chip">Agisoft Metashape</span>
-          <span class="chip">ENVI</span>
-          <span class="chip">Trimble Business Center</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="disc-mark"></div>
-    <h2>Let's talk mapping, sensing, or modeling.</h2>
+<footer id="contact">
+  <div class="wrap">
+    <div class="disc" style="width:34px;height:34px;margin:0 auto 22px;border-width:2px"></div>
+    <h2>Let’s talk mapping, sensing or modeling.</h2>
     <p>Open to research and industry roles in geospatial data science and systems engineering.</p>
-    <div class="contact-links">
-      <a href="mailto:yuching_lai@berkeley.edu">Email</a>
-      <a href="https://www.linkedin.com/in/yu-ching-jessie-lai" id="linkedin-link">LinkedIn</a>
-      <a href="https://github.com/yc-jessie-lai" id="github-link">GitHub</a>
+    <div class="contact">
+      <a class="btn primary" href="mailto:yuching_lai@berkeley.edu">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/yu-ching-jessie-lai">LinkedIn</a>
+      <a class="btn" href="https://github.com/yc-jessie-lai">GitHub</a>
     </div>
-    <div class="fine">Berkeley, CA · Built and hosted with GitHub Pages</div>
-  </footer>
+    <p class="fine">Berkeley, CA. Built and hosted with GitHub Pages. Demos are illustrative toy models.</p>
+  </div>
+</footer>
 
-</div>
+<script>
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const root=document.documentElement;
 
+/* ---------- theme & colors ---------- */
+(function(){let t=null;try{t=localStorage.getItem('ycl-theme')}catch(e){}
+  root.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');})();
+const C={};
+const VARS=['bg','panel','panel2','ink','dim','faint','line','accent','teal','blue','green','sand','water','neutral','violet','contour','contour-major'];
+function readColors(){const s=getComputedStyle(root);VARS.forEach(v=>{C[v.replace(/-(\w)/g,(_,c)=>c.toUpperCase())]=s.getPropertyValue('--'+v).trim();});}
+readColors();
+
+const hexRGB=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));};
+const rgba=(h,a)=>{const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const gauss=(x,m,s)=>Math.exp(-((x-m)**2)/(2*s*s));
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function randn(R=Math.random){let u=0;while(!u)u=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*R());}
+const MONO='11px "IBM Plex Mono",ui-monospace,monospace';
+
+/* ---------- demo framework ---------- */
+function fitCanvas(c){const dpr=Math.min(window.devicePixelRatio||1,2);const r=c.getBoundingClientRect();
+  const w=Math.max(1,r.width),h=Math.max(1,r.height);c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
+  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h};}
+const demos=[];
+const io=new IntersectionObserver(es=>es.forEach(e=>{const d=e.target._demo;if(d)d.visible=e.isIntersecting;}),{rootMargin:'120px'});
+function makeDemo(canvas,o){const d=Object.assign({canvas,visible:false},o);canvas._demo=d;
+  d.fit=()=>Object.assign(d,fitCanvas(canvas));d.fit();if(d.init)d.init();if(d.render)d.render();
+  demos.push(d);io.observe(canvas);return d;}
+let rT;window.addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>demos.forEach(d=>{d.fit();d.render&&d.render();}),120);});
+let last=performance.now();
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;for(const d of demos)if(d.visible&&d.frame)d.frame(dt,now);requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function seg(el,cb){el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  $$('button',el).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));cb(b.dataset.v);});}
+
+const themeBtn=$('#themeBtn');
+function syncThemeBtn(){themeBtn.textContent=root.dataset.theme==='dark'?'Day map':'Night map';}
+themeBtn.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
+  try{localStorage.setItem('ycl-theme',root.dataset.theme)}catch(e){}
+  readColors();syncThemeBtn();demos.forEach(d=>d.render&&d.render());});
+syncThemeBtn();
+
+/* scale-bar scroll indicator */
+const sb=$('#scalebar');
+addEventListener('scroll',()=>{const m=document.documentElement.scrollHeight-innerHeight;sb.style.width=(m>0?scrollY/m*100:0)+'%';},{passive:true});
+
+/* ================= HERO: live contour map ================= */
+const heroEl=$('#top'),heroCv=$('#heroCanvas');
+const M={x:0,y:0,tx:0,ty:0,amp:0,tamp:0,seen:false};
+function field(x,y,t){
+  let v=Math.sin(x*.0062+t*.00011)*Math.cos(y*.0079-t*.00008)
+    +.6*Math.sin((x*.7+y)*.0105+t*.00015)
+    +.35*Math.cos((x-y*1.3)*.017-t*.0001)
+    +.18*Math.sin(x*.031+y*.023);
+  if(M.amp>.001){const dx=x-M.x,dy=y-M.y;v+=1.5*M.amp*Math.exp(-(dx*dx+dy*dy)/16200);}
+  return v;
+}
+const SEGT=[[],[3,2],[2,1],[3,1],[0,1],[3,0,2,1],[0,2],[3,0],[3,0],[0,2],[0,1,3,2],[0,1],[3,1],[2,1],[3,2],[]];
+let PX=0,PY=0;
+function ep(e,x0,y0,cs,L,a,b,c,d){switch(e){
+  case 0:PX=x0+cs*(L-a)/(b-a);PY=y0;break;
+  case 1:PX=x0+cs;PY=y0+cs*(L-b)/(c-b);break;
+  case 2:PX=x0+cs*(L-d)/(c-d);PY=y0+cs;break;
+  default:PX=x0;PY=y0+cs*(L-a)/(d-a);}}
+const hero=makeDemo(heroCv,{t:0,V:null,
+  frame(dt){if(!RM)this.t+=dt*1000;
+    M.x+=(M.tx-M.x)*.14;M.y+=(M.ty-M.y)*.14;M.amp+=(M.tamp-M.amp)*.08;
+    if(RM&&Math.abs(M.tamp-M.amp)<.002&&Math.abs(M.tx-M.x)<.3&&Math.abs(M.ty-M.y)<.3&&this.drawn)return;
+    this.render();},
+  render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);this.drawn=true;
+    const cs=w<700?18:14,cols=Math.ceil(w/cs),rows=Math.ceil(h/cs),W=cols+1,n=W*(rows+1);
+    if(!this.V||this.V.length!==n)this.V=new Float32Array(n);
+    const V=this.V,t=this.t;
+    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++)V[j*W+i]=field(i*cs,j*cs,t);
+    for(let pass=0;pass<2;pass++){ctx.beginPath();
+      for(let li=0;li<=20;li++){if((li%4===0)!==(pass===1))continue;const L=-2+li*.25;
+        for(let j=0;j<rows;j++){const r0=j*W,r1=r0+W;
+          for(let i=0;i<cols;i++){const a=V[r0+i],b=V[r0+i+1],c=V[r1+i+1],d=V[r1+i];
+            const k=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0);if(k===0||k===15)continue;
+            const s=SEGT[k],x0=i*cs,y0=j*cs;
+            for(let q=0;q<s.length;q+=2){ep(s[q],x0,y0,cs,L,a,b,c,d);ctx.moveTo(PX,PY);ep(s[q+1],x0,y0,cs,L,a,b,c,d);ctx.lineTo(PX,PY);}}}}
+      ctx.strokeStyle=pass?C.contourMajor:C.contour;ctx.lineWidth=pass?1.3:.8;ctx.stroke();}
+    if(M.amp>.05){ctx.strokeStyle=rgba(C.accent,.75*M.amp);ctx.lineWidth=1.2;ctx.beginPath();
+      ctx.arc(M.x,M.y,7,0,7);
+      [[-1,0],[1,0],[0,-1],[0,1]].forEach(([dx,dy])=>{ctx.moveTo(M.x+dx*11,M.y+dy*11);ctx.lineTo(M.x+dx*18,M.y+dy*18);});
+      ctx.stroke();}
+  }});
+function geo(x,y,w,h){return{lat:37.895-(y/h)*.05,lon:-122.305+(x/w)*.07};}
+function elevAt(x,y){return Math.max(0,Math.round((field(x,y,hero.t)+2)/5.2*480));}
+function setReadout(x,y){const g=geo(x,y,hero.w,hero.h);
+  $('#roLat').textContent=g.lat.toFixed(4)+'°N';$('#roLon').textContent=Math.abs(g.lon).toFixed(4)+'°W';$('#roElev').textContent=elevAt(x,y);}
+heroEl.addEventListener('pointermove',e=>{const r=heroCv.getBoundingClientRect();M.tx=e.clientX-r.left;M.ty=e.clientY-r.top;
+  if(!M.seen){M.x=M.tx;M.y=M.ty;M.seen=true;}M.tamp=1;setReadout(M.tx,M.ty);});
+heroEl.addEventListener('pointerleave',()=>{M.tamp=0;});
+const bms=[];let bmN=0;
+heroEl.addEventListener('click',e=>{if(e.target.closest('a,button'))return;
+  const r=heroCv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,g=geo(x,y,r.width,r.height);bmN++;
+  const el=document.createElement('div');el.className='bm'+(x>r.width-190?' flip':'');el.style.left=x+'px';el.style.top=y+'px';
+  el.innerHTML=`<span class="bm-mark"></span><span class="bm-tag">BM-${String(bmN).padStart(2,'0')}<br>${g.lat.toFixed(4)}°N ${Math.abs(g.lon).toFixed(4)}°W<br>elev ${elevAt(x,y)} m</span>`;
+  $('#bmLayer').appendChild(el);bms.push(el);if(bms.length>5)bms.shift().remove();});
+if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and drag to raise the terrain. Tap to drop a survey benchmark.';
+
+/* rotating verb */
+(function(){const el=$('#rot'),words=['maps','senses','models','simulates','optimizes'];let wi=0,ci=words[0].length,dir=-1;
+  if(RM){setInterval(()=>{wi=(wi+1)%words.length;el.textContent=words[wi];},2600);return;}
+  function tick(){if(dir<0){ci--;if(ci<=0){dir=1;wi=(wi+1)%words.length;}}
+    else{ci++;if(ci>=words[wi].length){dir=-1;el.textContent=words[wi];return setTimeout(tick,1900);}}
+    el.textContent=words[wi].slice(0,ci);setTimeout(tick,dir<0?45:90);}
+  setTimeout(tick,1900);})();
+
+/* ================= DAS ================= */
+(function(){const N=600,T=10;let type='car',zoom=false,filt=false,sig=null,prog=1,sigma=.02;
+  function gen(){const s=new Float32Array(N);
+    for(let i=0;i<N;i++){const t=i/N*T;let v=0;
+      if(type==='car')v=1*gauss(t,4.75,.09)+.9*gauss(t,5.25,.09)+.35*gauss(t,5,.7);
+      else if(type==='moto')v=.45*gauss(t,4.88,.06)+.4*gauss(t,5.12,.06)+.08*gauss(t,5,.4);
+      else if(type==='bike')v=.13*gauss(t,4.82,.07)+.12*gauss(t,5.12,.07);
+      else for(let k=0;k<14;k++){const tk=1.6+k*.5;v+=.05*gauss(t,tk,.06)*(.6+.4*gauss(tk,5,2.2));}
+      s[i]=v+.02*randn();}
+    sigma=.02;
+    if(filt){const o=new Float32Array(N);for(let i=0;i<N;i++){let a=0,c=0;for(let k=-3;k<=3;k++){const j=i+k;if(j>=0&&j<N){a+=s[j];c++;}}o[i]=a/c;}
+      sigma=.02/Math.sqrt(7);return o;}
+    return s;}
+  function peaks(s){const thr=4*sigma,out=[];
+    for(let i=0;i<N;i++){if(s[i]<thr)continue;let m=true;for(let k=-10;k<=10&&m;k++){const j=i+k;if(j>=0&&j<N&&s[j]>s[i])m=false;}if(m)out.push(i);}return out;}
+  const d=makeDemo($('#dasCanvas'),{
+    init(){sig=gen();},
+    frame(dt){if(prog<1){prog=Math.min(1,prog+dt*(RM?99:1.5));this.render();}},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);const pad=10,mid=h*.8;
+      let mx=1.6;if(zoom){mx=0;for(const v of sig)mx=Math.max(mx,v);mx*=1.15;}
+      const ys=v=>mid-(v/mx)*(mid-pad);
+      ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(w,mid);
+      for(let s=1;s<T;s++){const x=s/T*w;ctx.moveTo(x,mid);ctx.lineTo(x,mid+5);}ctx.stroke();
+      const thr=4*sigma;ctx.setLineDash([4,4]);ctx.strokeStyle=rgba(C.accent,.7);ctx.beginPath();ctx.moveTo(0,ys(thr));ctx.lineTo(w,ys(thr));ctx.stroke();ctx.setLineDash([]);
+      const n=Math.floor(prog*N);ctx.strokeStyle=C.teal;ctx.lineWidth=1.3;ctx.beginPath();
+      for(let i=0;i<n;i++){const x=i/(N-1)*w,y=ys(sig[i]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
+      ctx.fillStyle=C.faint;ctx.font=MONO;ctx.textAlign='left';ctx.fillText('strain',6,16);ctx.textAlign='right';ctx.fillText('time, 10 s',w-6,h-6);
+      ctx.fillStyle=C.accent;ctx.fillText('4σ detection threshold',w-6,ys(thr)-5);
+      if(prog>=1){const p=peaks(sig);ctx.fillStyle=C.accent;
+        p.forEach(i=>{ctx.beginPath();ctx.arc(i/(N-1)*w,ys(sig[i]),3.2,0,7);ctx.fill();});
+        let mxv=0;for(const v of sig)mxv=Math.max(mxv,v);
+        $('#dasStats').textContent=`peak ${mxv.toFixed(3)}   SNR ${(20*Math.log10(mxv/sigma)).toFixed(1)} dB   ${p.length} peak${p.length===1?'':'s'} detected`;}
+    }});
+  const redo=()=>{sig=gen();prog=RM?1:0;d.render();};
+  seg($('#dasSeg'),v=>{type=v;redo();});
+  $('#dasZoom').addEventListener('change',e=>{zoom=e.target.checked;d.render();});
+  $('#dasFilt').addEventListener('change',e=>{filt=e.target.checked;redo();});
+})();
+
+/* ================= Point cloud ================= */
+(function(){const R=mulberry(7),rnd=(a,b)=>a+(b-a)*R(),P=[];
+  for(let i=0;i<1100;i++)P.push([rnd(-6.8,6.8),rnd(-.03,.03),rnd(-14,14),0]);
+  for(let i=0;i<260;i++){const s=R()<.5?-1:1;P.push([s*3.5,rnd(0,.18),rnd(-14,14),0]);}
+  for(let i=0;i<900;i++){const s=R()<.5?-1:1;P.push([s*rnd(7,7.1),rnd(0,6),rnd(-14,14),4]);}
+  const poles=[[-4.3,-9],[4.3,-2],[-4.3,5],[4.3,11]];
+  poles.forEach(([x,z])=>{for(let i=0;i<45;i++)P.push([x+rnd(-.05,.05),rnd(0,2.6),z+rnd(-.05,.05),1]);
+    for(let i=0;i<80;i++)P.push([x+rnd(-.45,.45),rnd(2.6,3.3),z+rnd(-.03,.03),2]);});
+  [[-5.3,-3],[5.3,6],[5.3,-11],[-5.3,10]].forEach(([x,z])=>{for(let i=0;i<30;i++)P.push([x+rnd(-.1,.1),rnd(0,2),z+rnd(-.1,.1),3]);
+    for(let i=0;i<170;i++){const th=rnd(0,6.283),ph=Math.acos(rnd(-1,1)),r=1.3*Math.cbrt(R());
+      P.push([x+r*Math.sin(ph)*Math.cos(th),3.1+r*Math.cos(ph),z+r*Math.sin(ph)*Math.sin(th),3]);}});
+  let ang=.7,detected=false,drag=null;const tilt=.42;
+  const stats=()=>{$('#pcStats').textContent=detected?`4 sign features exported to roadside_signs.shp`:`raw point cloud, ${P.length.toLocaleString()} points`;};
+  const d=makeDemo($('#pcCanvas'),{
+    frame(dt){if(!drag&&!RM){ang+=dt*.22;this.render();}},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);
+      const ca=Math.cos(ang),sa=Math.sin(ang),ct=Math.cos(tilt),st=Math.sin(tilt),D=28,F=Math.min(w,h*1.7)*.95;
+      const cols=detected?[rgba(C.faint,.35),C.teal,C.accent,rgba(C.green,.3),rgba(C.faint,.25)]:[C.faint,C.dim,C.dim,C.green,rgba(C.faint,.8)];
+      for(let c=0;c<5;c++){ctx.fillStyle=cols[c];const sz=(c===2&&detected)?2.4:1.5;
+        for(const p of P){if(p[3]!==c)continue;
+          const x=p[0]*ca-p[2]*sa,z=p[0]*sa+p[2]*ca,y=p[1]-1.5;
+          const y2=y*ct-z*st,z2=y*st+z*ct,f=F/(D+z2);if(f<=0)continue;
+          ctx.fillRect(w/2+x*f-sz/2,h*.6-y2*f-sz/2,sz,sz);}}
+    }});
+  const cv=$('#pcCanvas');
+  cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,a:ang};cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing';});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;ang=drag.a+(e.clientX-drag.x)*.01;d.render();});
+  const end=()=>{drag=null;cv.style.cursor='grab';};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  $('#pcBtn').addEventListener('click',e=>{detected=!detected;e.target.textContent=detected?'Show raw cloud':'Digitize signs';stats();d.render();});
+  stats();
+})();
+
+/* ================= Microgrid (report data) ================= */
+(function(){
+  // Representative day 2026-04-19, scenario S4, campus totals in MW (read off the report's dispatch figure)
+  const load=[19.3,19.2,18.9,18.9,18.9,19.0,19.4,19.6,19.8,20.4,20.9,21.2,21.6,21.8,22.0,22.0,21.9,21.8,21.6,21.4,21.3,21.1,20.3,19.7];
+  const solar=[0,0,0,0,0,0,0,.2,1.8,3.0,4.6,5.6,6.8,6.6,6.1,5.6,4.3,2.6,1.1,.2,0,0,0,0];
+  const chg=Array(24).fill(0);chg[16]=10.7;chg[17]=10.1;chg[18]=9.0;
+  const dis=Array(24).fill(0);dis[19]=14.5;dis[20]=14.6;dis[21]=14.7;dis[22]=14.6;
+  const grid=load.map((l,h)=>Math.max(0,l+chg[h]-solar[h]-dis[h]));
+  const CAP=88,soc=[];let e=44;for(let h=0;h<24;h++){e+=chg[h]*.95-dis[h]/.95;soc.push(clamp(e,0,CAP));}
+  // PV sensitivity (S4). Endpoints and curtailment exact; 2×/3×/5× percentages read off the figure.
+  const PV=[{m:'1×',sv:14.20,cr:13.84,sf:8.39,cu:0,ex:true},{m:'2×',sv:19.1,cr:22.0,sf:16.5,cu:6594},{m:'3×',sv:24.0,cr:30.0,sf:24.5,cu:21534},
+    {m:'5×',sv:33.0,cr:45.2,sf:39.8,cu:75619},{m:'10×',sv:45.13,cr:65.56,sf:60.97,cu:834783,ex:true}];
+  const S=[{k:'S1',sn:'Grid',n:'Grid only',d:'All demand comes from the utility grid.',cost:387776,co2:849246,sol:0,sv:0,cr:0},
+    {k:'S2',sn:'Local',n:'Local PV + battery',d:'Each building uses its own solar and battery, with no sharing.',cost:334149,co2:734780,sol:8.01,sv:13.83,cr:13.48},
+    {k:'S3',sn:'Pool',n:'Campus pool + battery',d:'Solar and storage pooled campus-wide, as if sharing were perfect.',cost:332724,co2:731708,sol:8.39,sv:14.20,cr:13.84},
+    {k:'S4',sn:'Network',n:'Battery + 300 m network',d:'Batteries everywhere, plus power sharing with neighbors within 300 m.',cost:332720,co2:731681,sol:8.39,sv:14.20,cr:13.84}];
+  let mode='day',hour=20,playing=false,acc=0,pv=0,gv=[PV[0].sv,PV[0].cr,PV[0].sf,0],metric='cost',sel=3,bars=[];
+  const slider=$('#mgHour'),cap=$('#mgCap'),note=$('#mgNote'),st=$('#mgStats');
+  const CAPS={day:'<span class="badge real">Report data</span><strong>Play the day.</strong> The battery fills up just before the 7–11 pm price peak, then covers most of the campus load while prices are high.',
+    solar:'<span class="badge real">Report data</span><strong>Try installing more solar.</strong> Savings keep climbing, but past 3× the batteries can’t absorb midday output and more and more solar goes to waste.',
+    designs:'<span class="badge real">Report data</span><strong>Click a design.</strong> Each adds one feature to the one before it, so the gap between bars is what that feature is worth.'};
+  const NOTES={day:'Campus totals on 19 April 2026 under the full model, read off the report’s dispatch figure, so values are approximate.',
+    solar:'1× and 10× results and all curtailment figures are exact; percentages for 2×, 3× and 5× are read off the report’s chart.',designs:''};
+  function stats(){
+    if(mode==='day'){const h=hour,bt=dis[h]?`battery out ${dis[h].toFixed(1)} MW`:chg[h]?`battery in ${chg[h].toFixed(1)} MW`:'battery idle';
+      st.textContent=`${String(h).padStart(2,'0')}:00${h>=19&&h<=22?'  (peak price)':''}\nload ${load[h].toFixed(1)} MW   grid ${grid[h].toFixed(1)} MW   solar ${solar[h].toFixed(1)} MW   ${bt}\nbattery charge ≈ ${Math.round(soc[h]/CAP*100)}% of 88 MWh`;}
+    else if(mode==='solar'){const p=PV[pv],a=p.ex?'':'≈ ';
+      st.textContent=`${p.m} today’s solar\n${a}${p.sv}% lower cost   ${a}${p.cr}% less CO₂   ${a}${p.sf}% of load from solar\n${p.cu?(p.cu/1000).toLocaleString(undefined,{maximumFractionDigits:1})+' MWh of solar wasted per week':'almost no solar wasted'}`;}
+    else{const s=S[sel];st.textContent=`${s.k} ${s.n}: ${s.d}\n$${s.cost.toLocaleString()} per week   ${(s.co2/1000).toFixed(1)} t CO₂   solar ${s.sol.toFixed(2)}%`
+      +(sel?`\n${s.sv.toFixed(2)}% cheaper and ${s.cr.toFixed(2)}% less CO₂ than grid only`:'')
+      +(sel>1?`\nOnly ${(s.sv-S[1].sv).toFixed(2)} points better than S2: local batteries already capture almost all of the value.`:'');}}
+  function drawDay(ctx,w,h){const l=30,r=50,t=14,b=40,pw=w-l-r,ph=h-t-b,mn=-12,mx=32,Y=v=>t+(mx-v)/(mx-mn)*ph,bw=pw/24;
+    ctx.fillStyle=rgba(C.accent,.08);ctx.fillRect(l+19*bw,t,4*bw,ph);
+    ctx.font=MONO;ctx.fillStyle=C.accent;ctx.textAlign='center';ctx.fillText('peak price',l+21*bw,t+10);
+    ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.beginPath();[-10,0,10,20,30].forEach(v=>{ctx.moveTo(l,Y(v));ctx.lineTo(l+pw,Y(v));});ctx.stroke();
+    ctx.fillStyle=C.faint;ctx.textAlign='right';[-10,0,10,20,30].forEach(v=>ctx.fillText(v,l-5,Y(v)+4));
+    ctx.textAlign='center';[0,6,12,18,23].forEach(i=>ctx.fillText(String(i).padStart(2,'0'),l+(i+.5)*bw,t+ph+14));
+    const upto=playing?hour:23;
+    for(let i=0;i<=upto;i++){const x=l+i*bw+bw*.12,ww=bw*.76,al=i===hour?1:.55;let y=0;
+      [[grid[i],C.faint],[solar[i],C.sand],[dis[i],C.green]].forEach(([v,c])=>{if(!v)return;ctx.fillStyle=rgba(c,al);ctx.fillRect(x,Y(y+v),ww,Y(y)-Y(y+v));y+=v;});
+      if(chg[i]){ctx.fillStyle=rgba(C.violet,al);ctx.fillRect(x,Y(0),ww,Y(-chg[i])-Y(0));}}
+    ctx.strokeStyle=C.ink;ctx.lineWidth=1.8;ctx.beginPath();for(let i=0;i<=upto;i++){const x=l+(i+.5)*bw;i?ctx.lineTo(x,Y(load[i])):ctx.moveTo(x,Y(load[i]));}ctx.stroke();
+    ctx.strokeStyle=C.accent;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(l+(hour+.5)*bw,t);ctx.lineTo(l+(hour+.5)*bw,t+ph);ctx.stroke();
+    // battery gauge
+    const bx=w-r+14,by=t+20,bh=ph-40,f=soc[hour]/CAP;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.strokeRect(bx,by,20,bh);ctx.fillStyle=C.ink;ctx.fillRect(bx+6,by-4,8,4);
+    ctx.fillStyle=f<.2?C.accent:C.green;ctx.fillRect(bx+2,by+2+(bh-4)*(1-f),16,(bh-4)*f);
+    ctx.fillStyle=C.dim;ctx.textAlign='center';ctx.fillText(Math.round(f*100)+'%',bx+10,by+bh+14);
+    ctx.textAlign='left';let lx=l+4;const nar=w<500;[['load',C.ink],['grid',C.faint],['solar',C.sand],[nar?'out':'battery out',C.green],[nar?'in':'battery in',C.violet]].forEach(([n,c])=>{ctx.fillStyle=c;ctx.fillRect(lx,h-15,9,9);ctx.fillStyle=C.dim;ctx.fillText(n,lx+12,h-7);lx+=ctx.measureText(n).width+(nar?16:24);});}
+  function drawSolar(ctx,w,h){const p=PV[pv],labs=['lower cost','less CO₂','load from solar'],cols=[C.accent,C.teal,C.sand];
+    const n=3,cw=w/n,R=Math.min(cw*.32,(h-90)/2),cy=14+R+6;ctx.font=MONO;
+    for(let i=0;i<n;i++){const cx=cw*(i+.5),v=gv[i];ctx.lineWidth=11;ctx.strokeStyle=C.line;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();
+      ctx.strokeStyle=cols[i];ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+Math.PI*2*v/100);ctx.stroke();ctx.lineCap='butt';
+      ctx.fillStyle=C.ink;ctx.textAlign='center';ctx.font='600 '+Math.max(14,R*.42)+'px "Space Grotesk",sans-serif';ctx.fillText((p.ex?'':'≈')+Math.round(v)+'%',cx,cy+R*.15);
+      ctx.font=MONO;ctx.fillStyle=C.dim;ctx.fillText(labs[i],cx,cy+R+20);}
+    const y=h-30,x0=16,bw=w-32,f=gv[3]/834783;ctx.fillStyle=C.line;ctx.fillRect(x0,y,bw,10);ctx.fillStyle=C.violet;ctx.fillRect(x0,y,Math.max(f>0?2:0,bw*f),10);
+    ctx.fillStyle=C.dim;ctx.textAlign='left';ctx.fillText('solar wasted per week (curtailment)',x0,y-6);ctx.textAlign='right';ctx.fillText((gv[3]/1000).toFixed(0)+' MWh',x0+bw,y-6);}
+  function drawDesigns(ctx,w,h){const l=14,r=14,t=26,b=40,ph=h-t-b,val=s=>metric==='cost'?s.cost/1000:metric==='co2'?s.co2/1000:s.sol,
+      fmt=v=>metric==='cost'?'$'+Math.round(v)+'k':metric==='co2'?Math.round(v)+' t':v.toFixed(2)+'%',mx=Math.max(...S.map(val))*1.08,bw=(w-l-r)/S.length;
+    bars=[];ctx.font=MONO;ctx.textAlign='center';ctx.strokeStyle=C.line;ctx.beginPath();ctx.moveTo(l,t+ph);ctx.lineTo(w-r,t+ph);ctx.stroke();
+    S.forEach((s,i)=>{const v=val(s),x=l+i*bw+bw*.18,ww=bw*.64,y=t+ph*(1-v/mx);bars.push([l+i*bw,l+(i+1)*bw]);
+      ctx.fillStyle=i===sel?C.accent:rgba(C.teal,i?.55:.3);ctx.fillRect(x,y,ww,t+ph-y);ctx.fillStyle=C.ink;ctx.fillText(fmt(v),x+ww/2,y-7);
+      ctx.fillStyle=i===sel?C.ink:C.dim;ctx.fillText(s.k,x+ww/2,t+ph+15);ctx.fillStyle=C.faint;ctx.fillText(s.sn,x+ww/2,t+ph+30);});}
+  const d=makeDemo($('#mgCanvas'),{
+    frame(dt){let dirty=false;
+      if(mode==='day'&&playing){acc+=dt;if(acc>.42){acc=0;hour++;if(hour>23){hour=23;playing=false;$('#mgPlay').textContent='Play the day';}slider.value=hour;stats();dirty=true;}}
+      if(mode==='solar'){const p=PV[pv],tg=[p.sv,p.cr,p.sf,p.cu];for(let i=0;i<4;i++){const nv=gv[i]+(tg[i]-gv[i])*(RM?1:.12);if(Math.abs(nv-gv[i])>1e-3*(i===3?1000:1)){gv[i]=nv;dirty=true;}else gv[i]=tg[i];}}
+      if(dirty)this.render();},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);ctx.lineCap='butt';if(mode==='day')drawDay(ctx,w,h);else if(mode==='solar')drawSolar(ctx,w,h);else drawDesigns(ctx,w,h);}});
+  function setMode(m){mode=m;cap.innerHTML=CAPS[m];note.textContent=NOTES[m];
+    $('#mgCtrlDay').hidden=m!=='day';$('#mgCtrlSolar').hidden=m!=='solar';$('#mgCtrlDesigns').hidden=m!=='designs';
+    $('#mgCanvas').style.cursor=m==='designs'?'pointer':'default';stats();d.render();}
+  seg($('#mgTabs'),setMode);
+  $('#mgPlay').addEventListener('click',e=>{if(playing){playing=false;e.target.textContent='Play the day';}else{if(hour>=23)hour=0;playing=true;acc=0;e.target.textContent='Pause';}stats();d.render();});
+  slider.addEventListener('input',()=>{hour=+slider.value;playing=false;$('#mgPlay').textContent='Play the day';stats();d.render();});
+  seg($('#mgMult'),v=>{pv=+v;stats();d.render();});
+  seg($('#mgSeg'),v=>{metric=v;d.render();});
+  $('#mgCanvas').addEventListener('click',e=>{if(mode!=='designs')return;const r=e.currentTarget.getBoundingClientRect(),x=e.clientX-r.left;
+    const i=bars.findIndex(([a,b])=>x>=a&&x<b);if(i>=0){sel=i;stats();d.render();}});
+  setMode('day');
+})();
+
+/* ================= Evacuation pathfinding ================= */
+(function(){const GX=36,GY=18,id=(x,y)=>y*GX+x,wall=new Uint8Array(GX*GY),cost=new Float32Array(GX*GY).fill(1);
+  for(let x=0;x<GX;x++){wall[id(x,0)]=wall[id(x,GY-1)]=wall[id(x,7)]=wall[id(x,10)]=1;}
+  for(let y=0;y<GY;y++){wall[id(0,y)]=wall[id(GX-1,y)]=1;}
+  [6,12,18,24,30].forEach(x=>{for(let y=1;y<7;y++)wall[id(x,y)]=1;for(let y=11;y<17;y++)wall[id(x,y)]=1;});
+  [3,9,15,21,27,33].forEach(x=>{wall[id(x,7)]=0;wall[id(x,10)]=0;});
+  const exits=[[0,8],[GX-1,9]];exits.forEach(([x,y])=>wall[id(x,y)]=0);
+  let start=[16,3],algo='dijkstra',res=null,k=0;
+  function search(){const N=GX*GY,g=new Float32Array(N).fill(Infinity),prev=new Int32Array(N).fill(-1),closed=new Uint8Array(N),order=[],open=[];
+    const hf=(x,y)=>algo==='astar'?Math.min(...exits.map(([ex,ey])=>Math.abs(ex-x)+Math.abs(ey-y))):0;
+    const s=id(start[0],start[1]);g[s]=0;open.push([hf(...start),s]);let goal=-1;
+    while(open.length){let bi=0;for(let i=1;i<open.length;i++)if(open[i][0]<open[bi][0])bi=i;
+      const u=open.splice(bi,1)[0][1];if(closed[u])continue;closed[u]=1;order.push(u);
+      const ux=u%GX,uy=(u/GX)|0;if(exits.some(([ex,ey])=>ex===ux&&ey===uy)){goal=u;break;}
+      for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const vx=ux+dx,vy=uy+dy;if(vx<0||vy<0||vx>=GX||vy>=GY)continue;
+        const v=id(vx,vy);if(wall[v]||closed[v])continue;const ng=g[u]+cost[v];
+        if(ng<g[v]){g[v]=ng;prev[v]=u;const hv=hf(vx,vy);open.push([ng+hv+hv*1e-3,v]);}}}
+    const path=[];for(let v=goal;v!==-1;v=prev[v])path.push(v);
+    res={order,path:path.reverse(),cost:goal>=0?g[goal]:Infinity};k=RM?order.length:0;
+    $('#evacStats').textContent=`${algo==='astar'?'A*':'Dijkstra'} searched ${order.length} cells   route ${res.path.length-1} steps   travel cost ${res.cost.toFixed(0)}`;}
+  const d=makeDemo($('#evacCanvas'),{
+    init(){search();},
+    frame(){if(res&&k<res.order.length){k=Math.min(res.order.length,k+Math.max(3,res.order.length/50));this.render();}},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);const cs=Math.min(w/GX,h/GY),ox=(w-GX*cs)/2,oy=(h-GY*cs)/2;this.geom={cs,ox,oy};
+      for(let y=0;y<GY;y++)for(let x=0;x<GX;x++){const i=id(x,y);
+        if(wall[i]){ctx.fillStyle=C.ink;ctx.fillRect(ox+x*cs,oy+y*cs,cs+.5,cs+.5);}
+        else if(cost[i]>1){ctx.fillStyle=rgba(C.accent,.35);ctx.fillRect(ox+x*cs,oy+y*cs,cs,cs);}}
+      ctx.fillStyle=rgba(C.teal,.28);for(let q=0;q<Math.floor(k);q++){const u=res.order[q];ctx.fillRect(ox+(u%GX)*cs+1,oy+((u/GX)|0)*cs+1,cs-2,cs-2);}
+      exits.forEach(([x,y])=>{ctx.fillStyle=C.green;ctx.fillRect(ox+x*cs,oy+y*cs,cs,cs);});
+      ctx.font=MONO;ctx.fillStyle=C.panel;ctx.textAlign='center';
+      if(k>=res.order.length&&res.path.length){ctx.strokeStyle=C.accent;ctx.lineWidth=Math.max(2,cs*.3);ctx.lineJoin='round';ctx.beginPath();
+        res.path.forEach((u,i)=>{const x=ox+(u%GX+.5)*cs,y=oy+(((u/GX)|0)+.5)*cs;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();}
+      ctx.fillStyle=C.ink;ctx.strokeStyle=C.panel;ctx.lineWidth=2;ctx.beginPath();ctx.arc(ox+(start[0]+.5)*cs,oy+(start[1]+.5)*cs,cs*.5,0,7);ctx.fill();ctx.stroke();
+    }});
+  const cv=$('#evacCanvas');
+  cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect(),{cs,ox,oy}=d.geom;
+    const x=Math.floor((e.clientX-r.left-ox)/cs),y=Math.floor((e.clientY-r.top-oy)/cs);
+    if(x<0||y<0||x>=GX||y>=GY||wall[id(x,y)])return;start=[x,y];search();d.render();});
+  seg($('#evacSeg'),v=>{algo=v;search();d.render();});
+  $('#evacCrowd').addEventListener('click',()=>{const x0=3+Math.floor(Math.random()*26);for(let x=x0;x<x0+5;x++)for(let y=8;y<=9;y++)cost[id(x,y)]=1+5*1.2;search();d.render();});
+  $('#evacClear').addEventListener('click',()=>{cost.fill(1);search();d.render();});
+})();
+
+/* ================= EV charging ================= */
+(function(){const CX=12,CY=5,PORTS=2;let chargers=[],agents=[],served=0,waitSum=0,statT=0;
+  const rn=()=>[Math.floor(Math.random()*(CX+1)),Math.floor(Math.random()*(CY+1))];
+  function place(k){chargers=[];const used=new Set();let tries=0;
+    while(chargers.length<k&&tries<500){tries++;const[x,y]=rn(),key=x+','+y;
+      if(used.has(key)||chargers.some(c=>Math.abs(c.x-x)+Math.abs(c.y-y)<3&&tries<300))continue;used.add(key);chargers.push({x,y,ch:[],q:[]});}}
+  function nearest(a){let b=null,bd=1e9;chargers.forEach(c=>{const dd=Math.abs(c.x-a.ix)+Math.abs(c.y-a.iy);if(dd<bd){bd=dd;b=c;}});return b;}
+  function plan(a){
+    if(a.mode==='drive'&&a.bat<.25){a.c=nearest(a);a.tx=a.c.x;a.ty=a.c.y;a.mode='seek';}
+    if(a.ix===a.tx&&a.iy===a.ty){
+      if(a.mode==='seek'){const c=a.c;if(c.ch.length<PORTS){c.ch.push(a);a.mode='charge';served++;}else{c.q.push(a);a.mode='queue';a.wait=0;}return;}
+      [a.tx,a.ty]=rn();}
+    a.nx=a.ix;a.ny=a.iy;const mx=a.ix!==a.tx,my=a.iy!==a.ty;
+    if(mx&&(!my||Math.random()<.5))a.nx+=Math.sign(a.tx-a.ix);else if(my)a.ny+=Math.sign(a.ty-a.iy);
+    a.s=0;}
+  function reset(k){place(k);served=0;waitSum=0;agents=[];
+    for(let i=0;i<40;i++){const[x,y]=rn(),a={ix:x,iy:y,nx:x,ny:y,s:0,bat:.25+Math.random()*.75,mode:'drive',spd:1.3+Math.random()*.8,wait:0};[a.tx,a.ty]=rn();plan(a);agents.push(a);}}
+  function update(dt){for(const a of agents){
+    if(a.mode==='drive'||a.mode==='seek'){a.s+=dt*a.spd;if(a.s>=1){a.ix=a.nx;a.iy=a.ny;a.bat=Math.max(0,a.bat-.03);plan(a);}}
+    else if(a.mode==='queue')a.wait+=dt;
+    else if(a.mode==='charge'){a.bat+=dt*.22;if(a.bat>=.95){a.bat=.95;const c=a.c;c.ch.splice(c.ch.indexOf(a),1);a.mode='drive';[a.tx,a.ty]=rn();plan(a);
+      if(c.q.length){const b=c.q.shift();waitSum+=b.wait;served++;c.ch.push(b);b.mode='charge';}}}}}
+  function stats(){const ch=agents.filter(a=>a.mode==='charge').length,q=agents.filter(a=>a.mode==='queue').length;
+    $('#evStats').textContent=`${ch} charging   ${q} waiting   average wait ${(served?waitSum/served:0).toFixed(1)} s`;}
+  const d=makeDemo($('#evCanvas'),{
+    init(){reset(3);},
+    frame(dt){update(RM?dt*.5:dt);this.render();statT+=dt;if(statT>.3){statT=0;stats();}},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);const m=20,sx=(w-2*m)/CX,sy=(h-2*m)/CY,P=(x,y)=>[m+x*sx,m+y*sy];
+      ctx.strokeStyle=C.line;ctx.lineWidth=3;ctx.beginPath();
+      for(let x=0;x<=CX;x++){ctx.moveTo(m+x*sx,m);ctx.lineTo(m+x*sx,h-m);}for(let y=0;y<=CY;y++){ctx.moveTo(m,m+y*sy);ctx.lineTo(w-m,m+y*sy);}ctx.stroke();
+      chargers.forEach(c=>{const[x,y]=P(c.x,c.y);ctx.fillStyle=C.ink;ctx.fillRect(x-6,y-6,12,12);ctx.fillStyle=C.panel;ctx.fillRect(x-2,y-2,4,4);
+        c.q.forEach((a,i)=>{ctx.fillStyle=C.accent;ctx.beginPath();ctx.arc(x+12+(i%6)*7,y-9-Math.floor(i/6)*7,2.8,0,7);ctx.fill();});});
+      agents.forEach(a=>{if(a.mode==='queue')return;let x,y;
+        if(a.mode==='charge'){const c=a.c,i=c.ch.indexOf(a);[x,y]=P(c.x,c.y);x+=i?8:-8;y+=10;}
+        else{const[x0,y0]=P(a.ix,a.iy),[x1,y1]=P(a.nx,a.ny);x=x0+(x1-x0)*a.s;y=y0+(y1-y0)*a.s;}
+        ctx.fillStyle=a.mode==='charge'?C.blue:a.bat<.25?C.accent:C.teal;ctx.beginPath();ctx.arc(x,y,3.3,0,7);ctx.fill();});
+    }});
+  $('#evN').addEventListener('input',e=>{$('#evNLabel').textContent=e.target.value;reset(+e.target.value);stats();d.render();});
+  stats();
+})();
+
+/* ================= Bike GPS (report data) ================= */
+(function(){
+  const T={ '0930':{peak:false,r1:104,r2:112.5,s1:'18–22',s2:'20–22'},'1200':{peak:true,r1:132.5,r2:144,s1:'13–18',s2:'18–20'},
+            '1430':{peak:false,r1:95.5,r2:112.5,s1:'25–30',s2:'30–35'},'1700':{peak:true,r1:153,r2:144,s1:'10–16',s2:'20–25'}};
+  let slot='1200',riders=[],t=0;
+  // schematic geometry in unit coords
+  const R1=[[.05,.46],[.95,.54]],R2=[[.56,.04],[.56,.96]];
+  const at=(R,u)=>[R[0][0]+(R[1][0]-R[0][0])*u,R[0][1]+(R[1][1]-R[0][1])*u];
+  const X=[.56,.5045];
+  function spawn(){const c=T[slot],n=c.peak?9:4;riders=[];
+    for(let k=0;k<2;k++)for(let i=0;i<n;i++)riders.push({route:k,u:Math.random(),dir:Math.random()<.5?1:-1,ph:Math.random()*6.28,j:.85+Math.random()*.3});}
+  function stats(){const c=T[slot];
+    $('#bikeStats').textContent=`${slot.slice(0,2)}:${slot.slice(2)}  ${c.peak?'peak':'off-peak'}\n`
+      +`Route 1 (Shengli Rd to Changrong Rd): ${c.r1} s average ride, step lengths mostly ${c.s1}, ${c.peak?'turning angles spread from −2 to 2 as riders dodge traffic':'riding almost perfectly straight'}\n`
+      +`Route 2 (Daxue Rd to Xiaodong Rd): ${c.r2} s average ${c.peak?'at peak':'off-peak'}, step lengths mostly ${c.s2}, straight at all times on the wide boulevard`;}
+  const d=makeDemo($('#bikeCanvas'),{
+    init(){spawn();},
+    frame(dt){t+=dt;const c=T[slot];riders.forEach(r=>{const dur=(r.route?c.r2:c.r1)/12;r.u+=r.dir*dt/dur*r.j;if(r.u>1){r.u=1;r.dir=-1;}if(r.u<0){r.u=0;r.dir=1;}});this.render();},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);const c=T[slot],P=([x,y])=>[x*w,y*h];
+      // building blocks (schematic)
+      ctx.fillStyle=rgba(C.faint,.18);
+      [[.08,.08,.14,.16],[.26,.1,.18,.24],[.62,.08,.3,.12],[.62,.24,.3,.12],[.26,.6,.12,.14],[.4,.6,.12,.14],[.08,.6,.14,.3],[.62,.62,.3,.12],[.62,.78,.3,.14],[.4,.78,.12,.14],[.26,.3,.12,.1],[.4,.3,.12,.1]]
+        .forEach(([x,y,ww,hh])=>ctx.fillRect(x*w,y*h,ww*w,hh*h));
+      ctx.font=w<500?'9.5px "IBM Plex Mono",monospace':MONO;ctx.fillStyle=C.faint;ctx.textAlign='center';ctx.fillText('Surveying',.46*w,.37*h);ctx.fillText('Physics',.46*w,.68*h);
+      // roads
+      ctx.lineCap='round';[R1,R2].forEach((R,k)=>{ctx.strokeStyle=C.line;ctx.lineWidth=k?18:13;ctx.beginPath();ctx.moveTo(...P(R[0]));ctx.lineTo(...P(R[1]));ctx.stroke();});
+      ctx.strokeStyle=C.line;ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(.22*w,.05*h);ctx.lineTo(.22*w,.95*h);ctx.stroke();
+      ctx.lineCap='butt';
+      // hotspots
+      const hs=c.peak?[[.07,.462],[.93,.538],X,[.56,.07],[.56,.93],[.22,.475]]:[X,[.22,.475]];
+      hs.forEach(([x,y],i)=>{const pul=RM?0:Math.sin(t*3+i)*.5+.5,rr=(c.peak?16:11)+pul*5;ctx.fillStyle=rgba(C.accent,.16+.1*pul);ctx.beginPath();ctx.arc(x*w,y*h,rr,0,7);ctx.fill();
+        ctx.strokeStyle=rgba(C.accent,.8);ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x*w,y*h,rr,0,7);ctx.stroke();});
+      // riders
+      riders.forEach(r=>{const R=r.route?R2:R1;let[x,y]=P(at(R,r.u));const off=(r.dir>0?-1:1)*(r.route?4:3);
+        let wob=0;if(r.route===0&&c.peak&&!RM)wob=Math.sin(t*4+r.ph+r.u*30)*4.5;
+        if(r.route){x+=off+wob;}else{y+=off+wob;}
+        ctx.fillStyle=r.route?C.blue:C.teal;ctx.beginPath();ctx.arc(x,y,3.6,0,7);ctx.fill();});
+      // labels
+      ctx.fillStyle=C.dim;ctx.textAlign='left';ctx.fillText('Route 1',.3*w,.44*h);ctx.textAlign='right';ctx.fillText('to Ziqiang campus',.95*w,.62*h);
+      ctx.textAlign='left';ctx.fillText('to Guangfu campus',.02*w,.55*h);
+      ctx.fillText('Route 2',.585*w,.22*h);ctx.fillText('to Chengxing',.585*w,.04*h+8);ctx.fillText('to Shengli dorms',.585*w,.97*h);
+    }});
+  seg($('#bikeSeg'),v=>{slot=v;spawn();stats();d.render();});
+  stats();
+})();
+
+/* ================= Route optimization ================= */
+(function(){const KX=8,KY=4;let P=[],tour=[],L0=0,opt=false,acc=0,done=false;
+  const dist=(a,b)=>Math.hypot(P[a][0]-P[b][0],P[a][1]-P[b][1]);
+  const len=()=>{let s=0;for(let i=0;i<tour.length;i++)s+=dist(tour[i],tour[(i+1)%tour.length]);return s;};
+  function gen(){P=[[KX/2,KY/2]];for(let i=0;i<14;i++)P.push([.3+Math.random()*(KX-.6),.25+Math.random()*(KY-.5)]);
+    tour=[...Array(P.length).keys()];for(let i=tour.length-1;i>1;i--){const j=1+Math.floor(Math.random()*i);[tour[i],tour[j]]=[tour[j],tour[i]];}
+    L0=len();opt=false;done=false;}
+  function step(){const n=tour.length;for(let i=1;i<n-1;i++)for(let k=i+1;k<n;k++){const a=tour[i-1],b=tour[i],c=tour[k],dd=tour[(k+1)%n];
+    if(dist(a,c)+dist(b,dd)<dist(a,b)+dist(c,dd)-1e-9){let x=i,y=k;while(x<y){[tour[x],tour[y]]=[tour[y],tour[x]];x++;y--;}return true;}}return false;}
+  function stats(){const L=len();$('#tspStats').textContent=`route ${L.toFixed(1)} km`+(L<L0-1e-6?`   ${Math.round(100*(1-L/L0))}% shorter than the random order`:'')+(done?'   no improving swap left':'');}
+  const d=makeDemo($('#tspCanvas'),{
+    init(){gen();},
+    frame(dt){if(!opt)return;acc+=dt;while(acc>.09){acc-=.09;if(!step()){opt=false;done=true;break;}}stats();this.render();},
+    render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);const s=Math.min((w-24)/KX,(h-24)/KY),ox=(w-KX*s)/2,oy=(h-KY*s)/2,X=x=>ox+x*s,Y=y=>oy+y*s;
+      ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.beginPath();for(let x=0;x<=KX;x++){ctx.moveTo(X(x),Y(0));ctx.lineTo(X(x),Y(KY));}for(let y=0;y<=KY;y++){ctx.moveTo(X(0),Y(y));ctx.lineTo(X(KX),Y(y));}ctx.stroke();
+      ctx.strokeStyle=rgba(C.ink,.8);ctx.lineWidth=1.8;ctx.lineJoin='round';ctx.beginPath();
+      tour.forEach((p,i)=>i?ctx.lineTo(X(P[p][0]),Y(P[p][1])):ctx.moveTo(X(P[p][0]),Y(P[p][1])));ctx.closePath();ctx.stroke();
+      P.forEach((p,i)=>{if(!i)return;ctx.fillStyle=C.teal;ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),4.5,0,7);ctx.fill();});
+      ctx.fillStyle=C.accent;ctx.fillRect(X(P[0][0])-6,Y(P[0][1])-6,12,12);
+      ctx.font=MONO;ctx.fillStyle=C.faint;ctx.textAlign='left';ctx.fillText('grid = 1 km',X(0)+4,Y(KY)-5);
+    }});
+  $('#tspNew').addEventListener('click',()=>{gen();stats();d.render();});
+  $('#tspOpt').addEventListener('click',()=>{if(done)return;if(RM){while(step());done=true;stats();d.render();return;}opt=true;acc=0;});
+  stats();
+})();
+
+/* ================= Refugee compare slider (report data) ================= */
+(function(){
+  const A={'2016':{d:'23 Nov 2016',v:[1.35,28.33,16.61,118.90]},'2017':{d:'10 Nov 2017',v:[10.59,10.01,15.69,128.90]},'2018':{d:'31 Dec 2018',v:[17.90,54.61,10.36,81.93]}};
+  const cmp=$('#rfCmp'),top=$('#rfTop'),handle=$('#rfHandle'),range=$('#rfRange');
+  function setPos(p){p=clamp(p,0,100);top.style.clipPath=`inset(0 0 0 ${p}%)`;handle.style.left=p+'%';range.value=p;}
+  range.addEventListener('input',()=>setPos(+range.value));
+  let drag=false;
+  const fromEvt=e=>{const r=cmp.getBoundingClientRect();setPos((e.clientX-r.left)/r.width*100);};
+  cmp.addEventListener('pointerdown',e=>{drag=true;fromEvt(e);});
+  addEventListener('pointermove',e=>{if(drag)fromEvt(e);});
+  addEventListener('pointerup',()=>{drag=false;});
+  function show(y){const a=A[y];$('#rfBase').src=`assets/kutupalong-${y}-landsat.jpg`;top.src=`assets/kutupalong-${y}-roi.jpg`;
+    const prev={'2017':'2016','2018':'2017'}[y];
+    $('#rfStats').textContent=`${a.d}   camp ${a.v[0].toFixed(2)} km²   bare land ${a.v[1].toFixed(2)} km²   water ${a.v[2].toFixed(2)} km²   vegetation ${a.v[3].toFixed(2)} km²`
+      +(prev?`\ncamp is ${(a.v[0]/A[prev].v[0]).toFixed(1)}× the size it was on ${A[prev].d}`:'\nbefore the August 2017 influx');}
+  seg($('#rfSeg'),show);
+  ['2016','2018'].forEach(y=>{const i=new Image();i.src=`assets/kutupalong-${y}-landsat.jpg`;const j=new Image();j.src=`assets/kutupalong-${y}-roi.jpg`;});
+  setPos(50);show('2017');
+})();
+
+/* landslide video: play only while visible */
+(function(){const v=$('#slideVideo');if(!v)return;
+  new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RM)v.play().catch(()=>{});else v.pause();}),{threshold:.35}).observe(v);})();
+
+/* ================= project filter ================= */
+(function(){const projs=$$('.proj'),note=$('#filterNote');
+  seg($('#filters'),v=>{let n=0;projs.forEach(p=>{const on=v==='all'||p.dataset.tags.split(',').includes(v);p.classList.toggle('dim',!on);if(on)n++;});
+    note.textContent=v==='all'?`Showing all ${projs.length} projects.`:`${n} of ${projs.length} projects use ${v}.`;});
+})();
+
+/* language signal bars */
+$$('.sig').forEach(s=>{const v=+s.dataset.v;$$('i',s).forEach((i,k)=>i.classList.toggle('on',k<v));});
+</script>
 </body>
 </html>
