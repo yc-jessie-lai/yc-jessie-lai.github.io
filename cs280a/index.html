@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS280A — Intro to Computer Vision &amp; Computational Photography | Yu-Ching Lai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #e2ece7;
+    --bg-panel: #ffffff;
+    --line: #d8cfb8;
+    --line-soft: #e4dcc8;
+    --text: #23291f;
+    --text-dim: #5c6152;
+    --text-faint: #928a6e;
+    --accent: #cc5324;
+    --accent-dark: #a8431c;
+    --teal: #2f7d6c;
+    --max: 960px;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{ background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; line-height: 1.6; }
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+  a{ color: inherit; text-decoration: none; }
+
+  header.top{ padding: 20px 0 0; }
+  .back-link{ max-width: var(--max); margin: 0 auto; padding: 0 28px; font-size: 12.5px; color: var(--text-faint); }
+  .back-link a{ color: var(--teal); border-bottom: 1px solid rgba(47,125,108,0.35); }
+  .back-link a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding: 56px 0 44px; border-bottom: 1px solid var(--line-soft); }
+  .eyebrow{ font-size: 13px; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+  h1{ font-weight: 700; font-size: clamp(30px, 5vw, 46px); line-height: 1.12; max-width: 720px; }
+  .intro{ margin-top: 18px; max-width: 640px; color: var(--text-dim); font-size: 16px; }
+  .meta-row{ margin-top: 22px; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 13px; color: var(--text-faint); font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---------- Projects ---------- */
+  .projects-section{ padding: 48px 0 20px; }
+  .section-label{ font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; margin-bottom: 20px; }
+
+  .project-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  @media (max-width: 700px){ .project-grid{ grid-template-columns: 1fr; } }
+
+  .project-card{
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px 24px 22px;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .project-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(35,41,31,0.10);
+    border-color: var(--teal);
+  }
+  .project-card.wide{ grid-column: 1 / -1; }
+
+  .card-top{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .proj-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 2px 8px;
+  }
+  .status{
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+  .status.done{ background: rgba(47,125,108,0.12); color: var(--teal); }
+  .status.soon{ background: rgba(204,83,36,0.10); color: var(--accent); }
+
+  .project-card h2{ font-size: 20px; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
+  
+  .chips{ margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    background: var(--bg);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  .btn{
+    margin-top: 18px;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    transition: background .15s ease, gap .15s ease;
+  }
+  .project-card:hover .btn{ background: var(--accent-dark); gap: 12px; }
+  .btn .arrow{ font-family: 'IBM Plex Mono', monospace; }
+
+  .project-card.final{
+    border: 1.5px solid var(--accent);
+    background: linear-gradient(180deg, rgba(204,83,36,0.05), var(--bg-panel) 60%);
+  }
+
+  footer{ padding: 50px 0 60px; text-align: center; font-size: 12px; color: var(--text-faint); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="back-link"><a href="../">&larr; Yu-Ching Lai</a></div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">UC Berkeley · Fall 2026</div>
+    <h1>CS280A: Intro to Computer Vision &amp; Computational Photography</h1>
+    <div class="meta-row">
+      <span>Yu-Ching Lai</span>
+      <span>M.S. Systems Engineering</span>
+    </div>
+  </section>
+
+  <section class="projects-section">
+    <div class="section-label">Projects</div>
+
+    <div class="project-grid">
+
+      <a class="project-card" href="project0/">
+        <div class="card-top">
+          <span class="proj-num">Project 0</span>
+          <span class="status done">Completed</span>
+        </div>
+        <h2>Becoming Friends with Your Camera</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+      <a class="project-card" href="project1/">
+        <div class="card-top">
+          <span class="proj-num">Project 1</span>
+          <span class="status done">Completed</span>
+        </div>
+        <h2>Images of the Russian Empire</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+      <a class="project-card" href="project2/">
+        <div class="card-top">
+          <span class="proj-num">Project 2</span>
+          <span class="status done">Completed</span>
+        </div>
+        <h2>Fun with Filters and Frequencies</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+      <a class="project-card" href="project3/">
+        <div class="card-top">
+          <span class="proj-num">Project 3</span>
+          <span class="status soon">In progress</span>
+        </div>
+        <h2>Fun with Flow Models</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+      <a class="project-card" href="project4/">
+        <div class="card-top">
+          <span class="proj-num">Project 4</span>
+          <span class="status soon">In progress</span>
+        </div>
+        <h2>(Auto)Stitching and Photo Mosaics</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+      <a class="project-card final wide" href="final/">
+        <div class="card-top">
+          <span class="proj-num">Final Project</span>
+          <span class="status soon">In progress</span>
+        </div>
+        <h2>Final Project</h2>
+        <span class="btn">View project <span class="arrow">&rarr;</span></span>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    Yu-Ching Lai · CS280A, Fall 2026
+  </footer>
+
+</div>
+
+</body>
+</html>
