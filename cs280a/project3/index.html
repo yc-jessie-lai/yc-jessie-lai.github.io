@@ -162,10 +162,6 @@
 <pre><code>def one_step_denoise(x, t, condition, predict_velocity):
     # x̂_1 = x_t + (1 - t) * v_θ(x_t, t, c)
     return x + (1 - t) * predict_velocity(x, t, condition)</code></pre>
-<h4 style="margin-top:18px;">Parameters</h4>
-<table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Prompt</td><td><code>a high quality photo</code></td></tr>
-</table>
 <h4 style="margin-top:18px;">What I observed</h4>
 <p>Way better than blur. Even at t = 0.25 it gives a clean-looking cat. But it's smooth, and the cat isn't exactly the same as the original (at t = 0.25 the face and pose changed a bit, and the floor and chess board lost texture). At t = 0.75 it's very close to the original.</p>
 </div>
@@ -181,14 +177,6 @@
     ground_truth_update = (1 - t) * (clean_image - epsilon)
     error_map = ((predicted_update - ground_truth_update) ** 2).mean(dim=1).sqrt()
     return predicted_update, ground_truth_update, error_map</code></pre>
-<h4 style="margin-top:18px;">Parameters</h4>
-<table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Prompt</td><td><code>a high quality photo</code></td></tr>
-<tr><td>Update colormap</td><td><code>one shared symmetric RGB scale, zero = middle gray</code></td></tr>
-<tr><td>Error colormap</td><td><code>imshow, vmin = 0, vmax = max over all three maps (same for every t)</code></td></tr>
-</table>
-<h4 style="margin-top:18px;">What I observed</h4>
-<p>The predicted and ground-truth updates look almost the same: mostly gray with a faint cat shape. The error is biggest at t = 0.25, mostly along edges like the cat's outline and the chess board lines. By t = 0.75 it's almost zero everywhere. Makes sense, there's less noise left to remove so the prediction is easier.</p>
 </div>
   </section><section id="p1-5">
     <div class="section-head"><span class="section-num">1.5</span><h2>Iterative Denoising with Euler Sampling</h2></div>
@@ -258,14 +246,13 @@ for i in range(5):
     x, _ = euler_sample(noise(SEED+i), 0, H, guided)</code></pre>
 <h4 style="margin-top:18px;">Parameters</h4>
 <table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Prompt</td><td><code>a high quality photo</code></td></tr>
 <tr><td>w</td><td><code>7</code></td></tr>
 <tr><td>h</td><td><code>0.02</code></td></tr>
 <tr><td>Seeds</td><td><code>180–184, same as 1.6</code></td></tr>
 <tr><td>w = 0 check</td><td><code>matches plain conditional velocity (assert passes)</code></td></tr>
 </table>
 <h4 style="margin-top:18px;">What I observed</h4>
-<p>Faces are much cleaner and sharper than in 1.6. Seed 180 now has a face, and seed 182 still has a hand by the cheek, so the overall layout stays the same.</p><p>The tradeoff: the five images look more alike. All are front-facing portraits with high contrast and dark clothes, so there's less variety.</p>
+<p>Faces are much cleaner and sharper than in 1.6. Seed 180 now has a face, and seed 182 still has a hand by the cheek, so the overall layout stays the same.</p><p>The tradeoff: the five images look more alike. All are front-facing portraits with high contrast and dark clothes, less variety.</p>
 </div>
   </section>
 
@@ -281,12 +268,6 @@ for i in range(5):
     v = lambda x, t: cfg_velocity(x, t, condition, w, predict_velocity, null_condition)
     out, _ = euler_sample(x, t_start, step_size, v)
     return out</code></pre>
-<h4 style="margin-top:18px;">Parameters</h4>
-<table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Prompt</td><td><code>a high quality photo</code></td></tr>
-<tr><td>Starting times</td><td><code>0.02, 0.04, 0.06, 0.10, 0.14, 0.25, 0.50</code></td></tr>
-<tr><td>w / h / seed</td><td><code>7 / 0.02 / 180</code></td></tr>
-</table>
 <h4 style="margin-top:18px;">What I observed</h4>
 <p>Smaller start time means more noise, so the model changes more. At 0.02 the output has almost nothing to do with the input: the Campanile turns into a smooth white tower, and my cat turns into a woman's portrait. At 0.25 and 0.50 the image is close to the original.</p><p>The in-between times (0.10–0.14) are the interesting ones: the cat is still a cat but with a new background, and the Campanile keeps its shape but loses details like the clock and windows.</p><p>The drawings behave differently. The tree and camera drawings turn into photo-like objects (a pan, a hand holding a device) at 0.02–0.06, and from 0.10 they stay close to the drawing, only redrawn with a bit more texture.</p>
 </div>
@@ -303,7 +284,7 @@ for i in range(5):
 <tr><td>Starting times</td><td><code>0.02, 0.04, 0.06, 0.10, 0.14, 0.25, 0.50</code></td></tr>
 </table>
 <h4 style="margin-top:18px;">What I observed</h4>
-<p>Same code as 3.1 with the prompt's embedding instead of the generic one. At 0.02–0.06 the prompt wins completely: the tower becomes a glass skyscraper and the cat becomes a cake. At 0.14–0.25 it's a mix, and my favorite is the cat-shaped cake at 0.25. At 0.50 the original mostly comes back.</p><p>For the bear, the best result is around 0.10–0.14, where the bear sits in a jungle but still has a pose similar to Oski's.</p>
+<p>At 0.02–0.06 the prompt wins completely: the tower becomes a glass skyscraper and the cat becomes a cake. At 0.14–0.25 it's a mix, and my favorite is the cat-shaped cake at 0.25. At 0.50 the original mostly comes back.</p><p>For the bear, the best result is around 0.10–0.14, where the bear sits in a jungle but still has a pose similar to Oski's.</p>
 </div>
   </section><section id="p3-3">
     <div class="section-head"><span class="section-num">3.3</span><h2>Visual Anagrams</h2></div>
@@ -325,7 +306,7 @@ for i in range(5):
 <tr><td>w / h</td><td><code>7 / 0.02</code></td></tr>
 </table>
 <h4 style="margin-top:18px;">What I observed</h4>
-<p>Illusion #2 works well: the street turns into a woman's profile when flipped. Illusion #1 only half works: the whale is clear in both directions, but the snowy mountain isn't, it just looks like clouds and sea.</p>
+<p>Illusion #2 works well: the street turns into a woman's profile when flipped. Illusion #1 only half works: the whale is clear in both directions, but the snowy mountain isn't.</p>
 </div>
   </section><section id="p3-4">
     <div class="section-head"><span class="section-num">3.4</span><h2>Hybrid Images</h2></div>
@@ -346,13 +327,11 @@ def make_hybrids(noise, condition_a, condition_b, predict_velocity, w=7, step_si
     return out</code></pre>
 <h4 style="margin-top:18px;">Parameters</h4>
 <table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Hybrid #1</td><td><code>distant: a photo of a dog / close: a photo of a kitten (seed 180)</code></td></tr>
-<tr><td>Hybrid #2</td><td><code>distant: a lithograph of a skull / close: a lithograph of a waterfall (seed 181)</code></td></tr>
+<tr><td>Hybrid #1</td><td><code>distant: a photo of a dog / close: a photo of a kitten</code></td></tr>
+<tr><td>Hybrid #2</td><td><code>distant: a lithograph of a skull / close: a lithograph of a waterfall</code></td></tr>
 <tr><td>Low-pass</td><td><code>Gaussian blur, kernel 265, σ = 16 (at 512×512)</code></td></tr>
 <tr><td>w / h</td><td><code>7 / 0.02</code></td></tr>
 </table>
-<h4 style="margin-top:18px;">What I observed</h4>
-<p>The close-up prompts (kitten, waterfall) come through clearly at full size. The distant prompts are weak: in both shrunk versions I still mostly see the kitten and the waterfall, and the dog and skull only show up faintly.</p><p><span class="edit-hint">TODO: rerun with other prompt pairs or seeds if you want a stronger illusion.</span></p>
 </div>
   </section>
 
@@ -394,13 +373,13 @@ def multi_view_anagram(noise, conditions, views, predict_velocity, w=7, step_siz
     return result</code></pre>
         <h4 style="margin-top:18px;">Parameters</h4>
         <table class="param-table"><tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Negation</td><td><code>an oil painting of a snowy mountain village / an oil painting of a horse (seed 190)</code></td></tr>
-<tr><td>Inner rotation</td><td><code>a watercolor painting of a waterfall / a watercolor painting of an owl (seed 191)</code></td></tr>
-<tr><td>90° rotation</td><td><code>a lithograph of a rabbit / a lithograph of a duck (seed 192)</code></td></tr>
+<tr><td>Negation</td><td><code>an oil painting of a snowy mountain village / an oil painting of a horse</code></td></tr>
+<tr><td>Inner rotation</td><td><code>a watercolor painting of a waterfall / a watercolor painting of an owl</code></td></tr>
+<tr><td>90° rotation</td><td><code>a lithograph of a rabbit / a lithograph of a duck</code></td></tr>
 <tr><td>w / h</td><td><code>7 / 0.02</code></td></tr>
 </table>
         <h4 style="margin-top:18px;">What I observed</h4>
-        <p>The 90° rotation one is the best: the rabbit and the duck are both easy to see. Negation also works. The snowy village is upright and a horse's head appears in the negated view. Inner rotation was the weakest: both views read as an owl and the waterfall doesn't show.</p>
+        <p>The 90° rotation one is the best: the rabbit and the duck are both easy to see. Negation also works. The snowy village is upright and a horse's head appears in the negated view. Inner rotation was the weakest, the waterfall was not obvious.</p>
       </div>
     </div>
     <div class="bw-box">
@@ -421,7 +400,7 @@ logos = {f&quot;t={t:.2f}&quot;: edit(logo_src, noise(SEED), t, logo_c, predict_
 <tr><td>w / h / seed</td><td><code>7 / 0.02 / 180</code></td></tr>
 </table>
         <h4 style="margin-top:18px;">What I observed</h4>
-        <p>Only t = 0.06 really follows the prompt: a flat bear holding a camera inside the blue and gold ring. At 0.10 and 0.14 the seal's letters get garbled, and at 0.20 and 0.30 it's almost the original seal. So I used t = 0.06 as my final logo.</p>
+        <p>At 0.10 and 0.14 the seal's letters get garbled, and at 0.20 and 0.30 it's almost the original seal. So I used t = 0.06 as my final logo.</p>
       </div>
     </div>
   </section>
@@ -623,7 +602,7 @@ class UpBlock(nn.Module):
 <tr><td>Seed</td><td><code>180</code></td></tr>
 </table>
 <h4 style="margin-top:18px;">What I observed</h4>
-<p><strong>Patterns:</strong> every output looks the same, no matter which noise I put in. It's a blurry blob that looks like a mix of digits (kind of a fat 0/8). At epoch 5 it's smoother than at epoch 1, but it's still the same image for all inputs.</p><p><strong>Relation to digits 0–9:</strong> the blob is not any one digit. It looks like all of them overlaid, and it looks like the mean MNIST image shown above.</p><p><strong>Why:</strong> the noise has nothing to do with which digit is the target, so the input has no information. With MSE loss the best the model can do is output the point with the smallest average squared distance to all the training digits, which is their mean (like the centroid of one big cluster). The loss also goes flat almost right away, at about 0.07, since there's nothing more to learn.</p>
+<p><strong>Relation to digits 0–9:</strong> the blob is not any one digit. It looks like all of them overlaid, and it looks like the mean MNIST image shown above.</p><p><strong>Why:</strong> the noise has nothing to do with which digit is the target, so the input has no information. With MSE loss the best the model can do is output the point with the smallest average squared distance to all the training digits, which is their mean. The loss also goes flat almost right away, at about 0.07, since there's nothing more to learn.</p>
 </div>
   </section>
 
@@ -739,8 +718,6 @@ class TimeConditionalUNet(nn.Module):
 <tr><td>Epochs</td><td><code>10 (9,380 steps)</code></td></tr>
 <tr><td>Seed</td><td><code>180</code></td></tr>
 </table>
-<h4 style="margin-top:18px;">What I observed</h4>
-<p>The loss starts at about 5.5, falls under 0.2 within a few hundred steps, and then creeps down for the rest of training.</p>
 </div>
   </section><section id="b2-3">
     <div class="section-head"><span class="section-num">2.3</span><h2>Sampling from the Time-Conditioned UNet</h2></div>
@@ -857,8 +834,6 @@ class TimeConditionalUNet(nn.Module):
 <tr><td>p<sub>uncond</sub></td><td><code>0.1</code></td></tr>
 <tr><td>Seed</td><td><code>180</code></td></tr>
 </table>
-<h4 style="margin-top:18px;">What I observed</h4>
-<p>The curve looks a lot like the time-only one: a big drop in the first few hundred steps and then a slow decrease. The final average loss (last 500 steps) is about 0.085.</p>
 </div>
   </section><section id="b2-6">
     <div class="section-head"><span class="section-num">2.6</span><h2>Sampling with Class Conditioning</h2></div>
@@ -901,7 +876,7 @@ class TimeConditionalUNet(nn.Module):
 <tr><td>Seed</td><td><code>180</code></td></tr>
 </table>
 <h4 style="margin-top:18px;">What I observed</h4>
-<p>Much better than time-only. At epoch 1 the right digit is already there, but some are shaky (the 5, 8 and 9 especially). By epoch 5 all 40 look like clean digits, and epoch 10 is just a bit sharper and more consistent. Each column is the digit I asked for, so the conditioning works.</p>
+<p>At epoch 1 the right digit is already there, but some are shaky (the 5, 8 and 9 especially). By epoch 5 all 40 look like clean digits, and epoch 10 is just a bit sharper and more consistent. Each column is the digit I asked for, so the conditioning works.</p>
 </div>
   </section><section id="b2-6b">
     <div class="section-head"><span class="section-num">2.6</span><h2>Removing the Scheduler</h2></div>
@@ -967,7 +942,7 @@ class TimeConditionalUNet(nn.Module):
 <tr><td>Sampling</td><td><code>50 Euler steps, 40 samples, seed 180</code></td></tr>
 </table>
         <h4 style="margin-top:18px;">What I observed</h4>
-        <p>Because the starting noise is the same, I can compare image by image. Several samples that were blobs or half-digits before are now clear digits (for example the 6, 8, 0 and 4). It's better, but it's still not as clean as the class-conditioned model, and a few samples are still strange. I think that's because without the class label the model has to decide the digit by itself, so some samples land in between two digits.</p>
+        <p>Because the starting noise is the same, I can compare image by image. It's better, but it's still not as clean as the class-conditioned model, and a few samples are still strange. I think that's because without the class label the model has to decide the digit by itself, so some samples land in between two digits.</p>
       </div>
     </div>
   </section>
