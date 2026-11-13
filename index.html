@@ -2,452 +2,289 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Yu-Ching Lai — Geomatics &amp; Systems Engineering</title>
-<meta name="description" content="Yu-Ching Lai — Systems Engineering at UC Berkeley, Geomatics at NCKU. Remote sensing, GIS, fiber-optic sensing, mobility simulation and optimization.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yu-Ching Lai</title>
+<meta name="author" content="Yu-Ching Lai">
+<meta name="description" content="Yu-Ching Lai, M.S. Systems Engineering student at UC Berkeley. Geomatics, remote sensing, fiber-optic sensing, simulation and optimization.">
+<link rel="icon" href="assets/photo.jpg" type="image/jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+/* ---------- colors (demos read these too; keep them as hex) ---------- */
 :root{
-  --bg:#fbfbf8; --panel:#ffffff; --panel2:#f1f0ea; --ink:#1f2620; --dim:#4f5648; --faint:#857e64;
-  --line:#d3caaf; --line-soft:#e3ddcc; --accent:#cc5324; --teal:#2f7d6c; --blue:#3a6ea5;
-  --green:#5f8f4a; --sand:#d2b47a; --water:#4f8fc0; --neutral:#f3efe4; --violet:#7a5fb0;
-  --contour:rgba(125,113,80,.32); --contour-major:rgba(204,83,36,.45);
-  --max:1100px;
-  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --display:'Space Grotesk','Inter',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
-  color-scheme:light;
+  --bg:#ffffff; --panel:#ffffff; --panel2:#f4f6f8; --ink:#222222; --dim:#555555; --faint:#8a8a8a;
+  --line:#dcdcdc; --link:#1772d0; --hover:#f09228;
+  --accent:#e8792b; --teal:#1772d0; --blue:#3f73a8; --green:#5c9a4c; --sand:#dcb46e;
+  --water:#5f9cc4; --neutral:#f3efe4; --violet:#7a5fb0;
+  --font:'Lato',Verdana,Helvetica,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#101814; --panel:#16201b; --panel2:#1c2822; --ink:#e3ebe5; --dim:#a9b4ab; --faint:#7b8573;
-    --line:#2e3d35; --line-soft:#24322b; --accent:#ff7a45; --teal:#5fc3ad; --blue:#6aa0d8;
-    --green:#5f9a4a; --sand:#b39660; --water:#3d7fb5; --neutral:#1f2b25; --violet:#a58ad8;
-    --contour:rgba(95,195,173,.2); --contour-major:rgba(255,122,69,.45); color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#101814; --panel:#16201b; --panel2:#1c2822; --ink:#e3ebe5; --dim:#a9b4ab; --faint:#7b8573;
-  --line:#2e3d35; --line-soft:#24322b; --accent:#ff7a45; --teal:#5fc3ad; --blue:#6aa0d8;
-  --green:#5f9a4a; --sand:#b39660; --water:#3d7fb5; --neutral:#1f2b25; --violet:#a58ad8;
-  --contour:rgba(95,195,173,.2); --contour-major:rgba(255,122,69,.45); color-scheme:dark;
-}
-
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px;transition:background .3s,color .3s}
-a{color:var(--teal);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--teal) 40%,transparent);text-underline-offset:3px}
-a:hover{color:var(--accent);text-decoration-color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--font)}
+a{color:var(--link);text-decoration:none}
+a:hover,a:focus{color:var(--hover)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+em{font-style:italic}
+.page{max-width:820px;margin:0 auto;padding:24px 20px 40px}
+hr{border:0;height:1px;background:#cccccc;margin:14px 0}
+h2{font-weight:400;font-size:22px;margin:6px 0 14px}
 
-/* ---------- nav ---------- */
-.bar{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);
-  background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line-soft)}
-.bar-in{max-width:var(--max);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:20px}
-.brand{white-space:nowrap;display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;color:var(--ink);text-decoration:none;font-size:17px}
-.disc{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--accent);position:relative;flex:none}
-.disc::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
-.readout{font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;gap:12px;white-space:nowrap}
-.readout b{color:var(--ink);font-weight:500}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:18px}
-.nav-links{display:flex;gap:16px;font-size:14px}
-.nav-links a{color:var(--dim);text-decoration:none}
-.nav-links a:hover{color:var(--accent)}
-.theme-btn{white-space:nowrap;font:500 13px var(--sans);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:20px;padding:4px 12px;cursor:pointer}
-.theme-btn:hover{border-color:var(--accent)}
-.scalebar{position:absolute;left:0;bottom:-1px;height:3px;width:0;
-  background:repeating-linear-gradient(90deg,var(--ink) 0 40px,var(--panel) 40px 80px)}
-@media (max-width:860px){.nav-links{display:none}}
-@media (max-width:480px){.readout{display:none}}
-@media (max-width:520px){.readout .ro-lon{display:none}.bar-in{gap:12px}.brand{font-size:15px}}
+/* ---------- intro ---------- */
+.intro{display:grid;grid-template-columns:35% 1fr;gap:5%;align-items:center;padding:14px 8px 10px}
+.photo img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%}
+.minibio{margin-top:18px;background:#f0f6fc;border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:13px;line-height:1.45;color:#555}
+.minibio .t{text-align:center;font-size:12px;color:#5b6b7a;margin-bottom:8px}
+.minibio .r{display:flex;gap:8px;align-items:flex-start;margin-top:5px}
+.minibio svg{flex:none;margin-top:2px}
+.name{text-align:center;font-size:32px;margin:6px 0 12px;font-weight:400}
+.intro p{margin-bottom:12px}
+.icons{text-align:center;margin-top:16px}
+.icons a{display:inline-grid;place-items:center;width:46px;height:46px;margin:0 8px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.14);transition:transform .25s}
+.icons a:hover{transform:scale(1.18)}
 
-/* ---------- hero ---------- */
-.hero{position:relative;min-height:min(86vh,680px);overflow:hidden;border-bottom:1px solid var(--line-soft);cursor:crosshair;touch-action:pan-y}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.bm-layer{position:absolute;inset:0;pointer-events:none}
-.hero-inner{position:relative;max-width:var(--max);margin:0 auto;padding:150px 28px 90px;pointer-events:none}
-.hero-inner a{pointer-events:auto}
-.kicker{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--teal);font-weight:500;margin-bottom:22px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.6vw,54px);line-height:1.08;letter-spacing:-.02em}
-/* photo next to the name: put your picture at assets/photo.jpg (a square crop works best) */
-.hero-id{display:flex;align-items:center;gap:24px}
-.avatar{position:relative;flex:none;width:116px;height:116px;border-radius:50%;overflow:hidden;background:var(--panel2);
-  border:3px solid var(--panel);box-shadow:0 0 0 1.5px var(--accent),0 6px 18px -8px rgba(31,38,32,.35);display:grid;place-items:center}
-.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.avatar span{font:600 28px var(--display);color:var(--faint);letter-spacing:.02em}
-.rot{display:inline-block;min-width:1ch;position:relative}
-.rot::after{content:"";display:inline-block;width:.07em;height:.82em;background:var(--accent);margin-left:.06em;vertical-align:-.06em;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.tagline{margin-top:24px;max-width:54ch;font-size:19px;line-height:1.65;color:var(--dim);
-  background:color-mix(in srgb,var(--bg) 70%,transparent);border-radius:6px}
-.hero-links{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:500 15px var(--sans);padding:10px 18px;border-radius:24px;border:1px solid var(--line);
-  background:var(--panel);color:var(--ink);text-decoration:none;cursor:pointer}
-.btn:hover{border-color:var(--accent);color:var(--accent)}
-.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-.hint{margin-top:40px;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
-.bm{position:absolute;transform:translate(-50%,-50%)}
-.bm-mark{display:block;width:18px;height:18px;border-radius:50%;border:2px solid var(--accent);background:color-mix(in srgb,var(--panel) 80%,transparent);position:relative;animation:drop .35s ease-out}
-.bm-mark::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--accent)}
-.bm-tag{position:absolute;left:16px;top:12px;white-space:nowrap;font-family:var(--mono);font-size:11px;line-height:1.45;color:var(--ink);
-  background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:4px 7px}
-.bm.flip .bm-tag{left:auto;right:16px}
-@keyframes drop{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}}
+/* ---------- education ---------- */
+.edu{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:6px 8px 10px}
+.edu b{font-weight:700}
+.edu .when{font-style:italic;color:var(--dim);white-space:nowrap}
+.edu .deg{grid-column:1/-1;color:var(--dim)}
+details{grid-column:1/-1;font-size:14px;color:var(--dim)}
+summary{cursor:pointer;color:var(--link);width:fit-content}
+details p{margin-top:4px}
 
-/* ---------- sections ---------- */
-section{padding:88px 0;border-bottom:1px solid var(--line-soft)}
-.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:40px}
-h2{font-family:var(--display);font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
-.sec-sub{color:var(--dim);max-width:52ch}
+/* ---------- rows (research / projects) ---------- */
+.row{display:grid;grid-template-columns:170px 1fr;gap:6px 20px;padding:14px 8px;border-radius:8px;transition:background .2s}
+.row.open{background:#fafbfc}
+.thumb{align-self:start;padding-top:3px}
+.thumb img,.thumb video{display:block;width:170px;height:118px;object-fit:cover;border-radius:4px;background:var(--panel2);cursor:pointer}
+.thumb.none{display:grid;place-items:center;width:170px;height:118px;border-radius:4px;background:var(--panel2)}
+.ptitle{font:700 15px/1.4 var(--font);color:var(--link);background:none;border:0;text-align:left;cursor:pointer;padding:0}
+.ptitle:hover{color:var(--hover)}
+.ptitle.static{color:var(--ink);cursor:default}
+.by{margin-top:2px}
+.by b{font-weight:700}
+.links{margin-top:2px}
+.links button{font:inherit;color:var(--link);background:none;border:0;cursor:pointer;padding:0}
+.links button:hover{color:var(--hover)}
+.info p{margin-top:8px}
+.info ul{margin:8px 0 0 18px}
+.info li{margin-bottom:3px}
+.hl{background:#ffffd0}
+.panel{grid-column:1/-1;margin-top:8px}
+.panel[hidden]{display:none}
 
-/* timeline */
-.tl{position:relative}
-.entry{position:relative;padding-left:34px;padding-bottom:56px}
-.entry:last-child{padding-bottom:0}
-.entry::before{content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--accent);background:var(--bg)}
-.entry::after{content:"";position:absolute;left:6px;top:24px;bottom:4px;width:1px;background:var(--line)}
-.entry:last-child::after{display:none}
-.entry-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 16px}
-.entry-title{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.25}
-.entry-org{color:var(--dim);font-size:15px}
-.date{font-family:var(--mono);font-size:12.5px;color:var(--faint);white-space:nowrap}
-.entry ul,.proj ul{margin-top:10px;padding-left:18px;color:var(--dim);font-size:15px}
-.entry li,.proj li{margin-bottom:6px}
-li::marker{color:var(--teal)}
-.sub{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;margin-top:26px;align-items:start}
-.sub h3,.proj h3{font-family:var(--display);font-size:18px;font-weight:600;line-height:1.3}
-@media (max-width:820px){.sub{grid-template-columns:1fr}}
+/* ---------- others (skills) ---------- */
+.other{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center;padding:10px 8px}
+.tagbox{justify-self:center;font-size:16px;padding:6px 14px;border-radius:10px;text-align:center;min-width:120px}
+footer{text-align:center;color:#666;font-size:14px;margin-top:26px}
 
-/* projects */
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.chip-btn{font:500 13.5px var(--sans);padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
-.chip-btn:hover{border-color:var(--teal);color:var(--ink)}
-.chip-btn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
-.filter-note{font-size:13.5px;color:var(--faint);margin-bottom:8px}
-.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:36px;padding:44px 0;border-top:1px solid var(--line-soft);
-  transition:opacity .35s,filter .35s}
-.proj.dim{opacity:.22;filter:grayscale(1)}
-.proj.solo{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
-.proj-meta{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin-bottom:8px}
-.tags{font-size:12.5px;color:var(--teal)}
-.kpis{display:flex;flex-wrap:wrap;gap:22px;margin-top:18px}
-.kpi b{display:block;font-family:var(--display);font-size:28px;font-weight:600;line-height:1.1;color:var(--ink)}
-.kpi span{font-size:13px;color:var(--faint)}
-@media (max-width:820px){.proj,.proj.solo{grid-template-columns:1fr;gap:20px}}
-
-/* demo frame */
-.demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:0 10px 30px -18px rgba(31,38,32,.35)}
-.demo-cap{font-size:14px;color:var(--dim);margin:2px 4px 10px}
-.demo-cap strong{color:var(--ink);font-weight:600}
-.cv{display:block;width:100%;border-radius:7px;background:var(--panel2)}
+/* ---------- demos ---------- */
+.demo{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.demo+.demo{margin-top:14px}
+.demo-cap{font-size:14px;color:var(--dim);margin:0 2px 10px}
+.demo-cap strong{color:var(--ink)}
+.badge{display:inline-block;font-size:11.5px;padding:0 8px;border-radius:10px;margin-right:6px;background:var(--panel2);color:var(--faint);border:1px solid var(--line);vertical-align:1px}
+.badge.real{background:#e8f1fb;color:var(--link);border-color:#bcd6f2}
+.cv{display:block;width:100%;border-radius:6px;background:var(--panel2)}
 .ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:10px;font-size:13.5px;color:var(--dim)}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.seg button{font:500 13px var(--sans);padding:5px 11px;border:0;background:transparent;color:var(--dim);cursor:pointer}
-.seg button+button{border-left:1px solid var(--line)}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.mini{font:500 13px var(--sans);padding:5px 12px;border-radius:18px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);cursor:pointer}
-.mini:hover{border-color:var(--accent)}
+.ctrl[hidden]{display:none}
 .ctrl label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.seg button{font:13px var(--font);padding:4px 11px;border:0;background:#fff;color:var(--dim);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--link);color:#fff}
+.mini{font:13px var(--font);padding:4px 12px;border-radius:16px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.mini:hover{border-color:var(--hover);color:var(--hover)}
 input[type=range]{accent-color:var(--accent);width:150px}
-input[type=checkbox]{accent-color:var(--teal)}
-.stats{white-space:pre-wrap;font-family:var(--mono);font-size:12px;color:var(--ink);margin:10px 4px 0;min-height:1.5em}
-.note{font-size:12px;color:var(--faint);margin:6px 4px 0}
-.legend-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#2c5f8a,var(--neutral),#c0472a);flex:1;min-width:120px}
-.mg-read{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:10px}
-.mg-read div{background:var(--panel2);border-radius:6px;padding:6px 9px}
-.mg-read b{display:block;font-family:var(--mono);font-weight:500;font-size:14px;color:var(--ink)}
-.mg-read span{font-size:11.5px;color:var(--faint)}
-.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--faint);width:100%;margin-top:2px}
-
-/* badges & text-only rows */
-.badge{display:inline-block;font:500 11.5px var(--sans);padding:1px 8px;border-radius:10px;margin-right:6px;vertical-align:1px;
-  background:var(--panel2);color:var(--faint);border:1px solid var(--line)}
-.badge.real{background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
-.proj.text-only{grid-template-columns:minmax(0,1fr)}
-.proj.text-only ul{max-width:72ch}
-.sub.one{grid-template-columns:minmax(0,1fr)}
-.sub.one ul{max-width:72ch}
-.result-note{margin-top:14px;font-size:14px;color:var(--dim);max-width:60ch}
-/* video, compare slider, tabs */
-.video-frame{position:relative;border-radius:8px;overflow:hidden;background:#0b1118}
+input[type=checkbox]{accent-color:var(--link)}
+.stats{white-space:pre-wrap;font:12px/1.5 var(--mono);color:var(--ink);margin:10px 2px 0;min-height:1.5em}
+.note{font-size:12.5px;color:var(--faint);margin:6px 2px 0}
+.tabs{display:flex;gap:4px;margin:0 0 10px;border-bottom:1px solid var(--line)}
+.tabs button{font:14px var(--font);padding:5px 10px;border:0;background:none;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.video-frame{border-radius:6px;overflow:hidden;background:#0b1118}
 .video-frame video{display:block;width:100%;height:auto}
-.cmp{position:relative;width:100%;max-width:460px;aspect-ratio:1/1;margin:0 auto;border-radius:8px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--panel2)}
+.video-slot{position:relative;border-radius:6px;overflow:hidden;background:var(--panel2);border:1.5px dashed var(--line);aspect-ratio:16/9}
+.video-slot video{display:none;width:100%;height:auto;background:#0b1118}
+.video-slot.ready{border:0;aspect-ratio:auto;background:#0b1118}
+.video-slot.ready video{display:block}
+.video-slot.ready .slot-empty{display:none}
+.slot-empty{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:4px;color:var(--faint);font-size:14px;padding:16px}
+.slot-empty b{font:12.5px var(--mono);color:var(--dim)}
+.cmp{position:relative;width:100%;max-width:440px;aspect-ratio:1/1;margin:0 auto;border-radius:6px;overflow:hidden;user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--panel2)}
 .cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .cmp .top{clip-path:inset(0 0 0 50%)}
 .cmp .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
-.cmp .handle::after{content:"";position:absolute;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;
-  background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.35);
-  background-image:linear-gradient(90deg,transparent 9px,#333 9px 10px,transparent 10px 19px,#333 19px 20px,transparent 20px)}
-.cmp .tag{position:absolute;top:8px;font:500 12px var(--sans);color:#fff;background:rgba(20,24,20,.62);padding:2px 8px;border-radius:10px;pointer-events:none}
+.cmp .handle::after{content:"";position:absolute;top:50%;left:50%;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.35)}
+.cmp .tag{position:absolute;top:8px;font-size:12px;color:#fff;background:rgba(20,24,20,.62);padding:1px 8px;border-radius:10px;pointer-events:none}
 .cmp .tag.l{left:8px}.cmp .tag.r{right:8px}
-.cmp input[type=range]{position:absolute;inset:auto 0 0 0;width:100%;opacity:0;height:100%;margin:0;cursor:ew-resize}
-.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--dim);margin-top:10px}
+.cmp input[type=range]{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--dim);margin-top:10px;justify-content:center}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
-.tabs{display:flex;gap:4px;margin:0 2px 10px;border-bottom:1px solid var(--line)}
-.tabs button{font:500 13.5px var(--sans);padding:6px 10px;border:0;background:transparent;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
-.tabs button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-.ctrl[hidden]{display:none}
-/* education & skills */
-details{margin-top:10px;font-size:14.5px;color:var(--dim)}
-summary{cursor:pointer;color:var(--teal);font-weight:500;width:fit-content}
-details p{margin-top:8px;max-width:70ch}
-.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
-@media (max-width:820px){.skills{grid-template-columns:1fr}}
-.skills h3{font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:14px}
-.lang{display:grid;grid-template-columns:90px auto 1fr;align-items:end;gap:12px;margin-bottom:12px;font-size:15px}
-.lang em{font-style:normal;font-size:13px;color:var(--faint)}
-.sig{display:inline-flex;align-items:flex-end;gap:3px;height:18px}
-.sig i{width:5px;background:var(--line);border-radius:1px}
-.sig i:nth-child(1){height:5px}.sig i:nth-child(2){height:8px}.sig i:nth-child(3){height:11px}.sig i:nth-child(4){height:14px}.sig i:nth-child(5){height:18px}
-.sig i.on{background:var(--teal)}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{font-size:13.5px;padding:4px 10px;border:1px solid var(--line);border-radius:5px;color:var(--ink);background:var(--panel)}
-.chip small{color:var(--faint);font-size:12px}
 
-footer{padding:90px 0 70px;text-align:center}
-footer h2{margin-bottom:12px}
-footer p{color:var(--dim)}
-.contact{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:26px}
-.fine{margin-top:48px;font-size:12.5px;color:var(--faint)}
-
-@media (max-width:600px){
-  .wrap,.bar-in,.hero-inner{padding-left:20px;padding-right:20px}
-  .hero-inner{padding-top:120px}
-  section{padding:64px 0}
-  .entry{padding-left:26px}
-  .hero-id{gap:14px}
-  .avatar{width:80px;height:80px}
-  .avatar span{font-size:20px}
+@media (max-width:640px){
+  .intro{display:flex;flex-direction:column;gap:6px}
+  .intro .left{display:contents}
+  .photo{order:1;width:min(200px,55%);margin:0 auto}
+  .intro .right{order:2}
+  .minibio{order:3}
+  .row{grid-template-columns:1fr;gap:10px;padding:14px 4px}
+  .thumb img,.thumb video,.thumb.none{width:100%;height:170px}
+  .other{grid-template-columns:1fr;gap:6px}
+  .tagbox{justify-self:start}
+  .edu{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .rot::after{animation:none}
-  .bm-mark{animation:none}
-  .campus,.proj,.lyr{transition:none}
-}
+@media (prefers-reduced-motion:reduce){.icons a{transition:none}}
 </style>
 </head>
 <body>
+<div class="page">
 
-<nav class="bar" aria-label="Main">
-  <div class="bar-in">
-    <a class="brand" href="#top"><span class="disc"></span>Yu-Ching Lai</a>
-    <div class="readout" aria-hidden="true">
-      <span><b id="roLat">37.8715°N</b></span>
-      <span class="ro-lon"><b id="roLon">122.2730°W</b></span>
-      <span>elev <b id="roElev">—</b> m</span>
-    </div>
-    <div class="nav-right">
-      <div class="nav-links">
-        <a href="#education">Education</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
-      </div>
-      <button class="theme-btn" id="themeBtn" type="button">Night map</button>
-    </div>
-  </div>
-  <div class="scalebar" id="scalebar"></div>
-</nav>
-
-<header class="hero" id="top">
-  <canvas id="heroCanvas" aria-hidden="true"></canvas>
-  <div class="bm-layer" id="bmLayer"></div>
-  <div class="hero-inner">
-    <div class="kicker"><span class="disc"></span>Geomatics &amp; Systems Engineering, UC Berkeley</div>
-    <div class="hero-id">
-      <figure class="avatar">
-        <span aria-hidden="true">YL</span>
-        <img src="assets/photo.jpg" alt="Yu-Ching Lai" onerror="this.remove()">
-      </figure>
-      <h1>Yu-Ching Lai<br><span class="rot" id="rot">maps</span> the world.</h1>
-    </div>
-    <p class="tagline">
-      My background spans geospatial technology, sensing, and data-driven engineering, with a curiosity for exploring new technologies and solving real-world problems.
-    </p>
-    <div class="hero-links">
-      <a class="btn primary" href="#projects">Play with my projects</a>
-      <a class="btn" href="mailto:yuching_lai@berkeley.edu">yuching_lai@berkeley.edu</a>
-    </div>
-    <p class="hint" id="heroHint">Move your cursor to raise the terrain. Click to drop a survey benchmark.</p>
-  </div>
-</header>
-
-<main>
-<!-- ================= EDUCATION ================= -->
-<section id="education">
-  <div class="wrap">
-    <div class="sec-head"><h2>Education</h2></div>
-    <div class="tl">
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">University of California, Berkeley</div>
-            <div class="entry-org">M.S. Systems Engineering, Civil &amp; Environmental Engineering</div>
-          </div>
-          <div class="date">Aug 2025 – Dec 2026 (expected)</div>
+  <!-- ================= INTRO ================= -->
+  <div class="intro">
+    <div class="left">
+      <div class="photo"><img src="assets/photo.jpg" alt="Yu-Ching Lai"></div>
+      <div class="minibio">
+        <div class="t">Mini bio</div>
+        <div class="r">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#e8792b"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>
+          <div>Studied geomatics in Tainan, Taiwan; now based in Berkeley, CA.</div>
         </div>
-        <details>
-          <summary>Courses</summary>
-          <p><a href="/cs280a/">Computer Vision</a>; Data Mining; Data Modeling, Statistics, and System Simulation; Data Science for Energy; Human Mobility and Network Science; Systems Analysis in Transportation; Infrastructure Sensing and Modeling; Civil Systems: Control and Management.</p>
-        </details>
-      </article>
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">National Cheng Kung University (NCKU)</div>
-            <div class="entry-org">B.S. Geomatics, Tainan, Taiwan</div>
-          </div>
-          <div class="date">Sep 2021 – Jun 2025</div>
-        </div>
-        <details>
-          <summary>Courses</summary>
-          <p>Remote Sensing; Applied GIS and Spatial Analysis; Photogrammetry; Satellite Positioning; Surveying; Cartography; Smart Cities; Data Structure; Machine Learning.</p>
-        </details>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ================= EXPERIENCE ================= -->
-<section id="experience">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Work experience</h2>
-      <p class="sec-sub">Demos marked <span class="badge">Toy model</span> are small simulations of the idea. Charts marked <span class="badge real">Report data</span> use numbers straight from my project reports.</p>
-    </div>
-
-    <div class="tl">
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">Graduate Researcher</div>
-            <div class="entry-org">Center for Smart Infrastructure, UC Berkeley</div>
-          </div>
-          <div class="date">Mar 2026 – present</div>
-        </div>
-
-        <div class="sub">
-          <div>
-            <h3>Distributed Acoustic Sensing (DAS) for traffic monitoring</h3>
-            <ul>
-              <li>Compared time-series and spatial-series signal features (amplitude, peak count, frequency content, spatial extent) across vehicles, motorbikes, bicycles and pedestrians in DAS strain data, building a feature basis for road-user classification.</li>
-              <li>Built a Python signal-processing and visualization pipeline for low-SNR signals such as pedestrians, producing strain-vs-time and strain-vs-location profiles to check whether weak gait-frequency signals are detectable.</li>
-            </ul>
-          </div>
-          <div class="demo">
-            <p class="demo-cap"><span class="badge">Toy model</span><strong>Every road user leaves a different strain signature.</strong> Pick one. Pedestrians are the hard case: try zoom and the smoothing filter.</p>
-            <canvas id="dasCanvas" class="cv" style="height:180px" aria-label="Simulated DAS strain signal"></canvas>
-            <div class="ctrl">
-              <div class="seg" id="dasSeg" role="group" aria-label="Road user">
-                <button type="button" data-v="car" aria-pressed="true">Car</button>
-                <button type="button" data-v="moto" aria-pressed="false">Motorbike</button>
-                <button type="button" data-v="bike" aria-pressed="false">Bicycle</button>
-                <button type="button" data-v="ped" aria-pressed="false">Pedestrian</button>
-              </div>
-              <label><input type="checkbox" id="dasZoom"> Zoom</label>
-              <label><input type="checkbox" id="dasFilt"> Smoothing filter</label>
-            </div>
-            <div class="stats" id="dasStats"></div>
-          </div>
-        </div>
-
-        <div class="sub">
-          <div>
-            <h3>3D visualization of landslides in the Berkeley area</h3>
-            <ul>
-              <li>Processed multi-temporal SAR imagery in Google Earth Engine and ArcGIS to compute fault displacement and surface velocity fields around Berkeley, identifying deformation zones and potential landslide risk.</li>
-              <li>Built an interactive 3D terrain viewer with Alpha Earth and DEM data, turning raw geodetic data into a walkable digital twin for hazard assessment.</li>
-            </ul>
-          </div>
-          <div class="demo">
-            <p class="demo-cap"><span class="badge real">Project recording</span><strong>The viewer stepping through year-to-year displacement.</strong> Left: vertical motion. Right: horizontal motion along the fault, where blue patches line up along the hills.</p>
-            <div class="video-frame">
-              <video id="slideVideo" src="assets/landslide-viewer.mp4" poster="assets/landslide-poster.jpg" muted loop playsinline controls preload="metadata"></video>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">Project Assistant</div>
-            <div class="entry-org">Taiwan Integrated Disaster Prevention of Technology, Tainan</div>
-          </div>
-          <div class="date">May 2025 – Jun 2025</div>
-        </div>
-        <div class="sub">
-          <div>
-            <ul>
-              <li>Worked with photogrammetric and LiDAR point clouds to support 3D modeling and city development.</li>
-              <li>Identified and digitized roadside signage from point clouds in Trimble Business Center, exporting shapefiles for GIS workflows.</li>
-            </ul>
-          </div>
-          <div class="demo">
-            <p class="demo-cap"><span class="badge">Toy model</span><strong>Drag to orbit a street scan,</strong> then pull the road signs out of it.</p>
-            <canvas id="pcCanvas" class="cv" style="height:220px;touch-action:pan-y;cursor:grab" aria-label="Toy street point cloud"></canvas>
-            <div class="ctrl"><button class="mini" type="button" id="pcBtn">Digitize signs</button></div>
-            <div class="stats" id="pcStats"></div>
-          </div>
-        </div>
-      </article>
-
-      <article class="entry">
-        <div class="entry-top">
-          <div>
-            <div class="entry-title">Lab Assistant</div>
-            <div class="entry-org">Cyber-city Lab, NCKU, Tainan</div>
-          </div>
-          <div class="date">May 2024 – Jul 2024</div>
-        </div>
-        <ul>
-          <li>Annotated 100+ bridge inspection images, marking structural deterioration regions for a supervised deep-learning dataset.</li>
-          <li>Followed standardized labeling guidelines and cross-checked annotations for consistency.</li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PROJECTS ================= -->
-<section id="projects">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Projects</h2>
-      <p class="sec-sub">From disaster response to delivery logistics. Filter by skill to see where I’ve used it.</p>
-    </div>
-
-    <div class="filters" id="filters" role="group" aria-label="Filter projects by skill">
-      <button class="chip-btn" type="button" data-v="all" aria-pressed="true">All</button>
-      <button class="chip-btn" type="button" data-v="Python" aria-pressed="false">Python</button>
-      <button class="chip-btn" type="button" data-v="Optimization" aria-pressed="false">Optimization</button>
-      <button class="chip-btn" type="button" data-v="Simulation" aria-pressed="false">Simulation</button>
-      <button class="chip-btn" type="button" data-v="Mobility" aria-pressed="false">Mobility</button>
-      <button class="chip-btn" type="button" data-v="Remote sensing" aria-pressed="false">Remote sensing</button>
-      <button class="chip-btn" type="button" data-v="GIS" aria-pressed="false">GIS</button>
-      <button class="chip-btn" type="button" data-v="Web" aria-pressed="false">Web</button>
-      <button class="chip-btn" type="button" data-v="Energy" aria-pressed="false">Energy</button>
-    </div>
-    <p class="filter-note" id="filterNote">Showing all 6 projects.</p>
-
-    <!-- Microgrid -->
-    <article class="proj" data-tags="Python,Optimization,Energy">
-      <div>
-        <div class="proj-meta"><span class="date">Jan 2026 – May 2026</span><span class="tags">Python · PuLP/CBC · Linear programming</span></div>
-        <h3>Optimal scheduling of renewable energy and storage in a UC Berkeley microgrid</h3>
-        <ul>
-          <li>Built a 24-hour linear program for 133 campus buildings from real hourly data on the UC Berkeley Energy Use Dashboard, estimating rooftop solar for 124 of them from the six buildings with metered PV.</li>
-          <li>Gave every building an auto-sized battery (about 88 MWh campus-wide) and let buildings within 300 m trade power.</li>
-          <li>Compared four designs, each adding one feature, to find out what actually creates the savings.</li>
-        </ul>
-        <div class="kpis">
-          <div class="kpi"><b>14.2%</b><span>lower weekly cost ($55,056)</span></div>
-          <div class="kpi"><b>13.8%</b><span>less CO₂ (117 t per week)</span></div>
+        <div class="r">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="#1772d0"/><circle cx="8" cy="10.5" r="1.3" fill="#fff"/><circle cx="12" cy="10.5" r="1.3" fill="#fff"/><circle cx="16" cy="10.5" r="1.3" fill="#fff"/></svg>
+          <div>Mandarin (native), English (advanced), Korean (basic).</div>
         </div>
       </div>
+    </div>
+    <div class="right">
+      <h1 class="name">Yu-Ching Lai</h1>
+      <p>I am an M.S. student in Systems Engineering in the Department of Civil &amp; Environmental Engineering at <a href="https://ce.berkeley.edu/">UC Berkeley</a>, and a graduate researcher at the Center for Smart Infrastructure. Before Berkeley, I received my B.S. in Geomatics from National Cheng Kung University (NCKU) in Taiwan.</p>
+      <p>My background spans geospatial technology, sensing, and data-driven engineering, with a curiosity for exploring new technologies and solving real-world problems. Recently I have been turning buried telecom fiber into a traffic sensor, and measuring landslide motion from satellite radar.</p>
+      <div class="icons">
+        <a href="mailto:yuching_lai@berkeley.edu" title="Email" aria-label="Email">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4.5" width="20" height="15" rx="2.5" fill="#ea4335"/><path d="M3.5 7l8.5 6 8.5-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/yu-ching-jessie-lai" title="LinkedIn" aria-label="LinkedIn">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#0a66c2"/><rect x="5" y="9.5" width="3" height="9" fill="#fff"/><circle cx="6.5" cy="6.3" r="1.8" fill="#fff"/><path d="M10.5 9.5h2.9v1.3c.5-.9 1.6-1.6 3.1-1.6 2.6 0 3.5 1.6 3.5 4.2v5.1h-3v-4.5c0-1.2-.3-2.2-1.6-2.2s-1.9 1-1.9 2.2v4.5h-3z" fill="#fff"/></svg>
+        </a>
+        <a href="https://github.com/yc-jessie-lai" title="GitHub" aria-label="GitHub">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="#181717" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ================= EDUCATION ================= -->
+  <h2>Education</h2>
+  <div class="edu">
+    <b>University of California, Berkeley</b><span class="when">Aug 2025 – Dec 2026 (expected)</span>
+    <span class="deg">M.S. Systems Engineering, Civil &amp; Environmental Engineering</span>
+    <details><summary>Courses</summary><p><a href="/cs280a/">Computer Vision</a>; Data Mining; Data Modeling, Statistics, and System Simulation; Data Science for Energy; Human Mobility and Network Science; Systems Analysis in Transportation; Infrastructure Sensing and Modeling; Civil Systems: Control and Management.</p></details>
+  </div>
+  <div class="edu">
+    <b>National Cheng Kung University (NCKU)</b><span class="when">Sep 2021 – Jun 2025</span>
+    <span class="deg">B.S. Geomatics, Tainan, Taiwan</span>
+    <details><summary>Courses</summary><p>Remote Sensing; Applied GIS and Spatial Analysis; Photogrammetry; Satellite Positioning; Surveying; Cartography; Smart Cities; Data Structure; Machine Learning.</p></details>
+  </div>
+
+  <hr>
+
+  <!-- ================= RESEARCH & EXPERIENCE ================= -->
+  <h2>Research &amp; Work Experience</h2>
+
+  <div class="row" id="das">
+    <div class="thumb"><img src="assets/thumbs/das.png" alt="" data-open="das"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="das">Distributed Acoustic Sensing (DAS) for Traffic Monitoring and Digital Twin</button>
+      <div class="by"><b>Graduate Researcher</b>, Center for Smart Infrastructure, UC Berkeley</div>
+      <div><em>Mar 2026 – present</em></div>
+      <div class="links"><button type="button" data-open="das">interactive demo</button> / <button type="button" data-open="das">video</button></div>
+      <ul>
+        <li>Built an end-to-end Python pipeline that turns an existing buried fiber under an urban street into a privacy-preserving traffic sensor, detecting cars, cyclists and pedestrians from DAS strain alone.</li>
+        <li>Preprocessed 24 h of 100 Hz DAS data (despiking, bad-channel interpolation, common-mode removal), then aligned and stacked five fiber sections via cross-correlation to raise SNR for weak far-lane and pedestrian signals.</li>
+        <li>Extracted road-user tracks with an iterative Radon-transform line search, tracked pedestrian footsteps on a separate 2–20 Hz band, and classified road users by speed and direction.</li>
+        <li>Validated detections against synchronized video and replayed the fiber-derived traffic in a 3D digital twin.</li>
+      </ul>
+    </div>
+    <div class="panel" id="panel-das" hidden>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge">Toy model</span><strong>Every road user leaves a different strain signature.</strong> Pick one. Pedestrians are the hard case: try zoom and the smoothing filter.</p>
+        <canvas id="dasCanvas" class="cv" style="height:180px" aria-label="Simulated DAS strain signal"></canvas>
+        <div class="ctrl">
+          <div class="seg" id="dasSeg" role="group" aria-label="Road user">
+            <button type="button" data-v="car" aria-pressed="true">Car</button>
+            <button type="button" data-v="moto" aria-pressed="false">Motorbike</button>
+            <button type="button" data-v="bike" aria-pressed="false">Bicycle</button>
+            <button type="button" data-v="ped" aria-pressed="false">Pedestrian</button>
+          </div>
+          <label><input type="checkbox" id="dasZoom"> Zoom</label>
+          <label><input type="checkbox" id="dasFilt"> Smoothing filter</label>
+        </div>
+        <div class="stats" id="dasStats"></div>
+      </div>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge real">Project recording</span><strong>Fiber-derived traffic replayed in the 3D digital twin.</strong></p>
+        <div class="video-slot">
+          <!-- Put the video at assets/das-digital-twin.mp4 -->
+          <video src="assets/das-digital-twin.mp4" muted loop playsinline controls preload="metadata"></video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="landslide">
+    <div class="thumb"><video src="assets/landslide-viewer.mp4" autoplay muted loop playsinline data-open="landslide" aria-label="Landslide viewer preview"></video></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="landslide">3D Visualization of Landslides in the Berkeley Area</button>
+      <div class="by"><b>Graduate Researcher</b>, Center for Smart Infrastructure, UC Berkeley</div>
+      <div><em>Mar 2026 – present</em></div>
+      <div class="links"><button type="button" data-open="landslide">video</button></div>
+      <p>Processed multi-temporal SAR imagery in Google Earth Engine and ArcGIS to compute fault displacement and surface velocity fields around Berkeley, then built an interactive 3D terrain viewer with Alpha Earth and DEM data to explore deformation zones and potential landslide risk.</p>
+    </div>
+    <div class="panel" id="panel-landslide" hidden>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge real">Project recording</span><strong>The viewer stepping through year-to-year displacement.</strong> Left: vertical motion. Right: horizontal motion along the fault, where blue patches line up along the hills.</p>
+        <div class="video-frame"><video id="slideVideo" src="assets/landslide-viewer.mp4" poster="assets/landslide-poster.jpg" muted loop playsinline controls preload="metadata"></video></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="pointcloud">
+    <div class="thumb"><img src="assets/thumbs/pointcloud.png" alt="" data-open="pointcloud"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="pointcloud">Roadside Signage from LiDAR and Photogrammetric Point Clouds</button>
+      <div class="by"><b>Project Assistant</b>, Taiwan Integrated Disaster Prevention of Technology</div>
+      <div><em>May 2025 – Jun 2025</em></div>
+      <div class="links"><button type="button" data-open="pointcloud">interactive demo</button></div>
+      <p>Worked with photogrammetric and LiDAR point clouds to support 3D modeling for city development; identified and digitized roadside signage in Trimble Business Center and exported shapefiles for GIS workflows.</p>
+    </div>
+    <div class="panel" id="panel-pointcloud" hidden>
+      <div class="demo">
+        <p class="demo-cap"><span class="badge">Toy model</span><strong>Drag to orbit a street scan,</strong> then pull the road signs out of it.</p>
+        <canvas id="pcCanvas" class="cv" style="height:240px;touch-action:pan-y;cursor:grab" aria-label="Toy street point cloud"></canvas>
+        <div class="ctrl"><button class="mini" type="button" id="pcBtn">Digitize signs</button></div>
+        <div class="stats" id="pcStats"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ================= PROJECTS ================= -->
+  <h2>Projects</h2>
+
+  <div class="row" id="microgrid">
+    <div class="thumb"><img src="assets/thumbs/microgrid.png" alt="" data-open="microgrid"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="microgrid">Optimal Scheduling of Renewable Energy and Storage in a UC Berkeley Microgrid</button>
+      <div class="by">Course project, UC Berkeley · Python, PuLP/CBC, linear programming</div>
+      <div><em>Jan 2026 – May 2026</em></div>
+      <div class="links"><button type="button" data-open="microgrid">interactive results</button></div>
+      <p>A 24-hour linear program over 133 campus buildings with an auto-sized battery in every building and power sharing within 300 m, built on real hourly data from the UC Berkeley Energy Use Dashboard. <span class="hl">Cut weekly cost by 14.2% ($55,056) and CO₂ by 13.8%</span>, and showed that local storage captures almost all of the value.</p>
+    </div>
+    <div class="panel" id="panel-microgrid" hidden>
       <div class="demo">
         <div class="tabs" id="mgTabs" role="group" aria-label="View">
           <button type="button" data-v="day" aria-pressed="true">A day on campus</button>
@@ -480,24 +317,19 @@ footer p{color:var(--dim)}
         <div class="stats" id="mgStats"></div>
         <p class="note" id="mgNote"></p>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- Evacuation -->
-    <article class="proj" data-tags="Simulation,Python,Web">
-      <div>
-        <div class="proj-meta"><span class="date">Sep 2025 – Dec 2025</span><span class="tags">Python · JavaScript · Three.js · Agent-based</span></div>
-        <h3>Emergency evacuation simulation under dynamic congestion</h3>
-        <ul>
-          <li>Surveyed floors 3–7 of Davis Hall on site (corridor widths, doors, stairwells) and turned them into a 3D network of 532 nodes and 1,166 edges. Also wrote an IFC parser that builds the network straight from BIM models.</li>
-          <li>Agents walk at different speeds and slow down in crowded corridors; corridor costs rise with live occupancy, so routes change as crowds form.</li>
-          <li>Compared Dijkstra and A* at two scales and visualized the run in 3D with Three.js.</li>
-        </ul>
-        <div class="kpis">
-          <div class="kpi"><b>36.5%</b><span>fewer node expansions with A*</span></div>
-          <div class="kpi"><b>3%</b><span>faster evacuation (166 s vs 171.1 s)</span></div>
-        </div>
-        <p class="result-note">Those gains appear at full scale (5 floors, 500 agents). In a small one-floor building the two algorithms were nearly identical: 245 vs 248 expansions.</p>
-      </div>
+  <div class="row" id="evacuation">
+    <div class="thumb"><img src="assets/thumbs/evacuation.png" alt="" data-open="evacuation"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="evacuation">Emergency Evacuation Simulation under Dynamic Congestion</button>
+      <div class="by">Course project, UC Berkeley · Python, JavaScript, Three.js, agent-based modeling</div>
+      <div><em>Sep 2025 – Dec 2025</em></div>
+      <div class="links"><button type="button" data-open="evacuation">interactive demo</button></div>
+      <p>Surveyed floors 3–7 of Davis Hall on site and built a 3D evacuation network (532 nodes, 1,166 edges), plus an IFC parser that builds it straight from BIM models. Agents slow down in crowded corridors and replan as congestion grows. At full scale, <span class="hl">A* expanded 36.5% fewer nodes than Dijkstra and evacuated 3% faster</span> (166 s vs 171.1 s); visualized in 3D with Three.js.</p>
+    </div>
+    <div class="panel" id="panel-evacuation" hidden>
       <div class="demo">
         <p class="demo-cap"><span class="badge">Toy model</span><strong>Click anywhere in the floor plan to place a person.</strong> Compare how much of the building each algorithm searches, then block the corridor with a crowd.</p>
         <canvas id="evacCanvas" class="cv" style="height:210px;cursor:pointer" aria-label="Toy floor plan pathfinding"></canvas>
@@ -510,21 +342,21 @@ footer p{color:var(--dim)}
           <button class="mini" type="button" id="evacClear">Clear crowds</button>
         </div>
         <div class="stats" id="evacStats"></div>
-        <p class="note">Crowded cells cost more to cross, following the report’s weighting w = w₀(1 + 5ρ).</p>
+        <p class="note">Crowded cells cost more to cross, following the project’s weighting w = w₀(1 + 5ρ).</p>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- EV -->
-    <article class="proj" data-tags="Simulation,Mobility">
-      <div>
-        <div class="proj-meta"><span class="date">Sep 2025 – Dec 2025</span><span class="tags">Event-driven simulation · Replica · OpenStreetMap · RL</span></div>
-        <h3>Modeling and optimizing EV charging behavior with mobility data and reinforcement learning</h3>
-        <ul>
-          <li>Built an event-driven EV charging simulation combining Replica mobility data, OpenStreetMap networks and charging infrastructure, with 1,000 EV agents moving through San Francisco.</li>
-          <li>Calibrated simulated trajectories against real Replica traces using jump length, radius of gyration and waiting time.</li>
-        </ul>
-        <div class="kpis"><div class="kpi"><b>1,000</b><span>EV agents in San Francisco</span></div></div>
-      </div>
+  <div class="row" id="ev">
+    <div class="thumb"><img src="assets/thumbs/ev.png" alt="" data-open="ev"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="ev">Modeling and Optimizing EV Charging Behavior with Mobility Data and Reinforcement Learning</button>
+      <div class="by">Course project, UC Berkeley · event-driven simulation, Replica, OpenStreetMap</div>
+      <div><em>Sep 2025 – Dec 2025</em></div>
+      <div class="links"><button type="button" data-open="ev">interactive demo</button></div>
+      <p>An event-driven charging simulation of 1,000 EV agents moving through San Francisco, combining Replica mobility data, OpenStreetMap road networks and charging infrastructure, calibrated against real traces using jump length, radius of gyration and waiting time.</p>
+    </div>
+    <div class="panel" id="panel-ev" hidden>
       <div class="demo">
         <p class="demo-cap"><span class="badge">Toy model</span><strong>More chargers, shorter queues.</strong> Drag the slider and watch the waiting cars (orange dots beside each charger) clear.</p>
         <canvas id="evCanvas" class="cv" style="height:210px" aria-label="Toy EV charging simulation"></canvas>
@@ -532,26 +364,21 @@ footer p{color:var(--dim)}
           <label>Chargers <input type="range" id="evN" min="1" max="8" step="1" value="3"> <b id="evNLabel">3</b></label>
         </div>
         <div class="stats" id="evStats"></div>
-        <p class="note">40 cars, 2 plugs per charger. Teal is driving, blue is charging, orange needs a charge.</p>
+        <p class="note">40 cars, 2 plugs per charger. Blue is driving, green is charging, orange needs a charge.</p>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- Bike GPS -->
-    <article class="proj" data-tags="Mobility,Simulation,GIS">
-      <div>
-        <div class="proj-meta"><span class="date">Feb 2024 – Jun 2024</span><span class="tags">ArcGIS Pro · R (moveHMM, DBSCAN) · NetLogo</span></div>
-        <h3>Campus peak and off-peak patterns from bicycle GPS trajectories at NCKU</h3>
-        <ul>
-          <li>Rode two main routes across NCKU’s Chengkung campus at 9:30, 12:00, 14:30 and 17:00, collecting 31 GPS tracks, then cleaned them in ArcGIS Pro.</li>
-          <li>Used moveHMM step lengths and turning angles to tell peak from off-peak riding, and DBSCAN to find where riders bunch up and slow down.</li>
-          <li>Built a NetLogo model of bikes and pedestrians, which showed conflicts concentrating near the corners of intersections.</li>
-          <li>Recommended proper bike parking near the busiest buildings and campus-wide traffic awareness.</li>
-        </ul>
-        <div class="kpis">
-          <div class="kpi"><b>12:00 &amp; 17:00</b><span>peak periods</span></div>
-          <div class="kpi"><b>4</b><span>conflict hotspots</span></div>
-        </div>
-      </div>
+  <div class="row" id="bike">
+    <div class="thumb"><img src="assets/thumbs/bike.png" alt="" data-open="bike"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="bike">Campus Peak and Off-Peak Patterns from Bicycle GPS Trajectories at NCKU</button>
+      <div class="by">Course project, NCKU · ArcGIS Pro, R (moveHMM, DBSCAN), NetLogo</div>
+      <div><em>Feb 2024 – Jun 2024</em></div>
+      <div class="links"><button type="button" data-open="bike">interactive demo</button></div>
+      <p>Rode two main routes across campus at four times of day to collect 31 GPS tracks, then used moveHMM step lengths and turning angles to separate peak from off-peak riding and DBSCAN to find where riders bunch up. <span class="hl">Found peaks at 12:00 and 17:00 and four conflict hotspots</span>; a NetLogo model showed conflicts concentrating near intersection corners.</p>
+    </div>
+    <div class="panel" id="panel-bike" hidden>
       <div class="demo">
         <p class="demo-cap"><span class="badge real">Report data</span><strong>Pick a time of day.</strong> Riders move at the measured average speed, weave the way the turning angles showed, and orange rings mark the DBSCAN hotspots.</p>
         <canvas id="bikeCanvas" class="cv" style="height:260px" aria-label="Schematic campus with two bike routes"></canvas>
@@ -566,22 +393,19 @@ footer p{color:var(--dim)}
         <div class="stats" id="bikeStats"></div>
         <p class="note">Schematic map of the campus. Animation runs about 12× faster than real time.</p>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- Food delivery -->
-    <article class="proj" data-tags="Python,Optimization,Mobility">
-      <div>
-        <div class="proj-meta"><span class="date">Feb 2024 – Jan 2025</span><span class="tags">Python · Tabu Search · Genetic algorithms</span></div>
-        <h3>Food delivery route optimization</h3>
-        <ul>
-          <li>Formulated on-demand delivery as a pickup-and-delivery problem with capacity and precedence constraints, using real coordinates of restaurants, customers and couriers.</li>
-          <li>Compared Tabu Search and genetic algorithms on road-network distances in a 30-courier, 60-order scenario.</li>
-        </ul>
-        <div class="kpis">
-          <div class="kpi"><b>~36%</b><span>shorter routes with Tabu Search</span></div>
-          <div class="kpi"><b>~30%</b><span>faster computation</span></div>
-        </div>
-      </div>
+  <div class="row" id="delivery">
+    <div class="thumb"><img src="assets/thumbs/delivery.png" alt="" data-open="delivery"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="delivery">Food Delivery Route Optimization</button>
+      <div class="by">Research project, NCKU · Python, Tabu Search, genetic algorithms</div>
+      <div><em>Feb 2024 – Jan 2025</em></div>
+      <div class="links"><button type="button" data-open="delivery">interactive demo</button></div>
+      <p>Formulated on-demand delivery as a pickup-and-delivery problem with capacity and precedence constraints on real coordinates. In a 30-courier, 60-order scenario, <span class="hl">Tabu Search gave ~36% shorter routes and ~30% faster computation</span> than a genetic algorithm.</p>
+    </div>
+    <div class="panel" id="panel-delivery" hidden>
       <div class="demo">
         <p class="demo-cap"><span class="badge">Toy model</span><strong>One courier, fourteen stops.</strong> Start from a random order, then let local search untangle the route one swap at a time.</p>
         <canvas id="tspCanvas" class="cv" style="height:210px" aria-label="Toy route optimization"></canvas>
@@ -592,26 +416,22 @@ footer p{color:var(--dim)}
         <div class="stats" id="tspStats"></div>
         <p class="note">The demo uses 2-opt swaps on a single route; the real project solved a constrained multi-courier problem.</p>
       </div>
-    </article>
+    </div>
+  </div>
 
-    <!-- Refugee -->
-    <article class="proj" data-tags="Remote sensing,GIS">
-      <div>
-        <div class="proj-meta"><span class="date">Sep 2023 – Dec 2023</span><span class="tags">Landsat-8 · Sentinel-1 SAR · ENVI · ArcGIS · SNAP</span></div>
-        <h3>Rohingya refugee crisis: environmental change around Kutupalong</h3>
-        <ul>
-          <li>Classified three dry-season Landsat-8 images (2016–2018) in ENVI into settlement, bare land, water and vegetation, then measured each class in ArcGIS.</li>
-          <li>Processed three monsoon-season Sentinel-1 SAR images (2017–2019) in SNAP and digitized camp and flood extents.</li>
-          <li>After the August 2017 influx the camp grew roughly tenfold within a year, replacing vegetation with settlement and bare land, while monsoon floods reached into the camp every summer.</li>
-        </ul>
-        <div class="kpis">
-          <div class="kpi"><b>1.35 → 17.90 km²</b><span>camp area, Nov 2016 to Dec 2018</span></div>
-          <div class="kpi"><b>22.73 km²</b><span>flooded, July 2017</span></div>
-        </div>
-      </div>
+  <div class="row" id="refugee">
+    <div class="thumb"><img src="assets/thumbs/kutupalong.jpg" alt="" data-open="refugee"></div>
+    <div class="info">
+      <button class="ptitle" type="button" data-open="refugee">Rohingya Refugee Crisis: Environmental Change around Kutupalong</button>
+      <div class="by">Remote Sensing course, NCKU · Landsat-8, Sentinel-1 SAR, ENVI, ArcGIS, SNAP</div>
+      <div><em>Sep 2023 – Dec 2023</em></div>
+      <div class="links"><button type="button" data-open="refugee">compare images</button></div>
+      <p>Classified dry-season Landsat-8 images (2016–2018) and digitized monsoon flood extents from Sentinel-1 SAR (2017–2019). After the August 2017 influx, <span class="hl">the camp grew from 1.35 to 17.90 km²</span>, replacing vegetation with settlement and bare land, while monsoon floods reached into the camp every summer.</p>
+    </div>
+    <div class="panel" id="panel-refugee" hidden>
       <div class="demo">
         <p class="demo-cap"><span class="badge real">Report data</span><strong>Pick a date and drag the slider</strong> to compare the Landsat-8 image with my classification.</p>
-        <div class="ctrl" style="margin:0 0 10px">
+        <div class="ctrl" style="margin:0 0 10px;justify-content:center">
           <div class="seg" id="rfSeg" role="group" aria-label="Image date">
             <button type="button" data-v="2016" aria-pressed="false">Nov 2016</button>
             <button type="button" data-v="2017" aria-pressed="true">Nov 2017</button>
@@ -630,80 +450,45 @@ footer p{color:var(--dim)}
           <span><i style="background:#d6e6ef"></i>Water</span><span><i style="background:#c9e1b2"></i>Vegetation</span>
           <span><i style="background:#7a1f3d;height:3px;vertical-align:3px"></i>Bangladesh–Myanmar border</span>
         </div>
-        <div class="stats" id="rfStats"></div>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- ================= SKILLS ================= -->
-<section id="skills">
-  <div class="wrap">
-    <div class="sec-head"><h2>Skills</h2></div>
-    <div class="skills">
-      <div>
-        <h3>Languages</h3>
-        <div class="lang"><span>Mandarin</span><span class="sig" data-v="5"><i></i><i></i><i></i><i></i><i></i></span><em>native</em></div>
-        <div class="lang"><span>English</span><span class="sig" data-v="4"><i></i><i></i><i></i><i></i><i></i></span><em>advanced</em></div>
-        <div class="lang"><span>Korean</span><span class="sig" data-v="1"><i></i><i></i><i></i><i></i><i></i></span><em>basic</em></div>
-      </div>
-      <div>
-        <h3>Programming</h3>
-        <div class="chips">
-          <span class="chip">Python <small>OpenCV, NumPy, scikit-learn, TensorFlow, NetworkX, PuLP</small></span>
-          <span class="chip">C</span><span class="chip">C++</span><span class="chip">MATLAB</span><span class="chip">R</span>
-          <span class="chip">JavaScript <small>Three.js</small></span><span class="chip">SQL</span>
-        </div>
-      </div>
-      <div>
-        <h3>Tools</h3>
-        <div class="chips">
-          <span class="chip">ArcGIS Pro</span><span class="chip">ArcGIS Online</span><span class="chip">QGIS</span>
-          <span class="chip">Google Earth Engine</span><span class="chip">ENVI</span><span class="chip">SNAP</span>
-          <span class="chip">Agisoft Metashape</span><span class="chip">Trimble Business Center</span>
-          <span class="chip">Unreal Engine</span><span class="chip">NetLogo</span><span class="chip">Docker</span>
-        </div>
+        <div class="stats" id="rfStats" style="text-align:center"></div>
       </div>
     </div>
   </div>
-</section>
-</main>
 
-<footer id="contact">
-  <div class="wrap">
-    <div class="disc" style="width:34px;height:34px;margin:0 auto 22px;border-width:2px"></div>
-    <h2>Let’s talk mapping, sensing or modeling.</h2>
-    <p>Open to research and industry roles in geospatial data science and systems engineering.</p>
-    <div class="contact">
-      <a class="btn primary" href="mailto:yuching_lai@berkeley.edu">Email me</a>
-      <a class="btn" href="https://www.linkedin.com/in/yu-ching-jessie-lai">LinkedIn</a>
-      <a class="btn" href="https://github.com/yc-jessie-lai">GitHub</a>
-    </div>
-    <p class="fine">Berkeley, CA. Built and hosted with GitHub Pages. Demos are illustrative toy models.</p>
+  <hr>
+
+  <!-- ================= OTHERS ================= -->
+  <h2>Skills</h2>
+  <div class="other">
+    <div class="tagbox" style="background:#d2e0fb">Programming</div>
+    <div>Python (OpenCV, NumPy, scikit-learn, TensorFlow, NetworkX, PuLP), C, C++, MATLAB, R, JavaScript (Three.js), SQL</div>
   </div>
-</footer>
+  <div class="other">
+    <div class="tagbox" style="background:#e3f2d9">GIS &amp; RS</div>
+    <div>ArcGIS Pro, ArcGIS Online, QGIS, Google Earth Engine, ENVI, SNAP, Agisoft Metashape, Trimble Business Center</div>
+  </div>
+  <div class="other">
+    <div class="tagbox" style="background:#fff1d5">Other tools</div>
+    <div>Unreal Engine, NetLogo, Docker</div>
+  </div>
+
+  <footer>Contact me at <a href="mailto:yuching_lai@berkeley.edu">yuching_lai@berkeley.edu</a></footer>
+</div>
 
 <script>
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const root=document.documentElement;
-
-/* ---------- theme & colors ---------- */
-(function(){let t=null;try{t=localStorage.getItem('ycl-theme')}catch(e){}
-  root.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');})();
 const C={};
-const VARS=['bg','panel','panel2','ink','dim','faint','line','accent','teal','blue','green','sand','water','neutral','violet','contour','contour-major'];
-function readColors(){const s=getComputedStyle(root);VARS.forEach(v=>{C[v.replace(/-(\w)/g,(_,c)=>c.toUpperCase())]=s.getPropertyValue('--'+v).trim();});}
-readColors();
-
+(function(){const s=getComputedStyle(document.documentElement);
+  ['bg','panel','panel2','ink','dim','faint','line','accent','teal','blue','green','sand','water','neutral','violet'].forEach(v=>{C[v]=s.getPropertyValue('--'+v).trim();});})();
 const hexRGB=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));};
 const rgba=(h,a)=>{const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const gauss=(x,m,s)=>Math.exp(-((x-m)**2)/(2*s*s));
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function randn(R=Math.random){let u=0;while(!u)u=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*R());}
-const MONO='11px "IBM Plex Mono",ui-monospace,monospace';
+const MONO='11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
 
 /* ---------- demo framework ---------- */
 function fitCanvas(c){const dpr=Math.min(window.devicePixelRatio||1,2);const r=c.getBoundingClientRect();
@@ -720,81 +505,6 @@ function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;for(const d o
 requestAnimationFrame(loop);
 function seg(el,cb){el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   $$('button',el).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));cb(b.dataset.v);});}
-
-const themeBtn=$('#themeBtn');
-function syncThemeBtn(){themeBtn.textContent=root.dataset.theme==='dark'?'Day map':'Night map';}
-themeBtn.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
-  try{localStorage.setItem('ycl-theme',root.dataset.theme)}catch(e){}
-  readColors();syncThemeBtn();demos.forEach(d=>d.render&&d.render());});
-syncThemeBtn();
-
-/* scale-bar scroll indicator */
-const sb=$('#scalebar');
-addEventListener('scroll',()=>{const m=document.documentElement.scrollHeight-innerHeight;sb.style.width=(m>0?scrollY/m*100:0)+'%';},{passive:true});
-
-/* ================= HERO: live contour map ================= */
-const heroEl=$('#top'),heroCv=$('#heroCanvas');
-const M={x:0,y:0,tx:0,ty:0,amp:0,tamp:0,seen:false};
-function field(x,y,t){
-  let v=Math.sin(x*.0062+t*.00011)*Math.cos(y*.0079-t*.00008)
-    +.6*Math.sin((x*.7+y)*.0105+t*.00015)
-    +.35*Math.cos((x-y*1.3)*.017-t*.0001)
-    +.18*Math.sin(x*.031+y*.023);
-  if(M.amp>.001){const dx=x-M.x,dy=y-M.y;v+=1.5*M.amp*Math.exp(-(dx*dx+dy*dy)/16200);}
-  return v;
-}
-const SEGT=[[],[3,2],[2,1],[3,1],[0,1],[3,0,2,1],[0,2],[3,0],[3,0],[0,2],[0,1,3,2],[0,1],[3,1],[2,1],[3,2],[]];
-let PX=0,PY=0;
-function ep(e,x0,y0,cs,L,a,b,c,d){switch(e){
-  case 0:PX=x0+cs*(L-a)/(b-a);PY=y0;break;
-  case 1:PX=x0+cs;PY=y0+cs*(L-b)/(c-b);break;
-  case 2:PX=x0+cs*(L-d)/(c-d);PY=y0+cs;break;
-  default:PX=x0;PY=y0+cs*(L-a)/(d-a);}}
-const hero=makeDemo(heroCv,{t:0,V:null,
-  frame(dt){if(!RM)this.t+=dt*1000;
-    M.x+=(M.tx-M.x)*.14;M.y+=(M.ty-M.y)*.14;M.amp+=(M.tamp-M.amp)*.08;
-    if(RM&&Math.abs(M.tamp-M.amp)<.002&&Math.abs(M.tx-M.x)<.3&&Math.abs(M.ty-M.y)<.3&&this.drawn)return;
-    this.render();},
-  render(){const{ctx,w,h}=this;ctx.clearRect(0,0,w,h);this.drawn=true;
-    const cs=w<700?18:14,cols=Math.ceil(w/cs),rows=Math.ceil(h/cs),W=cols+1,n=W*(rows+1);
-    if(!this.V||this.V.length!==n)this.V=new Float32Array(n);
-    const V=this.V,t=this.t;
-    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++)V[j*W+i]=field(i*cs,j*cs,t);
-    for(let pass=0;pass<2;pass++){ctx.beginPath();
-      for(let li=0;li<=20;li++){if((li%4===0)!==(pass===1))continue;const L=-2+li*.25;
-        for(let j=0;j<rows;j++){const r0=j*W,r1=r0+W;
-          for(let i=0;i<cols;i++){const a=V[r0+i],b=V[r0+i+1],c=V[r1+i+1],d=V[r1+i];
-            const k=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0);if(k===0||k===15)continue;
-            const s=SEGT[k],x0=i*cs,y0=j*cs;
-            for(let q=0;q<s.length;q+=2){ep(s[q],x0,y0,cs,L,a,b,c,d);ctx.moveTo(PX,PY);ep(s[q+1],x0,y0,cs,L,a,b,c,d);ctx.lineTo(PX,PY);}}}}
-      ctx.strokeStyle=pass?C.contourMajor:C.contour;ctx.lineWidth=pass?1.3:.8;ctx.stroke();}
-    if(M.amp>.05){ctx.strokeStyle=rgba(C.accent,.75*M.amp);ctx.lineWidth=1.2;ctx.beginPath();
-      ctx.arc(M.x,M.y,7,0,7);
-      [[-1,0],[1,0],[0,-1],[0,1]].forEach(([dx,dy])=>{ctx.moveTo(M.x+dx*11,M.y+dy*11);ctx.lineTo(M.x+dx*18,M.y+dy*18);});
-      ctx.stroke();}
-  }});
-function geo(x,y,w,h){return{lat:37.895-(y/h)*.05,lon:-122.305+(x/w)*.07};}
-function elevAt(x,y){return Math.max(0,Math.round((field(x,y,hero.t)+2)/5.2*480));}
-function setReadout(x,y){const g=geo(x,y,hero.w,hero.h);
-  $('#roLat').textContent=g.lat.toFixed(4)+'°N';$('#roLon').textContent=Math.abs(g.lon).toFixed(4)+'°W';$('#roElev').textContent=elevAt(x,y);}
-heroEl.addEventListener('pointermove',e=>{const r=heroCv.getBoundingClientRect();M.tx=e.clientX-r.left;M.ty=e.clientY-r.top;
-  if(!M.seen){M.x=M.tx;M.y=M.ty;M.seen=true;}M.tamp=1;setReadout(M.tx,M.ty);});
-heroEl.addEventListener('pointerleave',()=>{M.tamp=0;});
-const bms=[];let bmN=0;
-heroEl.addEventListener('click',e=>{if(e.target.closest('a,button'))return;
-  const r=heroCv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,g=geo(x,y,r.width,r.height);bmN++;
-  const el=document.createElement('div');el.className='bm'+(x>r.width-190?' flip':'');el.style.left=x+'px';el.style.top=y+'px';
-  el.innerHTML=`<span class="bm-mark"></span><span class="bm-tag">BM-${String(bmN).padStart(2,'0')}<br>${g.lat.toFixed(4)}°N ${Math.abs(g.lon).toFixed(4)}°W<br>elev ${elevAt(x,y)} m</span>`;
-  $('#bmLayer').appendChild(el);bms.push(el);if(bms.length>5)bms.shift().remove();});
-if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and drag to raise the terrain. Tap to drop a survey benchmark.';
-
-/* rotating verb */
-(function(){const el=$('#rot'),words=['maps','senses','models','simulates','optimizes'];let wi=0,ci=words[0].length,dir=-1;
-  if(RM){setInterval(()=>{wi=(wi+1)%words.length;el.textContent=words[wi];},2600);return;}
-  function tick(){if(dir<0){ci--;if(ci<=0){dir=1;wi=(wi+1)%words.length;}}
-    else{ci++;if(ci>=words[wi].length){dir=-1;el.textContent=words[wi];return setTimeout(tick,1900);}}
-    el.textContent=words[wi].slice(0,ci);setTimeout(tick,dir<0?45:90);}
-  setTimeout(tick,1900);})();
 
 /* ================= DAS ================= */
 (function(){const N=600,T=10;let type='car',zoom=false,filt=false,sig=null,prog=1,sigma=.02;
@@ -919,7 +629,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
     const n=3,cw=w/n,R=Math.min(cw*.32,(h-90)/2),cy=14+R+6;ctx.font=MONO;
     for(let i=0;i<n;i++){const cx=cw*(i+.5),v=gv[i];ctx.lineWidth=11;ctx.strokeStyle=C.line;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();
       ctx.strokeStyle=cols[i];ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+Math.PI*2*v/100);ctx.stroke();ctx.lineCap='butt';
-      ctx.fillStyle=C.ink;ctx.textAlign='center';ctx.font='600 '+Math.max(14,R*.42)+'px "Space Grotesk",sans-serif';ctx.fillText((p.ex?'':'≈')+Math.round(v)+'%',cx,cy+R*.15);
+      ctx.fillStyle=C.ink;ctx.textAlign='center';ctx.font='600 '+Math.max(14,R*.42)+'px Lato,sans-serif';ctx.fillText((p.ex?'':'≈')+Math.round(v)+'%',cx,cy+R*.15);
       ctx.font=MONO;ctx.fillStyle=C.dim;ctx.fillText(labs[i],cx,cy+R+20);}
     const y=h-30,x0=16,bw=w-32,f=gv[3]/834783;ctx.fillStyle=C.line;ctx.fillRect(x0,y,bw,10);ctx.fillStyle=C.violet;ctx.fillRect(x0,y,Math.max(f>0?2:0,bw*f),10);
     ctx.fillStyle=C.dim;ctx.textAlign='left';ctx.fillText('solar wasted per week (curtailment)',x0,y-6);ctx.textAlign='right';ctx.fillText((gv[3]/1000).toFixed(0)+' MWh',x0+bw,y-6);}
@@ -1026,7 +736,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
       agents.forEach(a=>{if(a.mode==='queue')return;let x,y;
         if(a.mode==='charge'){const c=a.c,i=c.ch.indexOf(a);[x,y]=P(c.x,c.y);x+=i?8:-8;y+=10;}
         else{const[x0,y0]=P(a.ix,a.iy),[x1,y1]=P(a.nx,a.ny);x=x0+(x1-x0)*a.s;y=y0+(y1-y0)*a.s;}
-        ctx.fillStyle=a.mode==='charge'?C.blue:a.bat<.25?C.accent:C.teal;ctx.beginPath();ctx.arc(x,y,3.3,0,7);ctx.fill();});
+        ctx.fillStyle=a.mode==='charge'?C.green:a.bat<.25?C.accent:C.teal;ctx.beginPath();ctx.arc(x,y,3.3,0,7);ctx.fill();});
     }});
   $('#evN').addEventListener('input',e=>{$('#evNLabel').textContent=e.target.value;reset(+e.target.value);stats();d.render();});
   stats();
@@ -1055,7 +765,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
       ctx.fillStyle=rgba(C.faint,.18);
       [[.08,.08,.14,.16],[.26,.1,.18,.24],[.62,.08,.3,.12],[.62,.24,.3,.12],[.26,.6,.12,.14],[.4,.6,.12,.14],[.08,.6,.14,.3],[.62,.62,.3,.12],[.62,.78,.3,.14],[.4,.78,.12,.14],[.26,.3,.12,.1],[.4,.3,.12,.1]]
         .forEach(([x,y,ww,hh])=>ctx.fillRect(x*w,y*h,ww*w,hh*h));
-      ctx.font=w<500?'9.5px "IBM Plex Mono",monospace':MONO;ctx.fillStyle=C.faint;ctx.textAlign='center';ctx.fillText('Geomatics',.46*w,.37*h);ctx.fillText('Physics',.46*w,.68*h);
+      ctx.font=w<500?'9.5px ui-monospace,Menlo,monospace':MONO;ctx.fillStyle=C.faint;ctx.textAlign='center';ctx.fillText('Geomatics',.46*w,.37*h);ctx.fillText('Physics',.46*w,.68*h);
       // roads
       ctx.lineCap='round';[R1,R2].forEach((R,k)=>{ctx.strokeStyle=C.line;ctx.lineWidth=k?18:13;ctx.beginPath();ctx.moveTo(...P(R[0]));ctx.lineTo(...P(R[1]));ctx.stroke();});
       ctx.strokeStyle=C.line;ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(.22*w,.05*h);ctx.lineTo(.22*w,.95*h);ctx.stroke();
@@ -1068,7 +778,7 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
       riders.forEach(r=>{const R=r.route?R2:R1;let[x,y]=P(at(R,r.u));const off=(r.dir>0?-1:1)*(r.route?4:3);
         let wob=0;if(r.route===0&&c.peak&&!RM)wob=Math.sin(t*4+r.ph+r.u*30)*4.5;
         if(r.route){x+=off+wob;}else{y+=off+wob;}
-        ctx.fillStyle=r.route?C.blue:C.teal;ctx.beginPath();ctx.arc(x,y,3.6,0,7);ctx.fill();});
+        ctx.fillStyle=r.route?C.violet:C.teal;ctx.beginPath();ctx.arc(x,y,3.6,0,7);ctx.fill();});
       // labels
       ctx.fillStyle=C.dim;ctx.textAlign='left';ctx.fillText('Route 1',.3*w,.44*h);ctx.textAlign='right';ctx.fillText('to Ziqiang campus',.95*w,.62*h);
       ctx.textAlign='left';ctx.fillText('to Guangfu campus',.02*w,.55*h);
@@ -1124,19 +834,25 @@ if(matchMedia('(hover: none)').matches)$('#heroHint').textContent='Touch and dra
   setPos(50);show('2017');
 })();
 
+/* video slots: show the video once it loads, otherwise keep the placeholder */
+$$('.video-slot').forEach(slot=>{const v=$('video',slot);if(!v)return;
+  const ok=()=>{slot.classList.add('ready');
+    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RM)v.play().catch(()=>{});else v.pause();}),{threshold:.35}).observe(v);};
+  if(v.readyState>=1)ok();else v.addEventListener('loadedmetadata',ok,{once:true});});
+
 /* landslide video: play only while visible */
 (function(){const v=$('#slideVideo');if(!v)return;
   new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RM)v.play().catch(()=>{});else v.pause();}),{threshold:.35}).observe(v);})();
 
 
-/* ================= project filter ================= */
-(function(){const projs=$$('.proj'),note=$('#filterNote');
-  seg($('#filters'),v=>{let n=0;projs.forEach(p=>{const on=v==='all'||p.dataset.tags.split(',').includes(v);p.classList.toggle('dim',!on);if(on)n++;});
-    note.textContent=v==='all'?`Showing all ${projs.length} projects.`:`${n} of ${projs.length} projects use ${v}.`;});
-})();
 
-/* language signal bars */
-$$('.sig').forEach(s=>{const v=+s.dataset.v;$$('i',s).forEach((i,k)=>i.classList.toggle('on',k<v));});
+/* ---------- open / close the demo under each project ---------- */
+function toggle(id,force){const row=document.getElementById(id),panel=document.getElementById('panel-'+id);if(!panel)return;
+  const open=force!==undefined?force:panel.hidden;panel.hidden=!open;row.classList.toggle('open',open);
+  if(open)requestAnimationFrame(()=>demos.forEach(d=>{if(panel.contains(d.canvas)){d.fit();d.render&&d.render();}}));
+  else $$('video',panel).forEach(v=>v.pause());}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-open]');if(t)toggle(t.dataset.open);});
+if(location.hash){const id=location.hash.slice(1);if(document.getElementById('panel-'+id))toggle(id,true);}
 </script>
 </body>
 </html>
